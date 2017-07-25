@@ -1,9 +1,26 @@
 package PDS.telas;
 
+import PDS.Util.Mensagens;
+import PDS.Util.Validacao;
+import javax.swing.JTextField;
+
 public class cadastroServicos extends javax.swing.JFrame {
 
     public cadastroServicos() {
         initComponents();
+    }
+
+    public boolean cadastraServico(JTextField nomeSVC) {
+        // validar nome de usuário e senha - não vazios...
+        boolean aux = false;
+        if (Validacao.validaCampo(nomeSVC)) {
+            if (nomeSVC.getText().equals("Código do bd")) {
+                Mensagens.msgAviso(nomeSVC.getToolTipText());
+            }
+            //cadastra o produto no bd 
+            aux = true;
+        }
+        return aux;
     }
 
     @SuppressWarnings("unchecked")
@@ -17,14 +34,14 @@ public class cadastroServicos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        codServicos = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        nomeServico = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnVoltar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        infExtras = new javax.swing.JTextArea();
         btnSalvar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnInativar = new javax.swing.JButton();
@@ -46,12 +63,13 @@ public class cadastroServicos extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel9.setText("Código");
 
-        jTextField8.setToolTipText("Digite o código do serviço.");
+        codServicos.setEditable(false);
+        codServicos.setToolTipText("Digite o código do serviço.");
 
         jLabel10.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel10.setText("Nome");
 
-        jTextField9.setToolTipText("Digite o nome do serviço.");
+        nomeServico.setToolTipText("Digite o nome do serviço.");
 
         jLabel2.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel2.setText("Informações Extras");
@@ -64,9 +82,9 @@ public class cadastroServicos extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        infExtras.setColumns(20);
+        infExtras.setRows(5);
+        jScrollPane1.setViewportView(infExtras);
 
         btnSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/save.png"))); // NOI18N
@@ -119,8 +137,8 @@ public class cadastroServicos extends javax.swing.JFrame {
                                                 .addComponent(jLabel10)
                                                 .addGap(23, 23, 23)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField9, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))))
+                                            .addComponent(codServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(nomeServico, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -151,11 +169,11 @@ public class cadastroServicos extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomeServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -174,7 +192,15 @@ public class cadastroServicos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
+        if (cadastraServico(nomeServico)) {
+            Mensagens.msgInfo("Serviço adicionado com sucesso.");
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.setVisible(false);
+        } else {
+            nomeServico.setText("");
+            infExtras.setText("");
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -198,6 +224,8 @@ public class cadastroServicos extends javax.swing.JFrame {
     private javax.swing.JButton btnInativar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JTextField codServicos;
+    private javax.swing.JTextArea infExtras;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -207,10 +235,8 @@ public class cadastroServicos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField nomeServico;
     // End of variables declaration//GEN-END:variables
 }

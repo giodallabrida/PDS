@@ -271,15 +271,19 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnComandasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComandasActionPerformed
-        relatorioComandas rlComandas = new relatorioComandas();
-        rlComandas.setVisible(true);
-        this.setVisible(false);
+        if (Login.criaLogin()) {
+            relatorioComandas rlComandas = new relatorioComandas();
+            rlComandas.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_btnComandasActionPerformed
 
     private void btnComissoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComissoesActionPerformed
-        relatorioComissoes rlComissoes = new relatorioComissoes();
-        rlComissoes.setVisible(true);
-        this.setVisible(false);
+        if (Login.criaLogin()) {
+            relatorioComissoes rlComissoes = new relatorioComissoes();
+            rlComissoes.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_btnComissoesActionPerformed
 
     private void btnCadastroClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroClientesActionPerformed
@@ -289,15 +293,20 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastroClientesActionPerformed
 
     private void btnCadastroFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFuncActionPerformed
-        cadastroFuncionarios cadastro = new cadastroFuncionarios();
-        cadastro.setVisible(true);
-        this.setVisible(false);
+        if (Login.criaLogin()) {
+            cadastroFuncionarios cadastro = new cadastroFuncionarios();
+            cadastro.setVisible(true);
+            this.setVisible(false);
+        }
+
     }//GEN-LAST:event_btnCadastroFuncActionPerformed
 
     private void btnCadastroServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroServicosActionPerformed
-        cadastroServicos cadastro = new cadastroServicos();
-        cadastro.setVisible(true);
-        this.setVisible(false);
+        if (Login.criaLogin()) {
+            cadastroServicos cadastro = new cadastroServicos();
+            cadastro.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_btnCadastroServicosActionPerformed
 
     private void btnAgendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgendaActionPerformed
@@ -307,9 +316,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgendaActionPerformed
 
     private void btnCaixaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaixaActionPerformed
-        relatorioCaixa rlCaixa = new relatorioCaixa();
-        rlCaixa.setVisible(true);
-        this.setVisible(false);
+        if (Login.criaLogin()) {
+            relatorioCaixa rlCaixa = new relatorioCaixa();
+            rlCaixa.setVisible(true);
+            this.setVisible(false);
+        }
     }//GEN-LAST:event_btnCaixaActionPerformed
 
     private void btnMarcadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcadosActionPerformed
