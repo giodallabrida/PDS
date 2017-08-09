@@ -4,6 +4,7 @@ public class relatorioComandas extends javax.swing.JFrame {
 
     public relatorioComandas() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -19,6 +20,9 @@ public class relatorioComandas extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(609, 460));
+        setMinimumSize(new java.awt.Dimension(609, 460));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel1.setText("Relatório de Comandas");

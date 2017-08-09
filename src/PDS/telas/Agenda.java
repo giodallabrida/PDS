@@ -4,6 +4,7 @@ public class Agenda extends javax.swing.JFrame {
 
     public Agenda() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -18,6 +19,9 @@ public class Agenda extends javax.swing.JFrame {
         btnCalendario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(637, 445));
+        setMinimumSize(new java.awt.Dimension(637, 445));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/notebook.png"))); // NOI18N

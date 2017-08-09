@@ -1,4 +1,4 @@
-package PDS.Persistencia;
+package PDS.Modelo;
 
 public class FuncionarioDTO {
     private int codFuncionario;

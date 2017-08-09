@@ -9,6 +9,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
     public cadastroFuncionarios() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public boolean cadastraFuncionario(JTextField nomeFNC, JTextField cpfFNC, JTextField rgFNC, JTextField telFNC) {
@@ -54,6 +55,9 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(595, 474));
+        setMinimumSize(new java.awt.Dimension(595, 474));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/woman.png"))); // NOI18N

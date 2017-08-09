@@ -4,6 +4,7 @@ public class Comanda extends javax.swing.JFrame {
 
     public Comanda() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")

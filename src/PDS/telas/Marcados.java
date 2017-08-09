@@ -4,6 +4,7 @@ public class Marcados extends javax.swing.JFrame {
 
     public Marcados() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -15,6 +16,9 @@ public class Marcados extends javax.swing.JFrame {
         btnVoltar4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(575, 392));
+        setMinimumSize(new java.awt.Dimension(575, 392));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel1.setText("Pessoas Marcadas");
@@ -66,10 +70,6 @@ public class Marcados extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltar4ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnVoltar;
-    private javax.swing.JButton btnVoltar1;
-    private javax.swing.JButton btnVoltar2;
-    private javax.swing.JButton btnVoltar3;
     private javax.swing.JButton btnVoltar4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;

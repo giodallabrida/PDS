@@ -8,6 +8,7 @@ public class cadastroServicos extends javax.swing.JFrame {
 
     public cadastroServicos() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public boolean cadastraServico(JTextField nomeSVC) {
@@ -55,6 +56,9 @@ public class cadastroServicos extends javax.swing.JFrame {
         jTextField7.setToolTipText("Digite o nome do funcionário.");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(562, 372));
+        setMinimumSize(new java.awt.Dimension(562, 372));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/scissors-and-comb.png"))); // NOI18N

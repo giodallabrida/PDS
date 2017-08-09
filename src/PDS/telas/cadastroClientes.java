@@ -8,6 +8,7 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     public cadastroClientes() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public boolean cadastraCliente(JTextField nomeCLT, JTextField telCLT) {
@@ -49,6 +50,9 @@ public class cadastroClientes extends javax.swing.JFrame {
         infExtras = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(597, 457));
+        setMinimumSize(new java.awt.Dimension(597, 457));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/multiple-users-silhouette.png"))); // NOI18N

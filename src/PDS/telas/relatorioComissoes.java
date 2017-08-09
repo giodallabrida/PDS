@@ -4,6 +4,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
 
     public relatorioComissoes() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -15,6 +16,9 @@ public class relatorioComissoes extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(571, 444));
+        setMinimumSize(new java.awt.Dimension(571, 444));
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
         jLabel1.setText("Relatório de Comissões");

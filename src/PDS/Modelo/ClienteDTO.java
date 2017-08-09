@@ -1,4 +1,4 @@
-package PDS.Persistencia;
+package PDS.Modelo;
 
 public class ClienteDTO {
     private int codCliente;

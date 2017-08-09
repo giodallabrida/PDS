@@ -4,6 +4,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
 
     public relatorioCaixa() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -47,6 +48,8 @@ public class relatorioCaixa extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(679, 489));
+        setMinimumSize(new java.awt.Dimension(679, 489));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
