@@ -1,5 +1,9 @@
 package PDS.telas;
 
+import PDS.Modelo.ClienteDTO;
+import PDS.Modelo.FuncionarioDTO;
+import PDS.Modelo.ServicoDTO;
+
 public class Menu extends javax.swing.JFrame {
 
     public Menu() {
@@ -289,16 +293,16 @@ public class Menu extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnComissoesActionPerformed
-
+    
     private void btnCadastroClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroClientesActionPerformed
-        cadastroClientes cadastro = new cadastroClientes();
+        cadastroClientes cadastro = new cadastroClientes(true, new ClienteDTO());
         cadastro.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCadastroClientesActionPerformed
 
     private void btnCadastroFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFuncActionPerformed
         if (Login.criaLogin()) {
-            cadastroFuncionarios cadastro = new cadastroFuncionarios();
+            cadastroFuncionarios cadastro = new cadastroFuncionarios(true, new FuncionarioDTO());
             cadastro.setVisible(true);
             this.setVisible(false);
         }
@@ -307,7 +311,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnCadastroServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroServicosActionPerformed
         if (Login.criaLogin()) {
-            cadastroServicos cadastro = new cadastroServicos();
+            cadastroServicos cadastro = new cadastroServicos(true, new ServicoDTO());
             cadastro.setVisible(true);
             this.setVisible(false);
         }

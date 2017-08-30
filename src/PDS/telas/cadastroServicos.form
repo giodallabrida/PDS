@@ -79,7 +79,7 @@
                                           </Group>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="codServicos" min="-2" pref="90" max="-2" attributes="0"/>
+                                          <Component id="codServico" min="-2" pref="90" max="-2" attributes="0"/>
                                           <Component id="nomeServico" pref="432" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -125,7 +125,7 @@
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="codServicos" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="codServico" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -171,7 +171,7 @@
         <Property name="text" type="java.lang.String" value="C&#xf3;digo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="codServicos">
+    <Component class="javax.swing.JTextField" name="codServico">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Digite o c&#xf3;digo do servi&#xe7;o."/>

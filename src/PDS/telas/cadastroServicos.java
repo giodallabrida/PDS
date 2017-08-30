@@ -1,25 +1,43 @@
 package PDS.telas;
 
+import PDS.Modelo.ServicoDTO;
+import PDS.Persistencia.ServicoDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class cadastroServicos extends javax.swing.JFrame {
 
-    public cadastroServicos() {
+    private final boolean modoInclusao;
+    private final ServicoDTO servico;
+
+    public cadastroServicos(boolean modoInclusao, ServicoDTO servico) {
+        this.modoInclusao = modoInclusao;
+        this.servico = servico;
         initComponents();
+        if (modoInclusao == false) {
+            nomeServico.setText(servico.getNomServico());
+            infExtras.setText(servico.getInfExtras());
+        }
         this.setLocationRelativeTo(null);
     }
 
-    public boolean cadastraServico(JTextField nomeSVC) {
-        // validar nome de usuário e senha - não vazios...
+    private final ServicoDAO servicoDAO = new ServicoDAO();
+
+    public boolean cadastraAlteraServico(JTextField desSer, JTextArea infExt) {
         boolean aux = false;
-        if (Validacao.validaCampo(nomeSVC)) {
-            if (nomeSVC.getText().equals("Código do bd")) {
-                Mensagens.msgAviso(nomeSVC.getToolTipText());
+        if (Validacao.validaCampo(desSer)) {
+            if (modoInclusao) {
+                aux = servicoDAO.cadastraServicoBD(desSer.getText(), infExt.getText());
+            } else {
+                aux = servicoDAO.alteraServicoBD(desSer.getText(), infExt.getText(), servico.getCodServico());
             }
-            //cadastra o produto no bd 
-            aux = true;
+            if (modoInclusao && aux) {
+                Mensagens.msgInfo("Serviço adicionado com sucesso.");
+            } else if (!modoInclusao && aux) {
+                Mensagens.msgInfo("Serviço alterado com sucesso.");
+            }
         }
         return aux;
     }
@@ -35,7 +53,7 @@ public class cadastroServicos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        codServicos = new javax.swing.JTextField();
+        codServico = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         nomeServico = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -67,8 +85,8 @@ public class cadastroServicos extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel9.setText("Código");
 
-        codServicos.setEditable(false);
-        codServicos.setToolTipText("Digite o código do serviço.");
+        codServico.setEditable(false);
+        codServico.setToolTipText("Digite o código do serviço.");
 
         jLabel10.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel10.setText("Nome");
@@ -141,7 +159,7 @@ public class cadastroServicos extends javax.swing.JFrame {
                                                 .addComponent(jLabel10)
                                                 .addGap(23, 23, 23)))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(codServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(codServico, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(nomeServico, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
@@ -173,7 +191,7 @@ public class cadastroServicos extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(codServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(codServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -196,14 +214,14 @@ public class cadastroServicos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (cadastraServico(nomeServico)) {
-            Mensagens.msgInfo("Serviço adicionado com sucesso.");
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.setVisible(false);
-        } else {
-            nomeServico.setText("");
-            infExtras.setText("");
+        try {
+            if (cadastraAlteraServico(nomeServico, infExtras)) {
+                Menu menu = new Menu();
+                menu.setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            Mensagens.msgAviso("Ocorreu um erro no sistema.");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -218,6 +236,8 @@ public class cadastroServicos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarActionPerformed
+        ServicoDAO servicoDAO = new ServicoDAO();
+        servicoDAO.removeServicoBD(Integer.valueOf(codServico.getText()));
         Menu menu = new Menu();
         menu.setVisible(true);
         this.setVisible(false);
@@ -228,7 +248,7 @@ public class cadastroServicos extends javax.swing.JFrame {
     private javax.swing.JButton btnInativar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JTextField codServicos;
+    private javax.swing.JTextField codServico;
     private javax.swing.JTextArea infExtras;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

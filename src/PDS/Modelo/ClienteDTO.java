@@ -8,6 +8,16 @@ public class ClienteDTO {
     private String endCliente;
     private String datAtendimento;
     private String infExtras;
+    
+    public ClienteDTO() {
+        this.codCliente = 0;
+        this.nomCliente = "";
+        this.telCliente = "";
+        this.datNascimento = "";
+        this.endCliente = "";
+        this.infExtras = "";
+        this.datAtendimento = "";
+}
 
     public int getCodCliente() {
         return codCliente;
@@ -65,7 +75,7 @@ public class ClienteDTO {
         this.infExtras = infExtras;
     }
 
-    public ClienteDTO(int codCliente, String nomCliente, String telCliente, String datNascimento, String endCliente, String datAtendimento, String infExtras) {
+    public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, String datNascimento, String endCliente, String datAtendimento, String infExtras) {
         this.codCliente = codCliente;
         this.nomCliente = nomCliente;
         this.telCliente = telCliente;

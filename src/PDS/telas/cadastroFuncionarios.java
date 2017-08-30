@@ -1,24 +1,50 @@
 package PDS.telas;
 
+import PDS.Modelo.FuncionarioDTO;
+import PDS.Persistencia.FuncionarioDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class cadastroFuncionarios extends javax.swing.JFrame {
 
-    public cadastroFuncionarios() {
+    private final boolean modoInclusao;
+    private final FuncionarioDTO funcionario;
+
+    public cadastroFuncionarios(boolean modoInclusao, FuncionarioDTO funcionario) {
+        this.modoInclusao = modoInclusao;
+        this.funcionario = funcionario;
         initComponents();
+        if (modoInclusao == false) {
+            nomeFunc.setText(funcionario.getNomFuncionario());
+            cpfFunc.setText(funcionario.getCpfFuncionario());
+            rgFunc.setText(funcionario.getRgFuncionario());
+            datNascimento.setText(funcionario.getDatNascimento());
+            telFunc.setText(funcionario.getTelFuncionario());
+            endFunc.setText(funcionario.getEndFuncionario());
+        }
         this.setLocationRelativeTo(null);
     }
 
-    public boolean cadastraFuncionario(JTextField nomeFNC, JTextField cpfFNC, JTextField rgFNC, JTextField telFNC) {
-        // validar nome de usuário e senha - não vazios...
+    private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+    public boolean cadastraAlteraFuncionario(JTextField nomeFunc, JTextField cpfFunc, JTextField rgFunc, JTextField datNascFunc, JTextField telFunc, JTextArea endFunc) throws SQLException, FileNotFoundException {
         boolean aux = false;
-        //validar se há um código igual no bd
-        if (Validacao.validaCampo(nomeFNC) && Validacao.validaCampo(cpfFNC) && Validacao.validaCampo(rgFNC) && Validacao.validaCampo(telFNC)) {
-            //cadastra o produto no bd 
-            aux = true;
+        if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCampo(rgFunc)) {
+            if (modoInclusao) {
+                aux = funcionarioDAO.cadastraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText());
+            } else {
+                aux = funcionarioDAO.alteraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText(), funcionario.getCodFuncionario());
+            }
+            if (modoInclusao && aux) {
+                Mensagens.msgInfo("Funcionário adicionado com sucesso.");
+            } else if (!modoInclusao && aux) {
+                Mensagens.msgInfo("Funcionário alterado com sucesso.");
+            }
         }
         return aux;
     }
@@ -52,7 +78,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         btnInativar = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        adm = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(595, 474));
@@ -65,6 +91,8 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel7.setText("Código");
+
+        jTextField6.setEnabled(false);
 
         jLabel8.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel8.setText("Nome");
@@ -144,8 +172,8 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        jCheckBox1.setText("Administrador");
+        adm.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        adm.setText("Administrador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,7 +198,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCheckBox1)
+                                        .addComponent(adm)
                                         .addGap(33, 33, 33))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,7 +259,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(adm))
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -284,35 +312,31 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInativarActionPerformed
 
     DefaultTableModel modelo = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
-    
-       // modelo.addColumn("Serviço");
-        //modelo.addColumn("Comissão");
-        //jTable1.setModel(modelo);
-        //jTable1.setAutoResizeMode(0);
-        
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            return false;
+        }
+    };
+
+    // modelo.addColumn("Serviço");
+    //modelo.addColumn("Comissão");
+    //jTable1.setModel(modelo);
+    //jTable1.setAutoResizeMode(0);
+
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (cadastraFuncionario(nomeFunc, cpfFunc, rgFunc, telFunc)) {
-            Mensagens.msgInfo("Funcionário adicionado com sucesso.");
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.setVisible(false);
-        } else {
-            nomeFunc.setText("");
-            cpfFunc.setText("");
-            rgFunc.setText("");
-            datNascimento.setText("");
-            telFunc.setText("");
-            endFunc.setText("");
-            comFunc.setModel(modelo);
-        }                                 
+        try {
+            if (cadastraAlteraFuncionario(nomeFunc, cpfFunc, rgFunc, datNascimento, telFunc, endFunc)) {
+                Menu menu = new Menu();
+                menu.setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            Mensagens.msgAviso("Ocorreu um erro no sistema.");
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox adm;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnInativar;
     private javax.swing.JButton btnSalvar;
@@ -321,7 +345,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     private javax.swing.JTextField cpfFunc;
     private javax.swing.JTextField datNascimento;
     private javax.swing.JTextArea endFunc;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

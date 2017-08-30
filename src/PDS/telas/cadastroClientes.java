@@ -1,23 +1,49 @@
 package PDS.telas;
 
+import PDS.Modelo.ClienteDTO;
+import PDS.Persistencia.ClienteDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class cadastroClientes extends javax.swing.JFrame {
 
-    public cadastroClientes() {
+    private final boolean modoInclusao;
+    private final ClienteDTO cliente;
+
+    public cadastroClientes(boolean modoInclusao, ClienteDTO cliente) {
+        this.modoInclusao = modoInclusao;
+        this.cliente = cliente;
         initComponents();
+        if (modoInclusao == false) {
+            nomeCliente.setText(cliente.getNomCliente());
+            telCliente.setText(cliente.getTelCliente());
+            datNascimento.setText(cliente.getDatNascimento());
+            infExtras.setText(cliente.getEndCliente());
+            datAtendimento.setText(cliente.getDatAtendimento());
+            infExtras.setText(cliente.getInfExtras());
+        }
         this.setLocationRelativeTo(null);
     }
 
-    public boolean cadastraCliente(JTextField nomeCLT, JTextField telCLT) {
-        // validar nome de usuário e senha - não vazios...
+    private final ClienteDAO clienteDAO = new ClienteDAO();
+
+    public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextField datAtendCli, JTextArea infExt) throws SQLException, FileNotFoundException {
         boolean aux = false;
-        //validar se há um código igual no bd
-        if (Validacao.validaCampo(nomeCLT) && Validacao.validaCampo(telCLT)) {
-            //cadastra o produto no bd 
-            aux = true;
+        if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli)) {
+            if (modoInclusao) {
+                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText());
+            } else {
+                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText(), cliente.getCodCliente());
+            }
+            if (modoInclusao && aux) {
+                Mensagens.msgInfo("Cliente adicionado com sucesso.");
+            } else if (!modoInclusao && aux) {
+                Mensagens.msgInfo("Cliente alterado com sucesso.");
+            }
         }
         return aux;
     }
@@ -45,9 +71,9 @@ public class cadastroClientes extends javax.swing.JFrame {
         btnVoltar = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        endCliente = new javax.swing.JTextArea();
-        jScrollPane2 = new javax.swing.JScrollPane();
         infExtras = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        endCliente = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(597, 457));
@@ -77,11 +103,6 @@ public class cadastroClientes extends javax.swing.JFrame {
         jLabel5.setText("Data de Nascimento");
 
         datNascimento.setToolTipText("Digite a data de nascimento do cliente.");
-        datNascimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                datNascimentoActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel6.setText("Endereço");
@@ -121,13 +142,13 @@ public class cadastroClientes extends javax.swing.JFrame {
             }
         });
 
-        endCliente.setColumns(20);
-        endCliente.setRows(5);
-        jScrollPane1.setViewportView(endCliente);
-
         infExtras.setColumns(20);
         infExtras.setRows(5);
-        jScrollPane2.setViewportView(infExtras);
+        jScrollPane1.setViewportView(infExtras);
+
+        endCliente.setColumns(20);
+        endCliente.setRows(5);
+        jScrollPane2.setViewportView(endCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,10 +167,7 @@ public class cadastroClientes extends javax.swing.JFrame {
                                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(datAtendimento))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                                            .addComponent(jScrollPane1)))
+                                        .addComponent(jLabel7))
                                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
@@ -160,25 +178,29 @@ public class cadastroClientes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnInativar)
                                 .addGap(27, 27, 27))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(codCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(telCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(datNascimento)))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(codCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(nomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(telCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jLabel5)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(datNascimento))))))
                 .addGap(14, 14, 14))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
@@ -186,6 +208,11 @@ public class cadastroClientes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(115, 115, 115))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(117, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(29, 29, 29)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,20 +238,15 @@ public class cadastroClientes extends javax.swing.JFrame {
                     .addComponent(telCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(datNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGap(33, 33, 33)
+                .addComponent(jLabel6)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(datAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(datAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -232,16 +254,19 @@ public class cadastroClientes extends javax.swing.JFrame {
                     .addComponent(btnInativar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(192, 192, 192)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(218, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void datNascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_datNascimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_datNascimentoActionPerformed
-
     private void btnInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarActionPerformed
+        ClienteDAO clienteDAO = new ClienteDAO();
+        clienteDAO.removeClienteBD(Integer.valueOf(codCliente.getText()));
         Menu menu = new Menu();
         menu.setVisible(true);
         this.setVisible(false);
@@ -254,18 +279,14 @@ public class cadastroClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if (cadastraCliente(nomeCliente, telCliente)) {
-            Mensagens.msgInfo("Cliente adicionado com sucesso.");
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.setVisible(false);
-        } else {
-            nomeCliente.setText("");
-            telCliente.setText("");
-            datNascimento.setText("");
-            endCliente.setText("");
-            datAtendimento.setText("");
-            infExtras.setText("");
+        try {
+            if (cadastraAlteraCliente(nomeCliente, telCliente, datNascimento, endCliente, datAtendimento, infExtras)) {
+                Menu menu = new Menu();
+                menu.setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (Exception e) {
+            Mensagens.msgAviso("Ocorreu um erro no sistema.");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

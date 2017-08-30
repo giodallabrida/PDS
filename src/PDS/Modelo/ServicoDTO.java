@@ -4,6 +4,12 @@ public class ServicoDTO {
     private int codServico;
     private String nomServico;
     private String infExtras;
+    
+    public ServicoDTO(){
+        this.codServico = 0;
+        this.nomServico = "";
+        this.infExtras = "";
+    }
 
     public int getCodServico() {
         return codServico;
