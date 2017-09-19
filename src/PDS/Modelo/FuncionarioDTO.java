@@ -1,5 +1,6 @@
 package PDS.Modelo;
 
+
 public class FuncionarioDTO {
     private int codFuncionario;
     private String nomFuncionario;
@@ -23,6 +24,11 @@ public class FuncionarioDTO {
         this.senhaAdm = "";
     }
 
+    public FuncionarioDTO(String nomFuncionario) {
+        this.nomFuncionario = nomFuncionario;
+    }
+
+    
     public boolean isVerificaAdm() {
         return verificaAdm;
     }
@@ -95,6 +101,9 @@ public class FuncionarioDTO {
         this.senhaAdm = senhaAdm;
     }
     
-    
+      public Object[] getLinhaTabela() {
+        Object[] retorno = {this.nomFuncionario};
+        return retorno;
+    }
     
 }

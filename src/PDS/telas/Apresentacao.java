@@ -1,5 +1,7 @@
 package PDS.telas;
 
+import PDS.Persistencia.FuncionarioDAO;
+
 public class Apresentacao extends javax.swing.JFrame {
 
     public Apresentacao() {
@@ -81,6 +83,7 @@ public class Apresentacao extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         Menu menu = new Menu();
         menu.setVisible(true);

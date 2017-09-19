@@ -1,11 +1,17 @@
 package PDS.Persistencia;
 
+import PDS.Modelo.ClienteDTO;
 import PDS.Util.Mensagens;
+import PDS.telas.relatorioAniversariantes;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class ClienteDAO {
 
@@ -15,7 +21,7 @@ public class ClienteDAO {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "insert into cliente (NOME_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C) values"
+            String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C) values"
                     + " (?, ?, ?, ?, ?, ?)";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
@@ -27,7 +33,7 @@ public class ClienteDAO {
             p.execute();
             aux = true;
         } catch (SQLException e) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o cliente.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o cliente." + e.getMessage());
         }
         return aux;
     }
@@ -39,7 +45,7 @@ public class ClienteDAO {
                     + "user=root&password=root";
             // estabelecer a conexão...mysql-connector-java-5.1.42-bin.jar
             Connection conn = DriverManager.getConnection(str);
-            String sql = "update cliente set NOME_CLIENTE = ?, TEL_CLIENTE = ?, DAT_NASCIMENTO_C = ?, END_CLIENTE = ?, DAT_NASCIMENTO = ?, INF_EXTRAS_C = ?"
+            String sql = "update cliente set NOM_CLIENTE = ?, TEL_CLIENTE = ?, DAT_NASCIMENTO_C = ?, END_CLIENTE = ?, DAT_NASCIMENTO = ?, INF_EXTRAS_C = ?"
                     + "where COD_CLIENTE = ?";
             // enviar o select para ser analisado pelo banco
             // de dados...
@@ -76,4 +82,80 @@ public class ClienteDAO {
         }
         return aux;
     }
+
+    public ArrayList carregaAniversariatesBD(relatorioAniversariantes data) {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<ClienteDTO> listaAniversariantes = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select NOM_CLIENTE from Cliente where DAT_NASCIMENTO_C == ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setString(1, formatarDate.format(date));
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                listaAniversariantes.add(cc);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os produtos do banco de dados.");
+        }
+        return listaAniversariantes;
+    }
+    
+    public ArrayList carregaClientesBD() {
+        ArrayList<ClienteDTO> listaClientes = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select NOM_CLIENTE from Cliente";
+            PreparedStatement p = conn.prepareStatement(sql);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                listaClientes.add(cc);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes do banco de dados.");
+        }
+        return listaClientes;
+    }
+    
+    public ArrayList pesquisaClientesBD(String nome) {
+        ArrayList<ClienteDTO> listaClientes = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select NOM_CLIENTE from CLIENTE where NOM_CLIENTE == ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setString(1, nome);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                listaClientes.add(cc);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes pesquisados do banco de dados.");
+        }
+        return listaClientes;
+    }
+    
+    
+    
 }

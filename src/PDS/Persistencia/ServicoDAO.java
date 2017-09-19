@@ -1,10 +1,13 @@
 package PDS.Persistencia;
 
+import PDS.Modelo.ServicoDTO;
 import PDS.Util.Mensagens;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ServicoDAO {
 
@@ -61,5 +64,28 @@ public class ServicoDAO {
             Mensagens.msgErro("Ocorreu um erro ao remover um serviço do banco de dados.");
         }
         return aux;
+    }
+    
+     public ArrayList carregaServicosBD() {
+        ArrayList<ServicoDTO> listaServicos = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select NOM_SERVICO from SERVICO";
+            PreparedStatement p = conn.prepareStatement(sql);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ServicoDTO ss = new ServicoDTO(rs.getString(1));
+                listaServicos.add(ss);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes do banco de dados.");
+        }
+        return listaServicos;
     }
 }

@@ -19,6 +19,10 @@ public class ClienteDTO {
         this.datAtendimento = "";
 }
 
+    public ClienteDTO(String string) {
+        this.nomCliente = "";
+    }
+
     public int getCodCliente() {
         return codCliente;
     }
@@ -73,6 +77,11 @@ public class ClienteDTO {
 
     public void setInfExtras(String infExtras) {
         this.infExtras = infExtras;
+    }
+    
+    public Object[] getLinhaTabela() {
+        Object[] retorno = {this.nomCliente};
+        return retorno;
     }
 
     public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, String datNascimento, String endCliente, String datAtendimento, String infExtras) {

@@ -11,6 +11,10 @@ public class ServicoDTO {
         this.infExtras = "";
     }
 
+    public ServicoDTO(String nomServico) {
+        this.nomServico = nomServico;
+    }
+    
     public int getCodServico() {
         return codServico;
     }
@@ -33,6 +37,11 @@ public class ServicoDTO {
 
     public void setInfExtras(String infExtras) {
         this.infExtras = infExtras;
+    }
+    
+      public Object[] getLinhaTabela() {
+        Object[] retorno = {this.nomServico};
+        return retorno;
     }
 
     public ServicoDTO(int codServico, String nomServico, String infExtras) {

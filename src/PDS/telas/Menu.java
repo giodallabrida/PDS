@@ -3,12 +3,15 @@ package PDS.telas;
 import PDS.Modelo.ClienteDTO;
 import PDS.Modelo.FuncionarioDTO;
 import PDS.Modelo.ServicoDTO;
+import PDS.Persistencia.FuncionarioDAO;
 
 public class Menu extends javax.swing.JFrame {
 
+    FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
+        funcionarioDAO.verificaExecucao();
     }
 
     @SuppressWarnings("unchecked")
@@ -19,6 +22,7 @@ public class Menu extends javax.swing.JFrame {
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPanel5 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -34,7 +38,7 @@ public class Menu extends javax.swing.JFrame {
         btnComissoes = new javax.swing.JButton();
         btnCaixa = new javax.swing.JButton();
         btnAniversarios = new javax.swing.JButton();
-        btnMarcados = new javax.swing.JButton();
+        alteraLogin = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -49,6 +53,12 @@ public class Menu extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(650, 420));
         setResizable(false);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel1.setText("Cadastros");
 
@@ -61,6 +71,7 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
+        btnCadastroClientes.setBackground(new java.awt.Color(204, 204, 204));
         btnCadastroClientes.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnCadastroClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/multiple-users-silhouette.png"))); // NOI18N
         btnCadastroClientes.setText("Clientes");
@@ -109,6 +120,8 @@ public class Menu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel3.setText("Agendamento");
 
@@ -143,6 +156,8 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(btnAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel2.setText("Relatórios");
@@ -240,39 +255,54 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnMarcados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/ficha.png"))); // NOI18N
-        btnMarcados.addActionListener(new java.awt.event.ActionListener() {
+        alteraLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/settings-gears.png"))); // NOI18N
+        alteraLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMarcadosActionPerformed(evt);
+                alteraLoginActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAniversarios, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(207, 207, 207)
+                .addComponent(alteraLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(alteraLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(btnAniversarios)))
+                .addGap(25, 25, 25))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(213, 213, 213)
-                        .addComponent(btnMarcados, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(btnAniversarios, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnMarcados)
-                    .addComponent(btnAniversarios, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(67, Short.MAX_VALUE))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -331,19 +361,25 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCaixaActionPerformed
 
-    private void btnMarcadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcadosActionPerformed
-        Marcados marcados = new Marcados();
-        marcados.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_btnMarcadosActionPerformed
-
+    
     private void btnAniversariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAniversariosActionPerformed
         relatorioAniversariantes rlAniversariantes = new relatorioAniversariantes();
         rlAniversariantes.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnAniversariosActionPerformed
 
+    Login login = new Login(this, true);
+    private void alteraLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alteraLoginActionPerformed
+        alteraLogin.setEnabled(false);
+        if (login.criaLogin()) {
+            AlteraLogin alt = new AlteraLogin();
+            alt.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_alteraLoginActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton alteraLogin;
     private javax.swing.JButton btnAgenda;
     private javax.swing.JButton btnAniversarios;
     private javax.swing.JButton btnCadastroClientes;
@@ -352,7 +388,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnCaixa;
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnComissoes;
-    private javax.swing.JButton btnMarcados;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -362,6 +397,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     // End of variables declaration//GEN-END:variables
