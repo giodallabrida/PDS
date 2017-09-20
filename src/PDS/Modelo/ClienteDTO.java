@@ -19,8 +19,8 @@ public class ClienteDTO {
         this.datAtendimento = "";
 }
 
-    public ClienteDTO(String string) {
-        this.nomCliente = "";
+    public ClienteDTO(String nome) {
+        this.nomCliente = nome;
     }
 
     public int getCodCliente() {

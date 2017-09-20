@@ -348,7 +348,7 @@ public class cadastroServicos extends javax.swing.JFrame {
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(209);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(220);
 
         tabela.setAutoResizeMode(0);
     }

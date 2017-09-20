@@ -84,7 +84,7 @@ public class ServicoDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços do banco de dados.");
         }
         return listaServicos;
     }
