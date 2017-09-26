@@ -13,22 +13,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class cadastroFuncionarios extends javax.swing.JFrame {
 
-    private final boolean modoInclusao;
-    private final FuncionarioDTO funcionario;
+    private boolean modoInclusao;
+    private FuncionarioDTO funcionario;
 
     public cadastroFuncionarios(boolean modoInclusao, FuncionarioDTO funcionario) {
         this.modoInclusao = modoInclusao;
         this.funcionario = funcionario;
         initComponents();
-        if (modoInclusao == false) {
-            nomeFunc.setText(funcionario.getNomFuncionario());
-            cpfFunc.setText(funcionario.getCpfFuncionario());
-            rgFunc.setText(funcionario.getRgFuncionario());
-            datNascimento.setText(funcionario.getDatNascimento());
-            telFunc.setText(funcionario.getTelFuncionario());
-            endFunc.setText(funcionario.getEndFuncionario());
+        this.listaFuncionarios = funcionarioDAO.carregaFuncionariosBD();
+        if (listaFuncionarios != null) {
+            carregaFuncionarios();
         }
         this.setLocationRelativeTo(null);
+        btnInativar.setEnabled(false);
     }
 
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
@@ -61,7 +58,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        codFunc = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         nomeFunc = new javax.swing.JTextField();
         telFunc = new javax.swing.JTextField();
@@ -137,7 +134,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(595, 474));
         setMinimumSize(new java.awt.Dimension(595, 474));
         setResizable(false);
 
@@ -148,7 +144,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel7.setText("Código");
 
-        jTextField6.setEnabled(false);
+        codFunc.setEnabled(false);
 
         jLabel8.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel8.setText("Nome");
@@ -216,8 +212,13 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         });
 
         btnAlterar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/edit.png"))); // NOI18N
-        btnAlterar.setText("Alterar");
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
+        btnAlterar.setText("Abrir");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnInativar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnInativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/icon.png"))); // NOI18N
@@ -243,6 +244,11 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/add.png"))); // NOI18N
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/search menor.png"))); // NOI18N
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -333,11 +339,11 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                                         .addComponent(jLabel3)
                                         .addGap(18, 18, 18)
                                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(16, 16, 16)
+                                        .addGap(34, 34, 34)
                                         .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
                                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel14)))
                             .addGroup(layout.createSequentialGroup()
@@ -347,7 +353,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                                     .addComponent(jLabel12))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(codFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(nomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cpfFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -362,8 +368,8 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(btnSalvar)
                         .addGap(61, 61, 61)
-                        .addComponent(btnAlterar)
-                        .addGap(64, 64, 64)
+                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
                         .addComponent(btnInativar))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -396,7 +402,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(codFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -472,9 +478,20 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
-        this.setVisible(false);
+        if (funcionarioDAO.inativaFuncionarioBD(Integer.valueOf(codFunc.getText()))) {
+            codFunc.setText("");
+            nomeFunc.setText("");
+            cpfFunc.setText("");
+            rgFunc.setText("");
+            datNascimento.setText("");
+            telFunc.setText("");
+            endFunc.setText("");
+            Mensagens.msgInfo("O funcionário foi removido com sucesso!");
+            this.listaFuncionarios = funcionarioDAO.carregaFuncionariosBD();
+            if (listaFuncionarios != null) {
+                carregaFuncionarios();
+            }
+        }
     }//GEN-LAST:event_btnInativarActionPerformed
 
     DefaultTableModel modelo = new DefaultTableModel() {
@@ -503,13 +520,40 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
     FuncionarioDAO funcDAO = new FuncionarioDAO();
     ArrayList<FuncionarioDTO> listaFuncionarios;
-    
+
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         this.listaFuncionarios = funcDAO.carregaFuncionariosBD();
         if (listaFuncionarios != null) {
             carregaFuncionarios();
         }
     }//GEN-LAST:event_listarActionPerformed
+
+    ArrayList<FuncionarioDTO> funcionariosPesquisados;
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        funcionariosPesquisados = funcDAO.pesquisaFuncionariosBD(Validacao.verificaString(pesquisa));
+        if (funcionariosPesquisados != null) {
+            carregaPesquisados();
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada > -1) {
+            btnInativar.setEnabled(true);
+            funcionario = (FuncionarioDTO) tabela.getValueAt(linhaSelecionada, 0);
+            modoInclusao = false;
+            codFunc.setText(String.valueOf(funcionario.getCodFuncionario()));
+            nomeFunc.setText(funcionario.getNomFuncionario());
+            cpfFunc.setText(funcionario.getCpfFuncionario());
+            rgFunc.setText(funcionario.getRgFuncionario());
+            datNascimento.setText(funcionario.getDatNascimento());
+            telFunc.setText(funcionario.getTelFuncionario());
+            endFunc.setText(funcionario.getEndFuncionario());
+        } else {
+            Mensagens.msgAviso("Selecione um funcionário a ser alterado!");
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
     public void carregaFuncionarios() {
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -527,18 +571,39 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(209);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(227);
 
         tabela.setAutoResizeMode(0);
     }
-    
-    
+
+    public void carregaPesquisados() {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+        modelo.addColumn("Funcionários");
+
+        for (FuncionarioDTO fdto : funcionariosPesquisados) {
+            modelo.addRow(fdto.getLinhaTabela());
+        }
+
+        tabela.setModel(modelo);
+        tabela.setAutoResizeMode(0);
+
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(227);
+
+        tabela.setAutoResizeMode(0);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnInativar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JTextField codFunc;
     private javax.swing.JTable comFunc;
     private javax.swing.JTextField cpfFunc;
     private javax.swing.JTextField datNascimento;
@@ -570,7 +635,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JButton listar;
     private javax.swing.JTextField nomeFunc;
     private javax.swing.JTextField pesquisa;

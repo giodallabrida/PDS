@@ -23,6 +23,25 @@ public class ClienteDTO {
         this.nomCliente = nome;
     }
 
+    public ClienteDTO(int codigo, String nome, String telefone, String datNasc, String endereco, String datAte, String infEx) {
+        this.codCliente = codigo;
+        this.nomCliente = nome;
+        this.telCliente = telefone;
+        this.datNascimento = datNasc;
+        this.endCliente = endereco;
+        this.infExtras = infEx;
+        this.datAtendimento = datAte;
+    }
+
+    public ClienteDTO(String nome, String telefone, String datNasc, String endereco, String datAte, String infEx) {
+        this.nomCliente = nome;
+        this.telCliente = telefone;
+        this.datNascimento = datNasc;
+        this.endCliente = endereco;
+        this.infExtras = infEx;
+        this.datAtendimento = datAte;
+    }
+
     public int getCodCliente() {
         return codCliente;
     }
@@ -80,8 +99,12 @@ public class ClienteDTO {
     }
     
     public Object[] getLinhaTabela() {
-        Object[] retorno = {this.nomCliente};
+        Object[] retorno = {this};
         return retorno;
+    }
+    
+    public String toString(){
+        return this.nomCliente;
     }
 
     public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, String datNascimento, String endCliente, String datAtendimento, String infExtras) {

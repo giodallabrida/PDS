@@ -71,7 +71,6 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnCadastroClientes.setBackground(new java.awt.Color(204, 204, 204));
         btnCadastroClientes.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnCadastroClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/multiple-users-silhouette.png"))); // NOI18N
         btnCadastroClientes.setText("Clientes");

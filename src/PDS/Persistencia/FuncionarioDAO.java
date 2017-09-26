@@ -1,6 +1,5 @@
 package PDS.Persistencia;
 
-import PDS.Modelo.ClienteDTO;
 import PDS.Modelo.FuncionarioDTO;
 import PDS.Util.Mensagens;
 import java.io.FileNotFoundException;
@@ -19,8 +18,8 @@ public class FuncionarioDAO {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "insert into funcionario (COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO) values"
-                    + " (?, ?, ?, ?, ?, ?)";
+            String sql = "insert into FUNCIONARIO (NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO, SITUACAO) values"
+                    + " (?, ?, ?, ?, ?, ?, 'A')";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeFunc);
             p.setString(2, cpfFunc);
@@ -31,7 +30,7 @@ public class FuncionarioDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do cliente.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o funcionário." + ex.getMessage());
         }
         return aux;
     }
@@ -60,7 +59,7 @@ public class FuncionarioDAO {
         }
         return verifica;
     }
-    
+
     public boolean alteraLogin(
             String user,
             String senha) {
@@ -90,17 +89,21 @@ public class FuncionarioDAO {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "update funcionario set NOM_FUNCIONARIO = ?, CPF_FUNCIONARIO = ?, RG_FUNCIONARIO = ?, DAT_NASCIMENTO_C = ?, TEL_FUNCIONARIO = ?, END_FUNCIONARIO = ? "
+            String sql = "update funcionario set NOM_FUNCIONARIO = ?, "
+                    + "CPF_FUNCIONARIO = ?, RG_FUNCIONARIO = ?, DAT_NASCIMENTO_F = ?, "
+                    + "TEL_FUNCIONARIO = ?, END_FUNCIONARIO = ? "
                     + "where COD_FUNCIONARIO = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeFunc);
-            p.setString(3, cpfFunc);
-            p.setString(4, rgFunc);
-            p.setString(5, datNascimento);
-            p.setString(6, telFunc);
-            p.setString(7, endFunc);
-            p.setInt(8, codFunc);
+            p.setString(2, cpfFunc);
+            p.setString(3, rgFunc);
+            p.setString(4, datNascimento);
+            p.setString(5, telFunc);
+            p.setString(6, endFunc);
+            p.setInt(7, codFunc);
             p.execute();
+            p.close();
+            conn.close();
             aux = true;
         } catch (SQLException ex) {
             Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do cliente.");
@@ -108,23 +111,23 @@ public class FuncionarioDAO {
         return aux;
     }
 
-    public boolean removeFuncionarioBD(int codFunc) {
+    public boolean inativaFuncionarioBD(int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "delete from FUNCIONARIO where COD_FUNCIONARIO = ?";
+            String sql = "update funcionario set SITUACAO = 'I' where COD_FUNCIONARIO = ?";
             PreparedStatement p = conn.prepareStatement(sql);
-            p.setInt(1, codFunc);
+            p.setInt(1, codigo);
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao remover um cliente do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar um funcionário do banco de dados.");
         }
         return aux;
     }
-    
+
     public void verificaExecucao() {
         String aux = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -162,7 +165,7 @@ public class FuncionarioDAO {
             Mensagens.msgErro("Ocorreu um erro em uma alteração do banco de dados.");
         }
     }
-    
+
     public ArrayList carregaFuncionariosBD() {
         ArrayList<FuncionarioDTO> listaFuncionario = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -170,11 +173,11 @@ public class FuncionarioDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select NOME_FUNCIONARIO from FUNCIONARIO";
+            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                FuncionarioDTO ff = new FuncionarioDTO(rs.getString(1));
+                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
                 listaFuncionario.add(ff);
             }
             rs.close();
@@ -184,5 +187,29 @@ public class FuncionarioDAO {
             Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários do banco de dados.");
         }
         return listaFuncionario;
+    }
+
+    public ArrayList pesquisaFuncionariosBD(String nome) {
+        ArrayList<FuncionarioDTO> listaFuncionarios = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where NOM_FUNCIONARIO LIKE ? and SITUACAO = 'A'";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setString(1, nome);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                listaFuncionarios.add(ff);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários pesquisados do banco de dados.");
+        }
+        return listaFuncionarios;
     }
 }

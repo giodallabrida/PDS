@@ -24,6 +24,27 @@ public class FuncionarioDTO {
         this.senhaAdm = "";
     }
 
+    public FuncionarioDTO(int codFuncionario, String nomFuncionario, String rgFuncionario, String cpfFuncionario, String datNascimento, String telFuncionario, String endFuncionario) {
+        this.codFuncionario = codFuncionario;
+        this.nomFuncionario = nomFuncionario;
+        this.rgFuncionario = rgFuncionario;
+        this.cpfFuncionario = cpfFuncionario;
+        this.datNascimento = datNascimento;
+        this.telFuncionario = telFuncionario;
+        this.endFuncionario = endFuncionario;
+    }
+
+    public FuncionarioDTO(String nomFuncionario, String rgFuncionario, String cpfFuncionario, String datNascimento, String telFuncionario, String endFuncionario, boolean verificaAdm, String senhaAdm) {
+        this.nomFuncionario = nomFuncionario;
+        this.rgFuncionario = rgFuncionario;
+        this.cpfFuncionario = cpfFuncionario;
+        this.datNascimento = datNascimento;
+        this.telFuncionario = telFuncionario;
+        this.endFuncionario = endFuncionario;
+        this.verificaAdm = verificaAdm;
+        this.senhaAdm = senhaAdm;
+    }
+
     public FuncionarioDTO(String nomFuncionario) {
         this.nomFuncionario = nomFuncionario;
     }
@@ -101,8 +122,12 @@ public class FuncionarioDTO {
         this.senhaAdm = senhaAdm;
     }
     
+    public String toString(){
+        return this.nomFuncionario;
+    }
+    
       public Object[] getLinhaTabela() {
-        Object[] retorno = {this.nomFuncionario};
+        Object[] retorno = {this};
         return retorno;
     }
     

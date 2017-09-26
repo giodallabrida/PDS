@@ -21,8 +21,8 @@ public class ClienteDAO {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C) values"
-                    + " (?, ?, ?, ?, ?, ?)";
+            String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C, SITUACAO) values"
+                    + " (?, ?, ?, ?, ?, ?, 'A')";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);
@@ -43,14 +43,11 @@ public class ClienteDAO {
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
-            // estabelecer a conexão...mysql-connector-java-5.1.42-bin.jar
             Connection conn = DriverManager.getConnection(str);
-            String sql = "update cliente set NOM_CLIENTE = ?, TEL_CLIENTE = ?, DAT_NASCIMENTO_C = ?, END_CLIENTE = ?, DAT_NASCIMENTO = ?, INF_EXTRAS_C = ?"
-                    + "where COD_CLIENTE = ?";
-            // enviar o select para ser analisado pelo banco
-            // de dados...
+            String sql = "update cliente set NOM_CLIENTE = ?, TEL_CLIENTE = ?, "
+                    + "DAT_NASCIMENTO_C = ?, END_CLIENTE = ?,  DAT_ATENDIMENTO = ?, "
+                    + "INF_EXTRAS_C = ? where COD_CLIENTE = ?";
             PreparedStatement p = conn.prepareStatement(sql);
-            // definir o valor de cada um dos parâmetros...
             p.setString(1, nomeCli);
             p.setString(2, telCli);
             p.setString(3, datNasc);
@@ -59,6 +56,8 @@ public class ClienteDAO {
             p.setString(6, infEx);
             p.setInt(7, codigo);
             p.execute();
+            p.close();
+            conn.close();
             aux = true;
         } catch (SQLException ex) {
             Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do cliente.");
@@ -66,19 +65,19 @@ public class ClienteDAO {
         return aux;
     }
 
-    public boolean removeClienteBD(int codigo) {
+    public boolean inativaClienteBD(int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "delete from cliente where COD_CLIENTE = ?";
+            String sql = "update CLIENTE set SITUACAO = 'I' where COD_CLIENTE = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codigo);
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao remover um cliente do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar um serviço do banco de dados.");
         }
         return aux;
     }
@@ -92,7 +91,7 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select NOM_CLIENTE from Cliente where DAT_NASCIMENTO_C == ?";
+            String sql = "select NOM_CLIENTE from Cliente where DAT_NASCIMENTO_C = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, formatarDate.format(date));
             ResultSet rs = p.executeQuery();
@@ -108,7 +107,7 @@ public class ClienteDAO {
         }
         return listaAniversariantes;
     }
-    
+
     public ArrayList carregaClientesBD() {
         ArrayList<ClienteDTO> listaClientes = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -116,11 +115,11 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select NOM_CLIENTE from Cliente";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C from Cliente where SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
                 listaClientes.add(cc);
             }
             rs.close();
@@ -131,7 +130,7 @@ public class ClienteDAO {
         }
         return listaClientes;
     }
-    
+
     public ArrayList pesquisaClientesBD(String nome) {
         ArrayList<ClienteDTO> listaClientes = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -139,12 +138,12 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select NOM_CLIENTE from CLIENTE where NOM_CLIENTE == ?";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C from CLIENTE where NOM_CLIENTE LIKE ? AND SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
                 listaClientes.add(cc);
             }
             rs.close();
@@ -155,7 +154,4 @@ public class ClienteDAO {
         }
         return listaClientes;
     }
-    
-    
-    
 }

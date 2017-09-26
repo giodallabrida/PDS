@@ -13,22 +13,19 @@ import javax.swing.table.DefaultTableModel;
 
 public class cadastroClientes extends javax.swing.JFrame {
 
-    private final boolean modoInclusao;
-    private final ClienteDTO cliente;
+    private boolean modoInclusao;
+    private ClienteDTO codigo;
 
-    public cadastroClientes(boolean modoInclusao, ClienteDTO cliente) {
+    public cadastroClientes(boolean modoInclusao, ClienteDTO codigo) {
         this.modoInclusao = modoInclusao;
-        this.cliente = cliente;
+        this.codigo = codigo;
         initComponents();
-        if (modoInclusao == false) {
-            nomeCliente.setText(cliente.getNomCliente());
-            telCliente.setText(cliente.getTelCliente());
-            datNascimento.setText(cliente.getDatNascimento());
-            infExtras.setText(cliente.getEndCliente());
-            datAtendimento.setText(cliente.getDatAtendimento());
-            infExtras.setText(cliente.getInfExtras());
+        this.listaClientes = cliDAO.carregaClientesBD();
+        if (listaClientes != null) {
+            carregaClientes();
         }
         this.setLocationRelativeTo(null);
+        btnInativar.setEnabled(false);
     }
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
@@ -39,7 +36,7 @@ public class cadastroClientes extends javax.swing.JFrame {
             if (modoInclusao) {
                 aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText());
             } else {
-                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText(), cliente.getCodCliente());
+                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
             }
             if (modoInclusao && aux) {
                 Mensagens.msgInfo("Cliente adicionado com sucesso.");
@@ -130,8 +127,13 @@ public class cadastroClientes extends javax.swing.JFrame {
         });
 
         btnAlterar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/edit.png"))); // NOI18N
-        btnAlterar.setText("Alterar");
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
+        btnAlterar.setText("Abrir");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnInativar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnInativar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/icon.png"))); // NOI18N
@@ -245,7 +247,7 @@ public class cadastroClientes extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(nomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(codCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(codCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -335,11 +337,21 @@ public class cadastroClientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInativarActionPerformed
-        ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.removeClienteBD(Integer.valueOf(codCliente.getText()));
-        Menu menu = new Menu();
-        menu.setVisible(true);
-        this.setVisible(false);
+        if (clienteDAO.inativaClienteBD(Integer.valueOf(codCliente.getText()))) {
+            codCliente.setText("");
+            nomeCliente.setText("");
+            telCliente.setText("");
+            endCliente.setText("");
+            datNascimento.setText("");
+            infExtras.setText("");
+            datAtendimento.setText("");
+            infExtras.setText("");
+            Mensagens.msgInfo("O cliente foi removido com sucesso!");
+            this.listaClientes = clienteDAO.carregaClientesBD();
+            if (listaClientes != null) {
+                carregaClientes();
+            }
+        }
     }//GEN-LAST:event_btnInativarActionPerformed
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
@@ -350,6 +362,7 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
+            setTitle(endCliente.getText());
             if (cadastraAlteraCliente(nomeCliente, telCliente, datNascimento, endCliente, datAtendimento, infExtras)) {
                 Menu menu = new Menu();
                 menu.setVisible(true);
@@ -369,9 +382,32 @@ public class cadastroClientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listarActionPerformed
 
+    ArrayList<ClienteDTO> clientesPesquisados;
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        cliDAO.pesquisaClientesBD(Validacao.verificaString(pesquisa));
+        clientesPesquisados = cliDAO.pesquisaClientesBD(Validacao.verificaString(pesquisa));
+        if (clientesPesquisados != null) {
+            carregaPesquisados();
+        }
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada > -1) {
+            btnInativar.setEnabled(true);
+            codigo = (ClienteDTO) tabela.getValueAt(linhaSelecionada, 0);
+            modoInclusao = false;
+            codCliente.setText(String.valueOf(codigo.getCodCliente()));
+            nomeCliente.setText(codigo.getNomCliente());
+            telCliente.setText(codigo.getTelCliente());
+            endCliente.setText(codigo.getEndCliente());
+            datNascimento.setText(codigo.getDatNascimento());
+            infExtras.setText(codigo.getEndCliente());
+            datAtendimento.setText(codigo.getDatAtendimento());
+            infExtras.setText(codigo.getInfExtras());
+        } else {
+            Mensagens.msgAviso("Selecione um cliente a ser alterado!");
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
     public void carregaClientes() {
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -382,14 +418,35 @@ public class cadastroClientes extends javax.swing.JFrame {
         };
         modelo.addColumn("Clientes");
 
-        for (ClienteDTO pdto : listaClientes) {
-            modelo.addRow(pdto.getLinhaTabela());
+        for (ClienteDTO cdto : listaClientes) {
+            modelo.addRow(cdto.getLinhaTabela());
         }
 
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(209);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(215);
+
+        tabela.setAutoResizeMode(0);
+    }
+
+    public void carregaPesquisados() {
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+        modelo.addColumn("Clientes");
+
+        for (ClienteDTO cdto : clientesPesquisados) {
+            modelo.addRow(cdto.getLinhaTabela());
+        }
+
+        tabela.setModel(modelo);
+        tabela.setAutoResizeMode(0);
+
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(215);
 
         tabela.setAutoResizeMode(0);
     }

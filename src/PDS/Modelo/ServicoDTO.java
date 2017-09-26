@@ -10,7 +10,7 @@ public class ServicoDTO {
         this.nomServico = "";
         this.infExtras = "";
     }
-
+    
     public ServicoDTO(String nomServico) {
         this.nomServico = nomServico;
     }
@@ -39,13 +39,22 @@ public class ServicoDTO {
         this.infExtras = infExtras;
     }
     
+    public String toString(){
+        return this.nomServico;
+    }
+    
       public Object[] getLinhaTabela() {
-        Object[] retorno = {this.nomServico};
+        Object[] retorno = {this};
         return retorno;
     }
 
     public ServicoDTO(int codServico, String nomServico, String infExtras) {
         this.codServico = codServico;
+        this.nomServico = nomServico;
+        this.infExtras = infExtras;
+    }
+
+    public ServicoDTO(String nomServico, String infExtras) {
         this.nomServico = nomServico;
         this.infExtras = infExtras;
     }
