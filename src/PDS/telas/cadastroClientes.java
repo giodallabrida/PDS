@@ -5,6 +5,7 @@ import PDS.Persistencia.ClienteDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
 import java.io.FileNotFoundException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JTextArea;
@@ -34,9 +35,9 @@ public class cadastroClientes extends javax.swing.JFrame {
         boolean aux = false;
         if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli)) {
             if (modoInclusao) {
-                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText());
+                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Date.valueOf(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText());
             } else {
-                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), datNascCli.getText(), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
+                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), Date.valueOf(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
             }
             if (modoInclusao && aux) {
                 Mensagens.msgInfo("Cliente adicionado com sucesso.");
@@ -400,7 +401,7 @@ public class cadastroClientes extends javax.swing.JFrame {
             nomeCliente.setText(codigo.getNomCliente());
             telCliente.setText(codigo.getTelCliente());
             endCliente.setText(codigo.getEndCliente());
-            datNascimento.setText(codigo.getDatNascimento());
+            datNascimento.setText(String.valueOf(Validacao.getDataMySQL(codigo.getDatNascimento())));
             infExtras.setText(codigo.getEndCliente());
             datAtendimento.setText(codigo.getDatAtendimento());
             infExtras.setText(codigo.getInfExtras());

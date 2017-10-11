@@ -1,5 +1,6 @@
 package PDS.Persistencia;
 
+import PDS.Modelo.ComissaoDTO;
 import PDS.Modelo.FuncionarioDTO;
 import PDS.Util.Mensagens;
 import java.io.FileNotFoundException;
@@ -9,18 +10,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 public class FuncionarioDAO {
 
-    public boolean cadastraFuncionarioBD(String nomeFunc, String cpfFunc, String rgFunc, String datNasc, String telFunc, String endFunc) throws SQLException, FileNotFoundException {
-        boolean aux = false;
+    public int cadastraFuncionarioBD(String nomeFunc, String cpfFunc, String rgFunc, String datNasc, String telFunc, String endFunc) throws SQLException, FileNotFoundException {
+        int aux = 0;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "insert into FUNCIONARIO (NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO, SITUACAO) values"
                     + " (?, ?, ?, ?, ?, ?, 'A')";
-            PreparedStatement p = conn.prepareStatement(sql);
+            PreparedStatement p = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             p.setString(1, nomeFunc);
             p.setString(2, cpfFunc);
             p.setString(3, rgFunc);
@@ -28,9 +31,13 @@ public class FuncionarioDAO {
             p.setString(5, telFunc);
             p.setString(6, endFunc);
             p.execute();
-            aux = true;
+            ResultSet rs = p.getGeneratedKeys();
+            if (rs.next()) {
+                aux = rs.getInt(0);
+            }
         } catch (SQLException ex) {
             Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o funcionário." + ex.getMessage());
+            aux = -1;
         }
         return aux;
     }
@@ -166,7 +173,7 @@ public class FuncionarioDAO {
         }
     }
 
-    public ArrayList carregaFuncionariosBD() {
+    public ArrayList<FuncionarioDTO> carregaFuncionariosBD() {
         ArrayList<FuncionarioDTO> listaFuncionario = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -189,7 +196,7 @@ public class FuncionarioDAO {
         return listaFuncionario;
     }
 
-    public ArrayList pesquisaFuncionariosBD(String nome) {
+    public ArrayList<FuncionarioDTO> pesquisaFuncionariosBD(String nome) {
         ArrayList<FuncionarioDTO> listaFuncionarios = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -211,5 +218,89 @@ public class FuncionarioDAO {
             Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários pesquisados do banco de dados.");
         }
         return listaFuncionarios;
+    }
+
+    public boolean cadastraComissaoBD(int codServico, JTextField porcServico, JTextField codFunc) throws SQLException, FileNotFoundException {
+        boolean aux = false;
+        try {
+            String str = "jdbc:mysql://localhost:3307/pds?"
+                    + "user=root&password=root";
+            Connection conn = DriverManager.getConnection(str);
+            String sql = "insert into COMISSAO (COMISSAO, COD_FUNC, COD_SERVICO, SITUACAO) values"
+                    + " (?, ?, ?,'A')";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setFloat(1, Float.valueOf(porcServico.getText()));
+            p.setInt(2, Integer.valueOf(codFunc.getText()));
+            p.setInt(3, codServico);
+            p.execute();
+            aux = true;
+        } catch (SQLException ex) {
+            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir a comissão." + ex.getMessage());
+        }
+        return aux;
+    }
+
+    public boolean alteraComissaoBD(JComboBox nomServico, JTextField porcServico, int codigo) {
+        boolean aux = false;
+        try {
+            String str = "jdbc:mysql://localhost:3307/pds?"
+                    + "user=root&password=root";
+            Connection conn = DriverManager.getConnection(str);
+            String sql = "update COMISSAO set COMISSAO = ? "
+                    + "WHERE COD_SERVICO = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setFloat(1, Float.valueOf(String.valueOf(porcServico)));
+            p.setInt(2, codigo);
+            p.execute();
+            p.close();
+            conn.close();
+            aux = true;
+        } catch (SQLException ex) {
+            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados de comissao.");
+        }
+        return aux;
+    }
+
+    public boolean inativaComissaoBD(int codigo) {
+        boolean aux = false;
+        try {
+            String str = "jdbc:mysql://localhost:3307/pds?"
+                    + "user=root&password=root";
+            Connection conn = DriverManager.getConnection(str);
+            String sql = "update COMISSAO set SITUACAO = 'I' where COD_SERVICO = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
+            p.execute();
+            aux = true;
+        } catch (SQLException ex) {
+            Mensagens.msgErro("Ocorreu um erro ao inativar uma comissão do banco de dados.");
+        }
+        return aux;
+    }
+
+    ServicoDAO servicoDAO = new ServicoDAO();
+
+    public ArrayList<ComissaoDTO> carregaComissoesBD(JTextField codFunc) {
+        ArrayList<ComissaoDTO> listaComissao = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select COMISSAO, COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setInt(1, Integer.valueOf(codFunc.getText()));
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ComissaoDTO cc = new ComissaoDTO(rs.getFloat(1), servicoDAO.carregaNomeServico(rs.getInt(2)));
+                listaComissao.add(cc);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar as comissões do banco de dados.");
+        }
+        return listaComissao;
     }
 }

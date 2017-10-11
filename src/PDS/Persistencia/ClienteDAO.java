@@ -2,6 +2,7 @@ package PDS.Persistencia;
 
 import PDS.Modelo.ClienteDTO;
 import PDS.Util.Mensagens;
+import PDS.Util.Validacao;
 import PDS.telas.relatorioAniversariantes;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class ClienteDAO {
 
-    public boolean cadastraClienteBD(String nomeCli, String telCli, String datNasc, String endCli, String datAte, String infEx) throws SQLException, FileNotFoundException {
+    public boolean cadastraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String datAte, String infEx) throws SQLException, FileNotFoundException {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
@@ -26,7 +27,7 @@ public class ClienteDAO {
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);
-            p.setString(3, datNasc);
+            p.setDate(3, datNasc);
             p.setString(4, endCli);
             p.setString(5, datAte);
             p.setString(6, infEx);
@@ -38,7 +39,7 @@ public class ClienteDAO {
         return aux;
     }
 
-    public boolean alteraClienteBD(String nomeCli, String telCli, String datNasc, String endCli, String datAte, String infEx, int codigo) {
+    public boolean alteraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String datAte, String infEx, int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
@@ -50,7 +51,7 @@ public class ClienteDAO {
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);
-            p.setString(3, datNasc);
+            p.setDate(3, datNasc);
             p.setString(4, endCli);
             p.setString(5, datAte);
             p.setString(6, infEx);
@@ -82,7 +83,7 @@ public class ClienteDAO {
         return aux;
     }
 
-    public ArrayList carregaAniversariatesBD(relatorioAniversariantes data) {
+    public ArrayList<ClienteDTO> carregaAniversariatesBD(relatorioAniversariantes data) {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<ClienteDTO> listaAniversariantes = new ArrayList();
@@ -108,7 +109,9 @@ public class ClienteDAO {
         return listaAniversariantes;
     }
 
-    public ArrayList carregaClientesBD() {
+    
+
+    public ArrayList<ClienteDTO> carregaClientesBD() {
         ArrayList<ClienteDTO> listaClientes = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -119,7 +122,7 @@ public class ClienteDAO {
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6), rs.getString(7));
                 listaClientes.add(cc);
             }
             rs.close();
@@ -131,7 +134,7 @@ public class ClienteDAO {
         return listaClientes;
     }
 
-    public ArrayList pesquisaClientesBD(String nome) {
+    public ArrayList<ClienteDTO> pesquisaClientesBD(String nome) {
         ArrayList<ClienteDTO> listaClientes = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -143,7 +146,7 @@ public class ClienteDAO {
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6), rs.getString(7));
                 listaClientes.add(cc);
             }
             rs.close();

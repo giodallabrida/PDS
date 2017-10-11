@@ -1,10 +1,12 @@
 package PDS.Modelo;
 
+import java.time.LocalDate;
+
 public class ClienteDTO {
     private int codCliente;
     private String nomCliente;
     private String telCliente;
-    private String datNascimento;
+    private LocalDate datNascimento;
     private String endCliente;
     private String datAtendimento;
     private String infExtras;
@@ -13,7 +15,7 @@ public class ClienteDTO {
         this.codCliente = 0;
         this.nomCliente = "";
         this.telCliente = "";
-        this.datNascimento = "";
+        this.datNascimento = null;
         this.endCliente = "";
         this.infExtras = "";
         this.datAtendimento = "";
@@ -23,7 +25,7 @@ public class ClienteDTO {
         this.nomCliente = nome;
     }
 
-    public ClienteDTO(int codigo, String nome, String telefone, String datNasc, String endereco, String datAte, String infEx) {
+    public ClienteDTO(int codigo, String nome, String telefone, LocalDate datNasc, String endereco, String datAte, String infEx) {
         this.codCliente = codigo;
         this.nomCliente = nome;
         this.telCliente = telefone;
@@ -33,7 +35,7 @@ public class ClienteDTO {
         this.datAtendimento = datAte;
     }
 
-    public ClienteDTO(String nome, String telefone, String datNasc, String endereco, String datAte, String infEx) {
+    public ClienteDTO(String nome, String telefone, LocalDate datNasc, String endereco, String datAte, String infEx) {
         this.nomCliente = nome;
         this.telCliente = telefone;
         this.datNascimento = datNasc;
@@ -66,11 +68,11 @@ public class ClienteDTO {
         this.telCliente = telCliente;
     }
 
-    public String getDatNascimento() {
+    public LocalDate getDatNascimento() {
         return datNascimento;
     }
 
-    public void setDatNascimento(String datNascimento) {
+    public void setDatNascimento(LocalDate datNascimento) {
         this.datNascimento = datNascimento;
     }
 
@@ -107,7 +109,7 @@ public class ClienteDTO {
         return this.nomCliente;
     }
 
-    public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, String datNascimento, String endCliente, String datAtendimento, String infExtras) {
+    public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, LocalDate datNascimento, String endCliente, String datAtendimento, String infExtras) {
         this.codCliente = codCliente;
         this.nomCliente = nomCliente;
         this.telCliente = telCliente;

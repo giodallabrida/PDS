@@ -1,5 +1,7 @@
 package PDS.Util;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -59,4 +61,13 @@ public class Validacao {
         aux = "%" + aux + "%";
         return aux;
     }
+
+    public static LocalDate getDataJava(Date dataMySQL) {
+        return dataMySQL.toLocalDate();
+    }
+
+    public static Date getDataMySQL(LocalDate data) {
+        return java.sql.Date.valueOf(data);
+    }
+
 }

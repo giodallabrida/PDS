@@ -67,7 +67,7 @@ public class ServicoDAO {
         return aux;
     }
     
-     public ArrayList carregaServicosBD() {
+     public ArrayList<ServicoDTO> carregaServicosBD() {
         ArrayList<ServicoDTO> listaServicos = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -111,5 +111,28 @@ public class ServicoDAO {
             Mensagens.msgErro("Ocorreu um erro ao carregar os serviços pesquisados do banco de dados.");
         }
         return listaServicos;
+    }
+     
+     public String carregaNomeServico(int codServico) {
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        String aux = "";
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select DES_SERVICO from SERVICO where COD_SERVICO = ? AND SITUACAO = 'A'";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setInt(1, codServico);
+            ResultSet rs = p.executeQuery();
+            if (rs.next()) {
+                aux = rs.getString(1);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar o nome do serviço do banco de dados.");
+        }
+        return aux;
     }
 }
