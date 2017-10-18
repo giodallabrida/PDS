@@ -89,6 +89,31 @@ public class ServicoDAO {
         }
         return listaServicos;
     }
+     
+     public ArrayList<ServicoDTO> carregaServicosEspecificosBD(int codigo) {
+        ArrayList<ServicoDTO> listaServicos = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setInt(1, codigo);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ServicoDTO ss = new ServicoDTO(rs.getInt(1));
+                listaServicos.add(ss);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços do banco de dados.");
+        }
+        return listaServicos;
+    }
+     
      public ArrayList pesquisaServicosBD(String nome) {
         ArrayList<ServicoDTO> listaServicos = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -113,19 +138,21 @@ public class ServicoDAO {
         return listaServicos;
     }
      
-     public String carregaNomeServico(int codServico) {
+     public ServicoDTO carregaServico(int codServico) {
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
         Connection conn;
-        String aux = "";
+        ServicoDTO aux = null;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select DES_SERVICO from SERVICO where COD_SERVICO = ? AND SITUACAO = 'A'";
+            String sql = "select COD_SERVICO, DES_SERVICO from SERVICO where COD_SERVICO = ? AND SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codServico);
             ResultSet rs = p.executeQuery();
             if (rs.next()) {
-                aux = rs.getString(1);
+                aux = new ServicoDTO();
+                aux.setCodServico(rs.getInt(0));
+                aux.setNomServico(rs.getString(1));
             }
             rs.close();
             p.close();
@@ -135,4 +162,5 @@ public class ServicoDAO {
         }
         return aux;
     }
+     
 }

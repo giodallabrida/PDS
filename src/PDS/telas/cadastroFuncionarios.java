@@ -10,6 +10,7 @@ import PDS.Util.Validacao;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -30,23 +31,40 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         btnInativar.setEnabled(false);
         carregaCombinacao();
+        comissoes = new ArrayList();
     }
 
     private final FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
     public boolean cadastraAlteraFuncionario(JTextField nomeFunc, JTextField cpfFunc, JTextField rgFunc, JTextField datNascFunc, JTextField telFunc, JTextArea endFunc) throws SQLException, FileNotFoundException {
-        int aux = 0;
+        boolean aux = false;
         boolean certo = false;
         if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCampo(rgFunc)) {
+            int codigoFunc = 0;
             if (modoInclusao) {
-                aux = funcionarioDAO.cadastraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText());
+
+                codigoFunc = funcionarioDAO.cadastraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText());
+                if (codigoFunc != -1) {
+                    funcionario.setCodFuncionario(codigoFunc);
+                    codFunc.setText(String.valueOf(codigoFunc));
+                }
             } else {
-                // aux = funcionarioDAO.alteraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText(), funcionario.getCodFuncionario());
+                aux = funcionarioDAO.alteraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText(), funcionario.getCodFuncionario());
+                // delete from servico_func where codfuncionario = ?
+                funcionarioDAO.removeComissoes(funcionario.getCodFuncionario());
             }
-            if (modoInclusao && (aux != -1)) {
+            //professor sugeriu simplificar o código.
+            if ((codigoFunc != -1) || aux) {
+                for (ComissaoDTO comissao : comissoes) {
+                    aux = funcionarioDAO.cadastraComissaoBD(servico.getCodServico(), porcentagem, codFunc);
+                }
+            }
+
+            // incluir todos os servicos que estao na tabela (tela) na tabela do banco de dados..
+            if (modoInclusao && (codigoFunc != -1)) {
                 Mensagens.msgInfo("Funcionário adicionado com sucesso.");
                 certo = true;
-            } else if (!modoInclusao && (aux != -1)) {
+            } else if (!modoInclusao && aux) {
                 Mensagens.msgInfo("Funcionário alterado com sucesso.");
                 certo = true;
             }
@@ -76,14 +94,21 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     ServicoDAO servDAO = new ServicoDAO();
 
     int codSer;
-    ArrayList<ServicoDTO> servicosLista = servDAO.carregaServicosBD();
+    ArrayList<ServicoDTO> listaServicos = servDAO.carregaServicosBD();
 
     public void carregaCombinacao() {
-        for (ServicoDTO sdto : servDAO.carregaServicosBD()) {
+        DefaultComboBoxModel modelo = new DefaultComboBoxModel();
+        for (ServicoDTO servico : listaServicos) {
+            modelo.addElement(servico);
+        }
+        servicos.setModel(modelo);
+
+        /*  for (ServicoDTO sdto : servDAO.carregaServicosBD()) {
             servicos.addItem(sdto.getNomServico());
             //codSer = sdto.getCodServico();
-            servicosLista.add(sdto);
+            listaServicos.add(sdto);
         }
+         */
     }
 
     @SuppressWarnings("unchecked")
@@ -120,7 +145,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         btnAlterar = new javax.swing.JButton();
         btnInativar = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
-        alterar = new javax.swing.JButton();
         remover = new javax.swing.JButton();
         servicos = new javax.swing.JComboBox<>();
         porcentagem = new javax.swing.JTextField();
@@ -268,13 +292,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             }
         });
 
-        alterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/edit menor.png"))); // NOI18N
-        alterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                alterarActionPerformed(evt);
-            }
-        });
-
         remover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/remove menor.png"))); // NOI18N
 
         servicos.addActionListener(new java.awt.event.ActionListener() {
@@ -373,12 +390,9 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(remover, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(remover, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -480,10 +494,9 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                         .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel14)
-                        .addGap(1, 1, 1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addGap(15, 15, 15)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
                                     .addComponent(servicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -492,13 +505,11 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(7, 7, 7)
+                                .addGap(8, 8, 8)
                                 .addComponent(adicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                                .addComponent(alterar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(27, 27, 27)
                                 .addComponent(remover, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(25, 25, 25)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -558,10 +569,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         boolean aux = false;
         try {
             if (cadastraAlteraFuncionario(nomeFunc, cpfFunc, rgFunc, datNascimento, telFunc, endFunc)) {
-                for (ComissaoDTO comissao : comissoes) {
-                    aux = funcionarioDAO.cadastraComissaoBD(servico.getCodServico(), porcentagem, codFunc);
-                }
-                
+
                 Menu menu = new Menu();
                 menu.setVisible(true);
                 this.setVisible(false);
@@ -603,7 +611,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             datNascimento.setText(funcionario.getDatNascimento());
             telFunc.setText(funcionario.getTelFuncionario());
             endFunc.setText(funcionario.getEndFuncionario());
-            carregaComissoes();
+            carregaComissoes(true);
         } else {
             Mensagens.msgAviso("Selecione um funcionário a ser alterado!");
         }
@@ -611,31 +619,27 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
     ServicoDTO servico;
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        boolean aux = false;
+        boolean achou = false;
         if (Validacao.validaCampo(porcentagem)) {
             ServicoDTO servico2;
             servico = (ServicoDTO) servicos.getSelectedItem();
-            for (int i = 0; i < comFunc.getRowCount(); i++) {
-                servico2 = (ServicoDTO) comFunc.getValueAt(i, 0);
-                if (servico2.getCodServico() == servico.getCodServico()) {
+            for (ComissaoDTO comissao : comissoes) {
+                if (comissao.getServico().getCodServico() == servico.getCodServico()) {
                     Mensagens.msgAviso("Esse serviço já está cadastrado para esse funcionário. \n Escolha outro serviço!");
-                } else {
-                    ComissaoDTO comissaoDTO = new ComissaoDTO(servico.getCodServico(), porcentagem.getText());
-                    comissoes.add(comissaoDTO);
-                    funcDAO.carregaComissoesBD(codFunc);
-                    aux = true;
+                    achou = true;
                 }
             }
-            if (aux) {
-                carregaComissoes();
+            if (!achou) {
+                ComissaoDTO comissaoDTO = new ComissaoDTO();
+                comissaoDTO.setServico(servico);
+                comissaoDTO.setPercentual(Float.valueOf(porcentagem.getText()));
+                comissoes.add(comissaoDTO);
                 porcentagem.setText("");
+                carregaComissoes(false);
             }
+
         }
     }//GEN-LAST:event_adicionarActionPerformed
-
-    private void alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_alterarActionPerformed
 
     private void servicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servicosActionPerformed
         // TODO add your handling code here:
@@ -684,8 +688,11 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     }
 
     ArrayList<ComissaoDTO> comissoes;
-    public void carregaComissoes() {
-        comissoes = funcionarioDAO.carregaComissoesBD(codFunc);
+
+    public void carregaComissoes(boolean buscaBD) {
+        if (buscaBD) {
+            comissoes = funcionarioDAO.carregaComissoesBD(Integer.valueOf(codFunc.getText()));
+        }
         DefaultTableModel modelo = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int col) {
@@ -715,7 +722,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionar;
-    private javax.swing.JButton alterar;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnInativar;
     private javax.swing.JButton btnPesquisar;

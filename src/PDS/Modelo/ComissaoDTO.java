@@ -5,11 +5,9 @@ public class ComissaoDTO {
     private ServicoDTO servico;
     private float percentual;
     private int aux;
-    private String nome;
 
-    public ComissaoDTO(float percentual, String nome) {
+    public ComissaoDTO(float percentual) {
         this.percentual = percentual;
-        this.nome = nome;
     }
 
     public ComissaoDTO() {
@@ -41,7 +39,7 @@ public class ComissaoDTO {
     }
     
     public Object[] getLinhaTabela() {
-        Object[] retorno = {nome, percentual};
+        Object[] retorno = {servico, percentual};
         return retorno;
     }
     

@@ -23,5 +23,9 @@ public class Mensagens {
         return JOptionPane.showConfirmDialog(null, mensagem,
                 "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
-}
 
+    /*public static int msgOpcao(String mensagem) {
+     //  return JOptionPane
+   }
+*/
+}

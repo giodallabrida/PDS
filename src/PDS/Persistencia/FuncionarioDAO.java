@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 public class FuncionarioDAO {
@@ -33,7 +32,7 @@ public class FuncionarioDAO {
             p.execute();
             ResultSet rs = p.getGeneratedKeys();
             if (rs.next()) {
-                aux = rs.getInt(0);
+                aux = rs.getInt(1);
             }
         } catch (SQLException ex) {
             Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o funcionário." + ex.getMessage());
@@ -239,24 +238,20 @@ public class FuncionarioDAO {
         }
         return aux;
     }
-
-    public boolean alteraComissaoBD(JComboBox nomServico, JTextField porcServico, int codigo) {
+    
+    public boolean removeComissoes(int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "update COMISSAO set COMISSAO = ? "
-                    + "WHERE COD_SERVICO = ?";
+            String sql = "delete from COMISSAO where COD_FUNC = ?";
             PreparedStatement p = conn.prepareStatement(sql);
-            p.setFloat(1, Float.valueOf(String.valueOf(porcServico)));
-            p.setInt(2, codigo);
+            p.setInt(1, codigo);
             p.execute();
-            p.close();
-            conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados de comissao.");
+            Mensagens.msgErro("Ocorreu um erro ao atualizar as comissões do banco de dados.");
         }
         return aux;
     }
@@ -280,7 +275,7 @@ public class FuncionarioDAO {
 
     ServicoDAO servicoDAO = new ServicoDAO();
 
-    public ArrayList<ComissaoDTO> carregaComissoesBD(JTextField codFunc) {
+    public ArrayList<ComissaoDTO> carregaComissoesBD(int codFunc) {
         ArrayList<ComissaoDTO> listaComissao = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
@@ -289,10 +284,11 @@ public class FuncionarioDAO {
             conn = DriverManager.getConnection(str);
             String sql = "select COMISSAO, COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ?";
             PreparedStatement p = conn.prepareStatement(sql);
-            p.setInt(1, Integer.valueOf(codFunc.getText()));
+            p.setInt(1, codFunc);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ComissaoDTO cc = new ComissaoDTO(rs.getFloat(1), servicoDAO.carregaNomeServico(rs.getInt(2)));
+                ComissaoDTO cc = new ComissaoDTO(rs.getFloat(1));
+                cc.setServico(servicoDAO.carregaServico(rs.getInt(2)));
                 listaComissao.add(cc);
             }
             rs.close();

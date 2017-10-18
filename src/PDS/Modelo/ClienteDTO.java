@@ -21,8 +21,9 @@ public class ClienteDTO {
         this.datAtendimento = "";
 }
 
-    public ClienteDTO(String nome) {
+    public ClienteDTO(String nome, String telefone) {
         this.nomCliente = nome;
+        this.telCliente = telefone;
     }
 
     public ClienteDTO(int codigo, String nome, String telefone, LocalDate datNasc, String endereco, String datAte, String infEx) {
@@ -102,6 +103,11 @@ public class ClienteDTO {
     
     public Object[] getLinhaTabela() {
         Object[] retorno = {this};
+        return retorno;
+    }
+    
+    public Object[] getLinhaTabelaRelatorio() {
+        Object[] retorno = {this, this.telCliente};
         return retorno;
     }
     

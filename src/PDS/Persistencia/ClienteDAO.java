@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ClienteDAO {
 
@@ -86,18 +87,23 @@ public class ClienteDAO {
     public ArrayList<ClienteDTO> carregaAniversariatesBD(relatorioAniversariantes data) {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        System.out.println();
         ArrayList<ClienteDTO> listaAniversariantes = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
                 + "user=root&password=root";
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select NOM_CLIENTE from Cliente where DAT_NASCIMENTO_C = ?";
+            String sql = "select NOM_CLIENTE, tel_cliente from Cliente "
+                    + "where extract(month from dat_nascimento_c) = ? and extract(day from dat_nascimento_c) = ?;";
             PreparedStatement p = conn.prepareStatement(sql);
-            p.setString(1, formatarDate.format(date));
+            p.setInt(1, c.get(Calendar.MONTH)+1);
+            p.setInt(2, c.get(Calendar.DAY_OF_MONTH));
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getString(1));
+                ClienteDTO cc = new ClienteDTO(rs.getString(1), rs.getString(2));
                 listaAniversariantes.add(cc);
             }
             rs.close();

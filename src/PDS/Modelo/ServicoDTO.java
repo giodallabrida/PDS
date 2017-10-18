@@ -10,6 +10,10 @@ public class ServicoDTO {
         this.nomServico = "";
         this.infExtras = "";
     }
+
+    public ServicoDTO(int codServico) {
+        this.codServico = codServico;
+    }
     
     public ServicoDTO(String nomServico) {
         this.nomServico = nomServico;

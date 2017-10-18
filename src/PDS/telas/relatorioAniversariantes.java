@@ -5,8 +5,6 @@ import PDS.Persistencia.ClienteDAO;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class relatorioAniversariantes extends javax.swing.JFrame {
@@ -17,7 +15,10 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
         data.setText(formatarDate.format(date));
-        cliDAO.carregaAniversariatesBD(this);
+        listaClientes = cliDAO.carregaAniversariatesBD(this);
+         if (listaClientes != null) {
+            carregaAniversariantes();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -178,27 +179,21 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
             }
         };
         modelo.addColumn("Cliente");
+        modelo.addColumn("Telefone");
 
-        for (ClienteDTO pdto : listaClientes) {
-            modelo.addRow(pdto.getLinhaTabela());
+        for (ClienteDTO cdto : listaClientes) {
+            modelo.addRow(cdto.getLinhaTabelaRelatorio());
         }
 
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);
 
-        DefaultTableCellRenderer alinhamentoCentro = new DefaultTableCellRenderer();
-        DefaultTableCellRenderer alinhamentoDireita = new DefaultTableCellRenderer();
-        alinhamentoCentro.setHorizontalAlignment(SwingConstants.CENTER);
-        alinhamentoDireita.setHorizontalAlignment(SwingConstants.CENTER);
-        tabela.getColumnModel().getColumn(0).setCellRenderer(alinhamentoCentro);
-        tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
-        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
-
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(200);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(154);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
 
         tabela.setAutoResizeMode(0);
-    }
 
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField data;
