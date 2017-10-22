@@ -490,6 +490,9 @@
           <Image iconType="3" name="/&#xcd;cones/remove menor.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removerActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="servicos">
       <Properties>

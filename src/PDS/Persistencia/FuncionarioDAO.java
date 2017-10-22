@@ -219,7 +219,7 @@ public class FuncionarioDAO {
         return listaFuncionarios;
     }
 
-    public boolean cadastraComissaoBD(int codServico, JTextField porcServico, JTextField codFunc) throws SQLException, FileNotFoundException {
+    public boolean cadastraComissaoBD(int codServico, float porcServico, JTextField codFunc) throws SQLException, FileNotFoundException {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
@@ -228,7 +228,7 @@ public class FuncionarioDAO {
             String sql = "insert into COMISSAO (COMISSAO, COD_FUNC, COD_SERVICO, SITUACAO) values"
                     + " (?, ?, ?,'A')";
             PreparedStatement p = conn.prepareStatement(sql);
-            p.setFloat(1, Float.valueOf(porcServico.getText()));
+            p.setFloat(1, porcServico);
             p.setInt(2, Integer.valueOf(codFunc.getText()));
             p.setInt(3, codServico);
             p.execute();

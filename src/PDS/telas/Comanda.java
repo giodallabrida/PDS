@@ -3,13 +3,22 @@ package PDS.telas;
 import PDS.Modelo.ClienteDTO;
 import PDS.Modelo.ComissaoDTO;
 import PDS.Modelo.FuncionarioDTO;
+import PDS.Modelo.ServicoComandaDTO;
 import PDS.Persistencia.ClienteDAO;
+import PDS.Persistencia.ComandaDAO;
 import PDS.Persistencia.FuncionarioDAO;
 import PDS.Persistencia.ServicoDAO;
+import PDS.Util.Mensagens;
+import PDS.Util.Validacao;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class Comanda extends javax.swing.JFrame {
 
@@ -28,9 +37,52 @@ public class Comanda extends javax.swing.JFrame {
     ArrayList<ClienteDTO> listaClientes = cliDAO.carregaClientesBD();
     ArrayList<FuncionarioDTO> listaFuncionarios = funcDAO.carregaFuncionariosBD();
     ArrayList<ComissaoDTO> listaServicos;
+    ArrayList<ServicoComandaDTO> listaServicosComanda;
+    
+   // public boolean cadastraAlteraComanda(JComboBox cliente, JTextField data, JTextField total){
+        boolean aux = false;
+        boolean certo = false;
+        //if()
+   // }
+    
+    /*
+    public boolean cadastraAlteraFuncionario(JTextField nomeFunc, JTextField cpfFunc, JTextField rgFunc, JTextField datNascFunc, JTextField telFunc, JTextArea endFunc) throws SQLException, FileNotFoundException {
+       
+        if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCampo(rgFunc)) {
+            int codigoFunc = 0;
+            if (modoInclusao) {
+
+                codigoFunc = funcionarioDAO.cadastraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText());
+                if (codigoFunc != -1) {
+                    funcionario.setCodFuncionario(codigoFunc);
+                    codFunc.setText(String.valueOf(codigoFunc));
+                }
+            } else {
+                aux = funcionarioDAO.alteraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText(), funcionario.getCodFuncionario());
+                // delete from servico_func where codfuncionario = ?
+                funcionarioDAO.removeComissoes(funcionario.getCodFuncionario());
+            }
+            //professor sugeriu simplificar o código.
+            if ((codigoFunc != -1) || aux) {
+                for (ComissaoDTO comissao : comissoes) {
+                    aux = funcionarioDAO.cadastraComissaoBD(comissao.getServico().getCodServico(), comissao.getPercentual(), codFunc);
+                }
+            }
+
+            // incluir todos os servicos que estao na tabela (tela) na tabela do banco de dados..
+            if (modoInclusao && (codigoFunc != -1)) {
+                Mensagens.msgInfo("Funcionário adicionado com sucesso.");
+                certo = true;
+            } else if (!modoInclusao && aux) {
+                Mensagens.msgInfo("Funcionário alterado com sucesso.");
+                certo = true;
+            }
+        }
+        return certo;
+    }
+    */
 
     public void carregaCombinacoesComanda() {
-
         DefaultComboBoxModel modeloCliente = new DefaultComboBoxModel();
         for (ClienteDTO cliente : listaClientes) {
             modeloCliente.addElement(cliente);
@@ -38,6 +90,7 @@ public class Comanda extends javax.swing.JFrame {
         clientes.setModel(modeloCliente);
 
         DefaultComboBoxModel modeloFuncionarios = new DefaultComboBoxModel();
+        modeloFuncionarios.addElement("Selecione um funcionário.");
         for (FuncionarioDTO funcionario : listaFuncionarios) {
             modeloFuncionarios.addElement(funcionario);
         }
@@ -76,14 +129,15 @@ public class Comanda extends javax.swing.JFrame {
         funcionarios = new javax.swing.JComboBox<>();
         servicos = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        valor = new javax.swing.JTextField();
+        adicionar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         salvar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         clientes = new javax.swing.JComboBox<>();
         remover = new javax.swing.JButton();
+        pagar = new javax.swing.JButton();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -121,7 +175,12 @@ public class Comanda extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel7.setText("Valor");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/add.png"))); // NOI18N
+        adicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/add.png"))); // NOI18N
+        adicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adicionarActionPerformed(evt);
+            }
+        });
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -155,19 +214,35 @@ public class Comanda extends javax.swing.JFrame {
         });
 
         remover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/remove menor.png"))); // NOI18N
+        remover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerActionPerformed(evt);
+            }
+        });
+
+        pagar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        pagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/moneyblack.png"))); // NOI18N
+        pagar.setText("Pagar");
+        pagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addComponent(salvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pagar)
+                .addGap(18, 18, 18)
                 .addComponent(cancelar)
                 .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
@@ -195,10 +270,10 @@ public class Comanda extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(adicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(65, 65, 65)
@@ -214,7 +289,7 @@ public class Comanda extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(25, 25, 25)
                             .addComponent(remover, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,10 +313,10 @@ public class Comanda extends javax.swing.JFrame {
                             .addComponent(funcionarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(servicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(valor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
-                        .addComponent(jButton1)))
+                        .addComponent(adicionar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -257,7 +332,8 @@ public class Comanda extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
-                        .addComponent(salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pagar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -270,8 +346,9 @@ public class Comanda extends javax.swing.JFrame {
             DefaultComboBoxModel modeloServicos = new DefaultComboBoxModel();
             listaServicos = funcDAO.carregaComissoesBD(funcionario.getCodFuncionario());
             //comissoes = funcionarioDAO.carregaComissoesBD(codFunc);
+            modeloServicos.addElement("Selecione um serviço.");
             for (ComissaoDTO comissao : listaServicos) {
-                modeloServicos.addElement(comissao);
+                modeloServicos.addElement(comissao.getServico().toString());
             }
             servicos.setModel(modeloServicos);
         }
@@ -284,15 +361,104 @@ public class Comanda extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
-
+        carregaTabelaComanda(true);
     }//GEN-LAST:event_salvarActionPerformed
 
+    private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
+        //boolean existeFunc = false;
+        boolean existeServ = false;
+        if ((funcionarios.getSelectedIndex() > 0) && (servicos.getSelectedIndex() > 0) && (Validacao.validaCampo(valor)) && (Validacao.validaFloat(valor, 1, 5000))) {
+            FuncionarioDTO funcionario = (FuncionarioDTO) funcionarios.getSelectedItem();
+            ComissaoDTO comissao = (ComissaoDTO) servicos.getSelectedItem();
+            /*for (FuncionarioDTO funcionarioDTO : funcionarios){
+                if (funcionarioDTO.getCodFuncionario() == funcionario.getCodFuncionario()){
+                    existeFunc = false;
+                }
+            }*/
+
+            for (ServicoComandaDTO servicoComanda : listaServicosComanda) {
+                if (servicoComanda.getComissao().getServico().getCodServico() == comissao.getServico().getCodServico()) {
+                    existeServ = true;
+                }
+            }
+            if (existeServ) {
+                Mensagens.msgAviso("Este serviço já foi adicionado à comanda! \n Escolha outro serviço.");
+            } else {
+                funcionarios.setSelectedIndex(0);
+                servicos.setModel(null);
+                valor.setText("");
+                carregaTabelaComanda(false);
+            }
+        }
+        /* if (!achou) {
+                ComissaoDTO comissaoDTO = new ComissaoDTO();
+                comissaoDTO.setServico(servico);
+                comissaoDTO.setPercentual(Float.valueOf(porcentagem.getText()));
+                comissoes.add(comissaoDTO);
+                porcentagem.setText("");
+                carregaComissoes(false);
+
+            }*/
+    }//GEN-LAST:event_adicionarActionPerformed
+
+    private void removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada > -1) {
+            listaServicosComanda.remove(linhaSelecionada);
+            carregaTabelaComanda(false);
+        } else {
+            Mensagens.msgAviso("Selecione uma linha a ser removido!");
+        }
+    }//GEN-LAST:event_removerActionPerformed
+
+    private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pagarActionPerformed
+
+    ComandaDAO comandaDAO = new ComandaDAO();
+    public void carregaTabelaComanda(boolean buscaBD) {
+        if (buscaBD) {
+            listaServicosComanda = comandaDAO.carregaTabelaComandaBD(WIDTH);
+            //carregaComissoesBD(Integer.valueOf(codFunc.getText()));
+        }
+        DefaultTableModel modelo = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+        modelo.addColumn("Funcionário");
+        modelo.addColumn("Serviço");
+        modelo.addColumn("Preço");
+
+        for (ServicoComandaDTO cdto : listaServicosComanda) {
+            modelo.addRow(cdto.getLinhaTabela());
+        }
+
+        tabela.setModel(modelo);
+        tabela.setAutoResizeMode(0);
+
+        DefaultTableCellRenderer alinhamentoCentro = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer alinhamentoDireita = new DefaultTableCellRenderer();
+        alinhamentoCentro.setHorizontalAlignment(SwingConstants.CENTER);
+        alinhamentoDireita.setHorizontalAlignment(SwingConstants.CENTER);
+        tabela.getColumnModel().getColumn(0).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
+
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(150);
+
+        tabela.setAutoResizeMode(0);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton adicionar;
     private javax.swing.JButton cancelar;
     private javax.swing.JComboBox<String> clientes;
     private javax.swing.JTextField data;
     private javax.swing.JComboBox<String> funcionarios;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -309,10 +475,11 @@ public class Comanda extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton pagar;
     private javax.swing.JButton remover;
     private javax.swing.JButton salvar;
     private javax.swing.JComboBox<String> servicos;
     private javax.swing.JTable tabela;
+    private javax.swing.JTextField valor;
     // End of variables declaration//GEN-END:variables
 }

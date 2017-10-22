@@ -151,8 +151,8 @@ public class ServicoDAO {
             ResultSet rs = p.executeQuery();
             if (rs.next()) {
                 aux = new ServicoDTO();
-                aux.setCodServico(rs.getInt(0));
-                aux.setNomServico(rs.getString(1));
+                aux.setCodServico(rs.getInt(1));
+                aux.setNomServico(rs.getString(2));
             }
             rs.close();
             p.close();

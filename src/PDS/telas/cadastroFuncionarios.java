@@ -56,7 +56,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             //professor sugeriu simplificar o código.
             if ((codigoFunc != -1) || aux) {
                 for (ComissaoDTO comissao : comissoes) {
-                    aux = funcionarioDAO.cadastraComissaoBD(servico.getCodServico(), porcentagem, codFunc);
+                    aux = funcionarioDAO.cadastraComissaoBD(comissao.getServico().getCodServico(), comissao.getPercentual(), codFunc);
                 }
             }
 
@@ -73,23 +73,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     }
 
     ComissaoDTO comissao = new ComissaoDTO();
-
-    public boolean cadastraAlteraComissoes(int codServico, JTextField porcServico) throws SQLException, FileNotFoundException {
-        boolean aux = false;
-        if (Validacao.validaCampo(porcServico)) {
-            if (modoInclusao) {
-                aux = funcionarioDAO.cadastraComissaoBD(codServico, porcServico, codFunc);
-            } else {
-                //  aux = funcionarioDAO.alteraComissaoBD((JComboBox)nomServico.getSelectedItem(), porcServico, comissao.getCodigo());
-            }
-            if (modoInclusao && aux) {
-                Mensagens.msgInfo("Comissão adicionada com sucesso.");
-            } else if (!modoInclusao && aux) {
-                Mensagens.msgInfo("Comissão alterada com sucesso.");
-            }
-        }
-        return aux;
-    }
 
     ServicoDAO servDAO = new ServicoDAO();
 
@@ -293,6 +276,11 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         });
 
         remover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/remove menor.png"))); // NOI18N
+        remover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerActionPerformed(evt);
+            }
+        });
 
         servicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -576,6 +564,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             Mensagens.msgAviso("Ocorreu um erro no sistema.");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -637,13 +626,23 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
                 porcentagem.setText("");
                 carregaComissoes(false);
             }
-
         }
     }//GEN-LAST:event_adicionarActionPerformed
 
     private void servicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servicosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_servicosActionPerformed
+
+    private void removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerActionPerformed
+        int linhaSelecionada = comFunc.getSelectedRow();
+        if (linhaSelecionada > -1) {
+            //ComissaoDTO comissao = (ComissaoDTO) comFunc.getValueAt(C, 0);
+            comissoes.remove(linhaSelecionada);
+            carregaComissoes(false);
+        } else {
+            Mensagens.msgAviso("Selecione um serviço a ser removido!");
+        }
+    }//GEN-LAST:event_removerActionPerformed
 
     public void carregaFuncionarios() {
         DefaultTableModel modelo = new DefaultTableModel() {

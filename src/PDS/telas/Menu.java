@@ -398,9 +398,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_alteraLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Comanda comanda = new Comanda();
+        ListaComandas listaComandas = new ListaComandas();
         this.setVisible(false);
-        comanda.setVisible(true);
+        listaComandas.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
