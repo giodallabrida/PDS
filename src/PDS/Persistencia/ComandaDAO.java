@@ -16,19 +16,18 @@ import java.util.ArrayList;
 
 public class ComandaDAO {
     
-    public int cadastraComandaBD(int codigoCliente, Date datPrestacao, float preco, String situacao) throws SQLException, FileNotFoundException {
+    public int cadastraComandaBD(int codigoCliente, Date datPrestacao, float preco) throws SQLException, FileNotFoundException {
         int aux = 0;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "insert into COMANDA (COD_CLIENTE, DAT_PRESTACAO, PRECO_COMANDA, PAGO) values"
-                    + " (?, ?, ?, ?)";
+                    + " (?, ?, ?, 'N')";
             PreparedStatement p = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             p.setInt(1, codigoCliente);
             p.setDate(2, datPrestacao);
             p.setFloat(3, preco);
-            p.setString(4, "'" + situacao + "'");
             p.execute();
             ResultSet rs = p.getGeneratedKeys();
             if (rs.next()) {
@@ -62,6 +61,46 @@ public class ComandaDAO {
         }
         return aux;
     }
+    
+    public boolean alteraSituacaoComandaBD(int codComanda) {
+        boolean aux = false;
+        try {
+            String str = "jdbc:mysql://localhost:3307/pds?"
+                    + "user=root&password=root";
+            Connection conn = DriverManager.getConnection(str);
+            String sql = "update COMANDA set PAGO = 'P' where COD_COMANDA = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setInt(1, codComanda);
+            p.execute();
+            p.close();
+            conn.close();
+            aux = true;
+        } catch (SQLException ex) {
+            Mensagens.msgErro("Ocorreu um erro ao alterar os dados da comanda no banco de dados.");
+        }
+        return aux;
+    }
+    
+     public boolean alteraFormaPagamentoComandaBD(String tipoPagamento) {
+        boolean aux = false;
+        try {
+            String str = "jdbc:mysql://localhost:3307/pds?"
+                    + "user=root&password=root";
+            Connection conn = DriverManager.getConnection(str);
+            String sql = "update COMANDA set TIPO_PAG = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setString(1, tipoPagamento);
+            p.execute();
+            p.close();
+            conn.close();
+            aux = true;
+        } catch (SQLException ex) {
+            Mensagens.msgErro("Ocorreu um erro ao alterar os dados da comanda no banco de dados.");
+        }
+        return aux;
+    }
+    
+    
     
     public ArrayList<ComandaDTO> carregaComandasBD() {
         ArrayList<ComandaDTO> listaComandas = new ArrayList();

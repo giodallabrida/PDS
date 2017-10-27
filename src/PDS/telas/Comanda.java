@@ -50,26 +50,27 @@ public class Comanda extends javax.swing.JFrame {
     ComandaDAO comandaDAO = new ComandaDAO();
     ServicoComandaDAO servicoComandaDAO = new ServicoComandaDAO();
     
-
-    public boolean cadastraAlteraComanda(String situacao) throws SQLException, FileNotFoundException {
+    int codComanda = 0;
+    public boolean cadastraAlteraComanda() throws SQLException, FileNotFoundException {
         boolean aux = false;
-        boolean certo = false;
         ClienteDTO cliente = (ClienteDTO) clientes.getSelectedItem();
         comanda.setCliente(cliente);
-        int codComanda = 0;
+        
         if (Float.valueOf(total.getText()) == 0) {
             Mensagens.msgAviso("Sua comanda está vazia, favor adicionar um serviço.");
         } else if (modoInclusao) {
             String dataA = data.getText();
             dataA = dataA.substring(6, 10) + dataA.substring(2, 6) + dataA.substring(0, 2);
-            codComanda = comandaDAO.cadastraComandaBD(cliente.getCodCliente(), Date.valueOf(dataA), Float.valueOf(total.getText()), situacao);
+            codComanda = comandaDAO.cadastraComandaBD(cliente.getCodCliente(), Date.valueOf(dataA), Float.valueOf(total.getText()));
             if (codComanda != -1) {
                 cod.setText(String.valueOf(codComanda));
                 comanda.setCodComanda(codComanda);
+                aux = true;
             }
         } else {
             aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
+            codComanda = Integer.valueOf(cod.getText());
         }
 
         if (codComanda != -1 || aux) {
@@ -78,10 +79,8 @@ public class Comanda extends javax.swing.JFrame {
         // incluir todos os servicos que estao na tabela (tela) na tabela do banco de dados..
         if (modoInclusao && (codComanda != -1)) {
             Mensagens.msgInfo("Comanda adicionada com sucesso.");
-            certo = true;
         } else if (!modoInclusao && aux) {
             Mensagens.msgInfo("Comanda alterada com sucesso.");
-            certo = true;
         }
         return aux;
     }
@@ -376,7 +375,7 @@ public class Comanda extends javax.swing.JFrame {
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         try {
-            if(cadastraAlteraComanda("N")){
+            if(cadastraAlteraComanda()){
                 ListaComandas listaComandas = new ListaComandas();
                 listaComandas.setVisible(true);
                 this.setVisible(false);
@@ -475,19 +474,24 @@ public class Comanda extends javax.swing.JFrame {
     
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
         try {
-            if(cadastraAlteraComanda("P")){
+            if(cadastraAlteraComanda()){
+                comandaDAO.alteraSituacaoComandaBD(codComanda);
                 int opcao = Mensagens.msgOpcao();
                 switch (opcao){
                     case 1:
+                        comandaDAO.alteraFormaPagamentoComandaBD("'D'");
                         totalDinheiro = totalDinheiro + Float.valueOf(total.getText());
                         break;
                     case 2:
+                        comandaDAO.alteraFormaPagamentoComandaBD("'C'");
                         totalCheque = totalCheque + Float.valueOf(total.getText());
                         break;
                     case 3: 
+                        comandaDAO.alteraFormaPagamentoComandaBD("'CD'");
                         totalCartaoDebito = totalCartaoDebito + Float.valueOf(total.getText());
                         break;
                     case 4: 
+                        comandaDAO.alteraFormaPagamentoComandaBD("'CC'");
                         totalCartaoCredito = totalCartaoCredito + Float.valueOf(total.getText());
                         break;
                 }
@@ -533,9 +537,9 @@ public class Comanda extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(150);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(150);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(190);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(190);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(190);
 
         tabela.setAutoResizeMode(0);
     }
