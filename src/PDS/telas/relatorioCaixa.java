@@ -74,16 +74,26 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel9.setText("Desconto débito");
 
         jTextField1.setEditable(false);
+        jTextField1.setText("100,00");
+        jTextField1.setToolTipText("");
 
         jTextField2.setEditable(false);
+        jTextField2.setText("300,00");
 
         jTextField3.setEditable(false);
+        jTextField3.setText("200,00");
+        jTextField3.setToolTipText("");
 
         jTextField4.setEditable(false);
+        jTextField4.setText("100,00");
+        jTextField4.setToolTipText("");
 
         jTextField5.setEditable(false);
+        jTextField5.setText("100,00");
+        jTextField5.setToolTipText("");
 
         jTextField6.setEditable(false);
+        jTextField6.setText("200,00");
 
         jLabel15.setFont(new java.awt.Font("Baskerville Old Face", 1, 18)); // NOI18N
         jLabel15.setText("Cartões");
@@ -101,7 +111,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
                                 .addComponent(jLabel4))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                                 .addComponent(jTextField6)))
@@ -161,12 +171,17 @@ public class relatorioCaixa extends javax.swing.JFrame {
         );
 
         jTextField7.setEditable(false);
+        jTextField7.setText("500,00");
 
         jTextField8.setEditable(false);
+        jTextField8.setText("300,00");
+        jTextField8.setToolTipText("");
 
         jTextField9.setEditable(false);
+        jTextField9.setText("400,00");
 
         jTextField10.setEditable(false);
+        jTextField10.setText("300,00");
 
         jLabel10.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel10.setText("Cheques");
@@ -231,6 +246,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel14.setText("Marcados que pagaram");
 
         jTextField11.setEditable(false);
+        jTextField11.setText("50,00");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -258,6 +274,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel16.setText("TOTAL");
 
         jTextField12.setEditable(false);
+        jTextField12.setText("600,00");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

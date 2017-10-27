@@ -11,6 +11,10 @@ public class ComandaDTO {
     private LocalDate data;
     private float total;
 
+    public ComandaDTO() {
+        
+    }
+
     public int getCodComanda() {
         return codigo;
     }
@@ -68,5 +72,10 @@ public class ComandaDTO {
         this.total = total;
     }
     
+     public Object[] getLinhaTabela() {
+        Object[] retorno = {codigo, cliente, total};
+        return retorno;
     
+    
+}
 }

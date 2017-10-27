@@ -543,6 +543,9 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             if (listaFuncionarios != null) {
                 carregaFuncionarios();
             }
+            Menu menu = new Menu();
+            menu.setVisible(true);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_btnInativarActionPerformed
 

@@ -30,7 +30,7 @@ public class Menu extends javax.swing.JFrame {
         btnCadastroClientes = new javax.swing.JButton();
         btnCadastroServicos = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        comanda = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnComandas = new javax.swing.JButton();
@@ -124,12 +124,12 @@ public class Menu extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/comanda.png"))); // NOI18N
-        jButton1.setText("Gerar comanda");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        comanda.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
+        comanda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/comanda.png"))); // NOI18N
+        comanda.setText("Gerar comanda");
+        comanda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                comandaActionPerformed(evt);
             }
         });
 
@@ -137,16 +137,16 @@ public class Menu extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comanda)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(68, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comanda, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -397,11 +397,11 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_alteraLoginActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void comandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comandaActionPerformed
         ListaComandas listaComandas = new ListaComandas();
-        this.setVisible(false);
         listaComandas.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_comandaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton alteraLogin;
@@ -412,7 +412,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnCaixa;
     private javax.swing.JButton btnComandas;
     private javax.swing.JButton btnComissoes;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton comanda;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

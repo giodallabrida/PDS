@@ -38,6 +38,11 @@ public class ComissaoDTO {
         this.percentual = percentual;
     }
     
+    @Override
+    public String toString(){
+        return servico.getNomServico();
+    }
+    
     public Object[] getLinhaTabela() {
         Object[] retorno = {servico, percentual};
         return retorno;
