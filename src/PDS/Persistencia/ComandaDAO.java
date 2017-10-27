@@ -101,7 +101,6 @@ public class ComandaDAO {
     }
     
     
-    
     public ArrayList<ComandaDTO> carregaComandasBD() {
         ArrayList<ComandaDTO> listaComandas = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
