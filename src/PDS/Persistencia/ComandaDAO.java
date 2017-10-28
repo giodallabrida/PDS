@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ComandaDAO {
-    
+
     public int cadastraComandaBD(int codigoCliente, Date datPrestacao, float preco) throws SQLException, FileNotFoundException {
         int aux = 0;
         try {
@@ -39,7 +39,7 @@ public class ComandaDAO {
         }
         return aux;
     }
-    
+
     public boolean alteraComandaBD(int codigoCliente, Date datPrestacao, float preco) {
         boolean aux = false;
         try {
@@ -61,7 +61,7 @@ public class ComandaDAO {
         }
         return aux;
     }
-    
+
     public boolean alteraSituacaoComandaBD(int codComanda) {
         boolean aux = false;
         try {
@@ -80,8 +80,8 @@ public class ComandaDAO {
         }
         return aux;
     }
-    
-     public boolean alteraFormaPagamentoComandaBD(String tipoPagamento) {
+
+    public boolean alteraFormaPagamentoComandaBD(String tipoPagamento) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
@@ -99,8 +99,7 @@ public class ComandaDAO {
         }
         return aux;
     }
-    
-    
+
     public ArrayList<ComandaDTO> carregaComandasBD() {
         ArrayList<ComandaDTO> listaComandas = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -131,7 +130,7 @@ public class ComandaDAO {
         }
         return listaComandas;
     }
-    
+
     public boolean removeServicos(int codigo) {
         boolean aux = false;
         try {
@@ -148,7 +147,7 @@ public class ComandaDAO {
         }
         return aux;
     }
-    
+
     public ArrayList<ServicoComandaDTO> carregaTabelaComandaBD(int codComanda) {
         ArrayList<ServicoComandaDTO> listaComanda = new ArrayList();
         String str = "jdbc:mysql://localhost:3307/pds?"
@@ -172,7 +171,7 @@ public class ComandaDAO {
         }
         return listaComanda;
     }
-    
+
     public int cadastraServicosPrestadosBD(int codigo, ArrayList<ServicoComandaDTO> servicos) throws SQLException, FileNotFoundException {
         int aux = 0;
         try {
@@ -195,5 +194,39 @@ public class ComandaDAO {
             aux = -1;
         }
         return aux;
+    }
+
+    public ArrayList<ComandaDTO> carregaRelatorioComandasBD(Date dataInicio, Date dataTermino) {
+        ArrayList<ComandaDTO> listaComandas = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "select CO.*, CL.NOM_CLIENTE from COMANDA CO join CLIENTE CL on (CO.COD_CLIENTE = CL.COD_CLIENTE) "
+                    + "where PAGO = 'P' AND DAT_PRESTACAO BETWEEN ? AND ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setDate(1, dataInicio);
+            p.setDate(2, dataTermino);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ClienteDTO cliente = new ClienteDTO();
+                cliente.setCodCliente(rs.getInt(2));
+                cliente.setNomCliente(rs.getString(5));
+                ComandaDTO comanda = new ComandaDTO();
+                comanda.setCliente(cliente);
+                comanda.setCodComanda(rs.getInt(1));
+                comanda.setData(Validacao.getDataJava(rs.getDate(3)));
+                comanda.setTotal(rs.getFloat(4));
+                comanda.setData(Validacao.getDataJava(rs.getDate(3)));
+                listaComandas.add(comanda);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar as comanda do banco de dados.");
+        }
+        return listaComandas;
     }
 }
