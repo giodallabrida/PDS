@@ -1,9 +1,11 @@
-
 package PDS.Modelo;
 
+import PDS.Util.Validacao;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class ComandaDTO {
+
     private int codigo;
     private ClienteDTO cliente;
     private FuncionarioDTO funcionario;
@@ -12,7 +14,7 @@ public class ComandaDTO {
     private float total;
 
     public ComandaDTO() {
-        
+
     }
 
     public int getCodComanda() {
@@ -22,7 +24,7 @@ public class ComandaDTO {
     public void setCodComanda(int codComanda) {
         this.codigo = codComanda;
     }
-    
+
     public ClienteDTO getCliente() {
         return cliente;
     }
@@ -71,11 +73,22 @@ public class ComandaDTO {
         this.data = data;
         this.total = total;
     }
-    
-     public Object[] getLinhaTabela() {
-        Object[] retorno = {codigo, cliente, total};
+
+    public String toString() {
+        return String.valueOf(this.codigo);
+    }
+
+    public Object[] getLinhaTabela() {
+        Object[] retorno = {this, cliente, total};
         return retorno;
+    }
+
+    public Object[] getLinhaTabelaComanda() {
+        Date dataL = Validacao.getDataMySQL(data);
+        String dataCerta = Validacao.converteDataString(dataL);
+        dataCerta = dataCerta.substring(8, 10) + "/" + dataCerta.substring(5, 7) + "/" + dataCerta.substring(0, 4);
+        Object[] retorno = {cliente, dataCerta, total};
+        return retorno;
+    }
     
-    
-}
 }

@@ -81,15 +81,16 @@ public class ComandaDAO {
         return aux;
     }
 
-    public boolean alteraFormaPagamentoComandaBD(String tipoPagamento) {
+    public boolean alteraFormaPagamentoComandaBD(String tipoPagamento, int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "update COMANDA set TIPO_PAG = ?";
+            String sql = "update COMANDA set TIPO_PAG = ? WHERE COD_COMANDA = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, tipoPagamento);
+            p.setInt(2, codigo);
             p.execute();
             p.close();
             conn.close();
@@ -114,7 +115,7 @@ public class ComandaDAO {
             while (rs.next()) {
                 ClienteDTO cliente = new ClienteDTO();
                 cliente.setCodCliente(rs.getInt(2));
-                cliente.setNomCliente(rs.getString(5));
+                cliente.setNomCliente(rs.getString(7));
                 ComandaDTO comanda = new ComandaDTO();
                 comanda.setCliente(cliente);
                 comanda.setCodComanda(rs.getInt(1));
@@ -204,7 +205,7 @@ public class ComandaDAO {
         try {
             conn = DriverManager.getConnection(str);
             String sql = "select CO.*, CL.NOM_CLIENTE from COMANDA CO join CLIENTE CL on (CO.COD_CLIENTE = CL.COD_CLIENTE) "
-                    + "where PAGO = 'P' AND DAT_PRESTACAO BETWEEN ? AND ?";
+                    + "where PAGO = 'P' AND DAT_PRESTACAO BETWEEN ? AND ? ORDER BY DAT_PRESTACAO";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setDate(1, dataInicio);
             p.setDate(2, dataTermino);
@@ -212,11 +213,10 @@ public class ComandaDAO {
             while (rs.next()) {
                 ClienteDTO cliente = new ClienteDTO();
                 cliente.setCodCliente(rs.getInt(2));
-                cliente.setNomCliente(rs.getString(5));
+                cliente.setNomCliente(rs.getString(7));
                 ComandaDTO comanda = new ComandaDTO();
                 comanda.setCliente(cliente);
                 comanda.setCodComanda(rs.getInt(1));
-                comanda.setData(Validacao.getDataJava(rs.getDate(3)));
                 comanda.setTotal(rs.getFloat(4));
                 comanda.setData(Validacao.getDataJava(rs.getDate(3)));
                 listaComandas.add(comanda);
@@ -229,4 +229,68 @@ public class ComandaDAO {
         }
         return listaComandas;
     }
+    
+    public ArrayList<ComandaDTO> carregaRelatorioComissoesBD(Date dataInicio, Date dataTermino, int codFuncionario) {
+        ArrayList<ComandaDTO> listaComissoes = new ArrayList();
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "SELECT CO.*, CL.NOM_CLIENTE FROM COMANDA CO INNER JOIN CLIENTE CL "
+                    + "ON (CO.COD_CLIENTE = CL.COD_CLIENTE) INNER JOIN SERVICO_COMANDA S"
+                    + "ON (CO.COD_COMANDA = S.COD_COMANDA) WHERE CO.PAGO = 'P' "
+                    + "AND (CO.DAT_PRESTACAO BETWEEN '2017/10/27' AND '2017/10/27') AND S.COD_FUNCIONARIO = ?"
+                    + "ORDER BY DAT_PRESTACAO, NOM_CLIENTE";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setDate(1, dataInicio);
+            p.setDate(2, dataTermino);
+            p.setInt(3, codFuncionario);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                ClienteDTO cliente = new ClienteDTO();
+                cliente.setCodCliente(rs.getInt(2));
+                cliente.setNomCliente(rs.getString(7));
+                ComandaDTO comanda = new ComandaDTO();
+                comanda.setCliente(cliente);
+                comanda.setCodComanda(rs.getInt(1));
+                comanda.setTotal(rs.getFloat(4));
+                comanda.setData(Validacao.getDataJava(rs.getDate(3)));
+                listaComissoes.add(comanda);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar as comissões do banco de dados.");
+        }
+        return listaComissoes;
+    }
+    
+    public float carregaRelatorioCaixaBD(Date dataInicio, Date dataTermino, String pagamento) {
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        Float valor = 0f;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "SELECT SUM(PRECO_COMANDA) FROM COMANDA WHERE PAGO = 'P' AND TIPO_PAG = ?";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setDate(1, dataInicio);
+            p.setDate(2, dataTermino);
+            p.setString(3, pagamento);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+               valor = valor + rs.getFloat(1);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os valores do banco de dados.");
+        }
+        return valor;
+    }
+    
+    
 }

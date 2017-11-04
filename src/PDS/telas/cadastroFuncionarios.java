@@ -39,7 +39,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     public boolean cadastraAlteraFuncionario(JTextField nomeFunc, JTextField cpfFunc, JTextField rgFunc, JTextField datNascFunc, JTextField telFunc, JTextArea endFunc) throws SQLException, FileNotFoundException {
         boolean aux = false;
         boolean certo = false;
-        if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCampo(rgFunc)) {
+        if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCPF(cpfFunc.getText()) && Validacao.validaCampo(rgFunc)) {
             int codigoFunc = 0;
             if (modoInclusao) {
 
@@ -612,7 +612,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     ServicoDTO servico;
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
         boolean achou = false;
-        if (Validacao.validaCampo(porcentagem)) {
+        if (Validacao.validaCampo(porcentagem) && Validacao.validaFloat(porcentagem, 0, 100)) {
             ServicoDTO servico2;
             servico = (ServicoDTO) servicos.getSelectedItem();
             for (ComissaoDTO comissao : comissoes) {

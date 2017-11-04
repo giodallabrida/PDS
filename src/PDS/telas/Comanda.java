@@ -71,6 +71,7 @@ public class Comanda extends javax.swing.JFrame {
             aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
             codComanda = Integer.valueOf(cod.getText());
+            
         }
 
         if (codComanda != -1 || aux) {
@@ -98,16 +99,6 @@ public class Comanda extends javax.swing.JFrame {
             modeloFuncionarios.addElement(funcionario);
         }
         funcionarios.setModel(modeloFuncionarios);
-
-        /* clientes.addItem("Selecione um cliente.");
-        for (ClienteDTO cdto : cliDAO.carregaClientesBD()) {
-            clientes.addItem(cdto.getNomCliente());
-        }
-        funcionarios.addItem("Selecione um funcionário.");
-        for (FuncionarioDTO fdto : funcDAO.carregaFuncionariosBD()) {
-            funcionarios.addItem(fdto.getNomFuncionario());
-        }
-         */
     }
 
     @SuppressWarnings("unchecked")
@@ -479,19 +470,19 @@ public class Comanda extends javax.swing.JFrame {
                 int opcao = Mensagens.msgOpcao();
                 switch (opcao){
                     case 1:
-                        comandaDAO.alteraFormaPagamentoComandaBD("'D'");
+                        comandaDAO.alteraFormaPagamentoComandaBD("D", codComanda);
                         totalDinheiro = totalDinheiro + Float.valueOf(total.getText());
                         break;
                     case 2:
-                        comandaDAO.alteraFormaPagamentoComandaBD("'C'");
+                        comandaDAO.alteraFormaPagamentoComandaBD("C", codComanda);
                         totalCheque = totalCheque + Float.valueOf(total.getText());
                         break;
                     case 3: 
-                        comandaDAO.alteraFormaPagamentoComandaBD("'CD'");
+                        comandaDAO.alteraFormaPagamentoComandaBD("CD", codComanda);
                         totalCartaoDebito = totalCartaoDebito + Float.valueOf(total.getText());
                         break;
                     case 4: 
-                        comandaDAO.alteraFormaPagamentoComandaBD("'CC'");
+                        comandaDAO.alteraFormaPagamentoComandaBD("CC", codComanda);
                         totalCartaoCredito = totalCartaoCredito + Float.valueOf(total.getText());
                         break;
                 }

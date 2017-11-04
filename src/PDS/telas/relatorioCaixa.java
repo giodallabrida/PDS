@@ -1,5 +1,15 @@
 package PDS.telas;
 
+import PDS.Modelo.ComandaDTO;
+import PDS.Persistencia.ComandaDAO;
+import PDS.Util.Mensagens;
+import PDS.Util.Validacao;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class relatorioCaixa extends javax.swing.JFrame {
 
     public relatorioCaixa() {
@@ -19,18 +29,18 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        creditoComDesconto = new javax.swing.JTextField();
+        debitoSemDesconto = new javax.swing.JTextField();
+        debitoComDesconto = new javax.swing.JTextField();
+        descontoCredito = new javax.swing.JTextField();
+        descontoDebito = new javax.swing.JTextField();
+        creditoSemDesconto = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
+        valorDinheiro = new javax.swing.JTextField();
+        valorCheques = new javax.swing.JTextField();
+        valorSalarios = new javax.swing.JTextField();
+        valorCartoes = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -41,7 +51,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        total = new javax.swing.JTextField();
         btnVoltar = new javax.swing.JButton();
         de = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -76,24 +86,24 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel9.setText("Desconto débito");
 
-        jTextField1.setEditable(false);
-        jTextField1.setToolTipText("");
+        creditoComDesconto.setEditable(false);
+        creditoComDesconto.setToolTipText("");
 
-        jTextField2.setEditable(false);
+        debitoSemDesconto.setEditable(false);
 
-        jTextField3.setEditable(false);
-        jTextField3.setToolTipText("");
+        debitoComDesconto.setEditable(false);
+        debitoComDesconto.setToolTipText("");
 
-        jTextField4.setEditable(false);
-        jTextField4.setToolTipText("");
+        descontoCredito.setEditable(false);
+        descontoCredito.setToolTipText("");
 
-        jTextField5.setEditable(false);
-        jTextField5.setToolTipText("");
+        descontoDebito.setEditable(false);
+        descontoDebito.setToolTipText("");
 
-        jTextField6.setEditable(false);
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        creditoSemDesconto.setEditable(false);
+        creditoSemDesconto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                creditoSemDescontoActionPerformed(evt);
             }
         });
 
@@ -115,8 +125,8 @@ public class relatorioCaixa extends javax.swing.JFrame {
                                 .addComponent(jLabel4))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                                .addComponent(jTextField6)))
+                                .addComponent(creditoComDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
+                                .addComponent(creditoSemDesconto)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -126,16 +136,16 @@ public class relatorioCaixa extends javax.swing.JFrame {
                                     .addComponent(jLabel7)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                                .addComponent(jTextField2)))
+                                .addComponent(debitoComDesconto, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                                .addComponent(debitoSemDesconto)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel9)
                                 .addComponent(jLabel8))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField4)
-                                .addComponent(jTextField5))))
+                                .addComponent(descontoCredito)
+                                .addComponent(descontoDebito))))
                     .addComponent(jLabel15))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -149,37 +159,37 @@ public class relatorioCaixa extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(creditoSemDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(creditoComDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(debitoSemDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(debitoComDesconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descontoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(descontoDebito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jTextField7.setEditable(false);
+        valorDinheiro.setEditable(false);
 
-        jTextField8.setEditable(false);
-        jTextField8.setToolTipText("");
+        valorCheques.setEditable(false);
+        valorCheques.setToolTipText("");
 
-        jTextField9.setEditable(false);
+        valorSalarios.setEditable(false);
 
-        jTextField10.setEditable(false);
+        valorCartoes.setEditable(false);
 
         jLabel10.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel10.setText("Cheques");
@@ -206,16 +216,16 @@ public class relatorioCaixa extends javax.swing.JFrame {
                             .addComponent(jLabel11))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                            .addComponent(jTextField10)))
+                            .addComponent(valorCheques, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                            .addComponent(valorCartoes)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel13)
                             .addComponent(jLabel12))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(jTextField9))))
+                            .addComponent(valorDinheiro, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(valorSalarios))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -224,18 +234,18 @@ public class relatorioCaixa extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valorCheques, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valorCartoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(valorDinheiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(valorSalarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -270,7 +280,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/money.png"))); // NOI18N
         jLabel16.setText("TOTAL");
 
-        jTextField12.setEditable(false);
+        total.setEditable(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -278,7 +288,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(37, Short.MAX_VALUE)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
@@ -291,7 +301,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(60, 60, 60))
         );
 
@@ -302,8 +312,13 @@ public class relatorioCaixa extends javax.swing.JFrame {
             }
         });
 
+        de.setText("27/10/2017");
+        de.setToolTipText("");
+
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("De:");
+
+        ate.setText("01/11/2017");
 
         jLabel17.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel17.setText("Até:");
@@ -312,6 +327,11 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel18.setText("Período do relatório:");
 
         pesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/search menor.png"))); // NOI18N
+        pesquisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -397,14 +417,50 @@ public class relatorioCaixa extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+    private void creditoSemDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_creditoSemDescontoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+    }//GEN-LAST:event_creditoSemDescontoActionPerformed
+
+    ComandaDAO comandaDAO = new ComandaDAO();
+
+    private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaActionPerformed
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
+        String data = formatarDate.format(date);
+        if (Validacao.validaCampo(de) && Validacao.validaCampo(ate)) {
+            if (Validacao.validaData(de.getText()) && (Validacao.validaData(ate.getText()))) //&& (Validacao.comparaDatas(de.getText(), ate.getText()) <= 0)) // && ((Validacao.comparaDatas(de.getText(), data) <= 0) 
+            // && (Validacao.comparaDatas(ate.getText(), data)) <= 0)) 
+            {
+                Mensagens.msgAviso("DATA CORRETA");
+                try {
+                    creditoSemDesconto.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC")));
+                    debitoSemDesconto.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CD")));
+                    valorCheques.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "C")));
+                    valorCartoes.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CD"))
+                            + comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC"));
+                    valorDinheiro.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "D")));
+                    // valorSalarios.setText(String.valueOf());
+                } catch (ParseException ex) {
+                    Logger.getLogger(relatorioCaixa.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Mensagens.msgAviso("As datas informadas não são válidas.");
+            }
+        } else {
+            Mensagens.msgAviso("Preencha todos os campos.");
+        }
+    }//GEN-LAST:event_pesquisaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ate;
     private javax.swing.JButton btnVoltar;
+    private javax.swing.JTextField creditoComDesconto;
+    private javax.swing.JTextField creditoSemDesconto;
     private javax.swing.JTextField de;
+    private javax.swing.JTextField debitoComDesconto;
+    private javax.swing.JTextField debitoSemDesconto;
+    private javax.swing.JTextField descontoCredito;
+    private javax.swing.JTextField descontoDebito;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -427,18 +483,12 @@ public class relatorioCaixa extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JButton pesquisa;
+    private javax.swing.JTextField total;
+    private javax.swing.JTextField valorCartoes;
+    private javax.swing.JTextField valorCheques;
+    private javax.swing.JTextField valorDinheiro;
+    private javax.swing.JTextField valorSalarios;
     // End of variables declaration//GEN-END:variables
 }

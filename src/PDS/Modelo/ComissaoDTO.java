@@ -48,4 +48,9 @@ public class ComissaoDTO {
         return retorno;
     }
     
+    public Object[] getLinhaTabelaComissao() {
+        Object[] retorno = {servico, percentual};
+        return retorno;
+    }
+    
 }
