@@ -1,6 +1,5 @@
 package PDS.telas;
 
-import PDS.Modelo.ComandaDTO;
 import PDS.Persistencia.ComandaDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
@@ -289,7 +288,12 @@ public class relatorioCaixa extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("De:");
 
-        ate.setText("01/11/2017");
+        ate.setText("07/11/2017");
+        ate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ateActionPerformed(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel17.setText("Até:");
@@ -415,7 +419,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
                     valorCartoes.setText(String.valueOf(Float.valueOf(creditoComDesconto.getText()) + Float.valueOf(debitoComDesconto.getText())));
                     valorDinheiro.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "D")));
                     // valorSalarios.setText(String.valueOf());
-                    total.setText(String.valueOf((Float.valueOf(valorCheques.getText()) + Float.valueOf(valorCartoes.getText()) + Float.valueOf(valorDinheiro.getText())) - Float.valueOf(valorSalarios.getText())));
+                    //total.setText(String.valueOf((Float.valueOf(valorCheques.getText()) + Float.valueOf(valorCartoes.getText()) + Float.valueOf(valorDinheiro.getText())) - Float.valueOf(valorSalarios.getText())));
                 } catch (ParseException ex) {
                     Logger.getLogger(relatorioCaixa.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -426,6 +430,10 @@ public class relatorioCaixa extends javax.swing.JFrame {
             Mensagens.msgAviso("Preencha todos os campos.");
         }
     }//GEN-LAST:event_pesquisaActionPerformed
+
+    private void ateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ateActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ate;

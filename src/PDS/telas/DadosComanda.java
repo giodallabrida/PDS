@@ -43,13 +43,7 @@ public class DadosComanda extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Funcionário", "Serviço", "Valor"
@@ -94,8 +88,8 @@ public class DadosComanda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
+        relatorioComandas relatorioComandas = new relatorioComandas();
+        relatorioComandas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnVoltarActionPerformed
 

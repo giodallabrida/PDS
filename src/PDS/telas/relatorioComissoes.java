@@ -1,6 +1,5 @@
 package PDS.telas;
 
-import PDS.Modelo.ComandaDTO;
 import PDS.Modelo.FuncionarioDTO;
 import PDS.Modelo.RelatorioComissaoDTO;
 import PDS.Persistencia.ComandaDAO;
@@ -101,7 +100,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel20.setText("Até:");
 
-        ate.setText("01/11/2017");
+        ate.setText("07/11/2017");
 
         pesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/search menor.png"))); // NOI18N
         pesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -115,15 +114,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Data", "Cliente", "Serviço", "Valor total", "Valor comissão"

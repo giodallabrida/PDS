@@ -282,7 +282,8 @@ public class FuncionarioDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COMISSAO, COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ?";
+            String sql = "select C.COMISSAO, C.COD_SERVICO from COMISSAO C, SERVICO S "
+                    + "where C.SITUACAO = 'A' AND S.SITUACAO = 'A' AND COD_FUNC = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codFunc);
             ResultSet rs = p.executeQuery();

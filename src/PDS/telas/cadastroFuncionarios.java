@@ -213,8 +213,13 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel12.setText("CPF");
 
-        cpfFunc.setText("576.237.409-20");
+        cpfFunc.setText("57623740920");
         cpfFunc.setToolTipText("Informe o CPF do funcionário.");
+        cpfFunc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cpfFuncActionPerformed(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel13.setText("RG");
@@ -647,6 +652,10 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             Mensagens.msgAviso("Selecione um serviço a ser removido!");
         }
     }//GEN-LAST:event_removerActionPerformed
+
+    private void cpfFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfFuncActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cpfFuncActionPerformed
 
     public void carregaFuncionarios() {
         DefaultTableModel modelo = new DefaultTableModel() {

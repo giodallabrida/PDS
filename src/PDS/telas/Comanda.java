@@ -32,8 +32,13 @@ public class Comanda extends javax.swing.JFrame {
         initComponents();
         carregaCombinacoesComanda();
         if (!modoInclusao) {
-            codigo.setText(String.valueOf(comanda.getCodComanda()));
-            clientes.setSelectedItem(comanda.getCliente());
+            cod.setText(String.valueOf(comanda.getCodComanda()));
+            for (ClienteDTO cliente : listaClientes) {
+               if (cliente.getCodCliente() == comanda.getCliente().getCodCliente()){
+                   clientes.setSelectedItem(cliente);
+               }
+            }
+            //clientes.setSelectedItem(comanda.getCliente());
             clientes.setEnabled(false);
             data.setText(String.valueOf(comanda.getData()));
             total.setText(String.valueOf(comanda.getTotal()));
@@ -82,7 +87,7 @@ public class Comanda extends javax.swing.JFrame {
                 aux = true;
             }
         } else {
-            aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()));
+            aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()), Integer.valueOf(cod.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
             codComanda = Integer.valueOf(cod.getText());
 
@@ -101,6 +106,8 @@ public class Comanda extends javax.swing.JFrame {
         } else if (!modoInclusao && (alterou != -1)) {
             Mensagens.msgInfo("Comanda alterada com sucesso.");
             aux = true;
+        }else{
+            Mensagens.msgErro("Ocorreu um erro com as comandas.");
         }
         return aux;
     }
@@ -489,19 +496,19 @@ public class Comanda extends javax.swing.JFrame {
                 comandaDAO.alteraSituacaoComandaBD(codComanda);
                 int opcao = Mensagens.msgOpcao();
                 switch (opcao) {
-                    case 1:
+                    case 0:
                         comandaDAO.alteraFormaPagamentoComandaBD("D", codComanda);
                         totalDinheiro = totalDinheiro + Float.valueOf(total.getText());
                         break;
-                    case 2:
+                    case 1:
                         comandaDAO.alteraFormaPagamentoComandaBD("C", codComanda);
                         totalCheque = totalCheque + Float.valueOf(total.getText());
                         break;
-                    case 3:
+                    case 2:
                         comandaDAO.alteraFormaPagamentoComandaBD("CD", codComanda);
                         totalCartaoDebito = totalCartaoDebito + Float.valueOf(total.getText());
                         break;
-                    case 4:
+                    case 3:
                         comandaDAO.alteraFormaPagamentoComandaBD("CC", codComanda);
                         totalCartaoCredito = totalCartaoCredito + Float.valueOf(total.getText());
                         break;

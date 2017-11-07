@@ -43,18 +43,19 @@ public class ComandaDAO {
         return aux;
     }
 
-    public boolean alteraComandaBD(int codigoCliente, Date datPrestacao, float preco) {
+    public boolean alteraComandaBD(int codigoCliente, Date datPrestacao, float preco, int codComanda) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "update COMANDA set COD_CLIENTE = ?, DAT_PRESTACAO = ?,"
-                    + "PRECO_COMANDA where COD_COMANDA = ?";
+                    + "PRECO_COMANDA = ? where COD_COMANDA = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codigoCliente);
             p.setDate(2, datPrestacao);
             p.setFloat(3, preco);
+            p.setInt(4, codComanda);
             p.execute();
             p.close();
             conn.close();

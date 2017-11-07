@@ -35,6 +35,7 @@ public class cadastroClientes extends javax.swing.JFrame {
         boolean aux = false;
         if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli) 
                 && Validacao.validaData(datNascCli.getText())) {
+            //&& Validacao.validaTelefone(telCli.getText())) 
             if (modoInclusao) {
                 aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText());
             } else {

@@ -1,18 +1,33 @@
 package PDS.telas;
 
 import PDS.Modelo.ClienteDTO;
+import PDS.Modelo.ComandaDTO;
 import PDS.Modelo.FuncionarioDTO;
 import PDS.Modelo.ServicoDTO;
+import PDS.Persistencia.ComandaDAO;
 import PDS.Persistencia.FuncionarioDAO;
+import PDS.Util.Mensagens;
+import java.util.ArrayList;
 
 public class Menu extends javax.swing.JFrame {
 
     FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+    boolean vazio = false;
+
     public Menu() {
         initComponents();
         this.setLocationRelativeTo(null);
         funcionarioDAO.verificaExecucao();
+        this.listaComandas = comandaDAO.carregaComandasBD();
+        if (listaComandas.isEmpty()) {
+            vazio = true;
+        }
     }
+
+    ComandaDAO comandaDAO = new ComandaDAO();
+
+    ArrayList<ComandaDTO> listaComandas = new ArrayList();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -348,27 +363,38 @@ public class Menu extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_btnComissoesActionPerformed
-    
+
     private void btnCadastroClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroClientesActionPerformed
-        cadastroClientes cadastro = new cadastroClientes(true, new ClienteDTO());
-        cadastro.setVisible(true);
-        this.setVisible(false);
+        if (vazio) {
+            cadastroClientes cadastro = new cadastroClientes(true, new ClienteDTO());
+            cadastro.setVisible(true);
+            this.setVisible(false);
+        } else {
+            Mensagens.msgAviso("Para entrar no cadastro de clientes, você precisa \n encerrar todas as comandas em aberto.");
+        }
     }//GEN-LAST:event_btnCadastroClientesActionPerformed
 
     private void btnCadastroFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroFuncActionPerformed
-        if (Login.criaLogin()) {
-            cadastroFuncionarios cadastro = new cadastroFuncionarios(true, new FuncionarioDTO());
-            cadastro.setVisible(true);
-            this.setVisible(false);
+        if (vazio) {
+            if (Login.criaLogin()) {
+                cadastroFuncionarios cadastro = new cadastroFuncionarios(true, new FuncionarioDTO());
+                cadastro.setVisible(true);
+                this.setVisible(false);
+            }
+        } else {
+            Mensagens.msgAviso("Para entrar no cadastro de funcionários, você precisa \n encerrar todas as comandas em aberto.");
         }
-
     }//GEN-LAST:event_btnCadastroFuncActionPerformed
 
     private void btnCadastroServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroServicosActionPerformed
-        if (Login.criaLogin()) {
-            cadastroServicos cadastro = new cadastroServicos(true, new ServicoDTO());
-            cadastro.setVisible(true);
-            this.setVisible(false);
+        if (vazio) {
+            if (Login.criaLogin()) {
+                cadastroServicos cadastro = new cadastroServicos(true, new ServicoDTO());
+                cadastro.setVisible(true);
+                this.setVisible(false);
+            }
+        } else {
+            Mensagens.msgAviso("Para entrar no cadastro de serviços, você precisa \n encerrar todas as comandas em aberto.");
         }
     }//GEN-LAST:event_btnCadastroServicosActionPerformed
 
@@ -380,7 +406,7 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCaixaActionPerformed
 
-    
+
     private void btnAniversariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAniversariosActionPerformed
         relatorioAniversariantes rlAniversariantes = new relatorioAniversariantes();
         rlAniversariantes.setVisible(true);
