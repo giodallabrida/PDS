@@ -67,7 +67,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="abrir7" min="-2" pref="56" max="-2" attributes="0"/>
+                      <Component id="abrir" min="-2" pref="56" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="243" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -77,20 +77,6 @@
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollBar1" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="abrir5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="abrir6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -127,23 +113,9 @@
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="283" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="abrir7" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="abrir" min="-2" pref="50" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="225" max="32767" attributes="0"/>
-                  <Component id="abrir5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="226" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-          <Group type="103" rootIndex="2" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace min="0" pref="225" max="32767" attributes="0"/>
-                  <Component id="abrir6" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="226" max="32767" attributes="0"/>
               </Group>
           </Group>
       </Group>
@@ -226,7 +198,8 @@
         <Component class="javax.swing.JTable" name="tabela">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
+              <Table columnCount="4" rowCount="4">
+                <Column editable="true" title="Comanda" type="java.lang.Object"/>
                 <Column editable="true" title="Cliente" type="java.lang.Object"/>
                 <Column editable="true" title="Data" type="java.lang.Object"/>
                 <Column editable="true" title="Total" type="java.lang.Object"/>
@@ -234,6 +207,11 @@
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -258,26 +236,15 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="abrir5">
+    <Component class="javax.swing.JButton" name="abrir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/&#xcd;cones/abrir.png"/>
         </Property>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="abrir6">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/&#xcd;cones/abrir.png"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="abrir7">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/&#xcd;cones/abrir.png"/>
-        </Property>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="abrirActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

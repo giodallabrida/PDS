@@ -2,7 +2,6 @@ package PDS.telas;
 
 import PDS.Modelo.ServicoComandaDTO;
 import PDS.Persistencia.ComandaDAO;
-import PDS.Util.Validacao;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,12 +10,13 @@ import javax.swing.table.DefaultTableModel;
 public class DadosComanda extends javax.swing.JFrame {
 
     ComandaDAO comandaDAO = new ComandaDAO();
-    public DadosComanda() {
+    public DadosComanda(int codComanda) {
         initComponents();
-        relatorioComandas = comandaDAO.carregaTabelaComandaBD(NORMAL);
+        relatorioComandas = comandaDAO.carregaTabelaComandaBD(codComanda);
         if (relatorioComandas != null) {
             carregaTabelaDadosComandas();
         }
+        this.setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -43,6 +43,9 @@ public class DadosComanda extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -83,8 +86,8 @@ public class DadosComanda extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,9 +128,9 @@ public class DadosComanda extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(175);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(175);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(168);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(130);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(130);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(132);
 
         tabela.setAutoResizeMode(0);
     }

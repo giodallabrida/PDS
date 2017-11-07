@@ -87,8 +87,7 @@ public class ComandaDTO {
         Date dataL = Validacao.getDataMySQL(data);
         String dataCerta = Validacao.converteDataString(dataL);
         dataCerta = dataCerta.substring(8, 10) + "/" + dataCerta.substring(5, 7) + "/" + dataCerta.substring(0, 4);
-        Object[] retorno = {cliente, dataCerta, total};
+        Object[] retorno = {codigo, cliente, dataCerta, total};
         return retorno;
     }
-    
 }

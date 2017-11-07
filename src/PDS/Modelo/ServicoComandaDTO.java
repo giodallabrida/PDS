@@ -2,7 +2,7 @@ package PDS.Modelo;
 public class ServicoComandaDTO {
     private int codigo;
     private FuncionarioDTO funcionario;
-    private ComissaoDTO comissao;
+    private ComissaoDTO comissao = new ComissaoDTO();
     private float valorServico;
     private float valorComissao;
 

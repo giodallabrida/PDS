@@ -5,8 +5,8 @@ import PDS.Persistencia.ClienteDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
 import java.io.FileNotFoundException;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -31,13 +31,14 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextField datAtendCli, JTextArea infExt) throws SQLException, FileNotFoundException {
+    public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextField datAtendCli, JTextArea infExt) throws SQLException, FileNotFoundException, ParseException {
         boolean aux = false;
-        if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli)) {
+        if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli) 
+                && Validacao.validaData(datNascCli.getText())) {
             if (modoInclusao) {
-                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Date.valueOf(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText());
+                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText());
             } else {
-                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), Date.valueOf(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
+                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
             }
             if (modoInclusao && aux) {
                 Mensagens.msgInfo("Cliente adicionado com sucesso.");
@@ -363,7 +364,6 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            setTitle(endCliente.getText());
             if (cadastraAlteraCliente(nomeCliente, telCliente, datNascimento, endCliente, datAtendimento, infExtras)) {
                 Menu menu = new Menu();
                 menu.setVisible(true);

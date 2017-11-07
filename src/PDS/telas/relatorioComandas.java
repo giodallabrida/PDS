@@ -37,9 +37,7 @@ public class relatorioComandas extends javax.swing.JFrame {
         pesquisa = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        abrir5 = new javax.swing.JButton();
-        abrir6 = new javax.swing.JButton();
-        abrir7 = new javax.swing.JButton();
+        abrir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(609, 460));
@@ -78,22 +76,23 @@ public class relatorioComandas extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Cliente", "Data", "Total"
+                "Comanda", "Cliente", "Data", "Total"
             }
         ));
         jScrollPane1.setViewportView(tabela);
 
-        abrir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
-
-        abrir6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
-
-        abrir7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
+        abrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/abrir.png"))); // NOI18N
+        abrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                abrirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -129,23 +128,13 @@ public class relatorioComandas extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(abrir7, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(243, 243, 243)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addComponent(jScrollBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(abrir5)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(abrir6)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -174,18 +163,8 @@ public class relatorioComandas extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(abrir7, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(abrir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 225, Short.MAX_VALUE)
-                    .addComponent(abrir5)
-                    .addGap(0, 226, Short.MAX_VALUE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 225, Short.MAX_VALUE)
-                    .addComponent(abrir6)
-                    .addGap(0, 226, Short.MAX_VALUE)))
         );
 
         pack();
@@ -223,6 +202,20 @@ public class relatorioComandas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_pesquisaActionPerformed
 
+    ComandaDTO comandaDTO = new ComandaDTO();
+    private void abrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirActionPerformed
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada > -1) {
+            int codComanda = (Integer) tabela.getValueAt(linhaSelecionada, 0);
+            //comandaDTO = (ComandaDTO) tabela.getValueAt(linhaSelecionada, 0);
+            DadosComanda dados = new DadosComanda(codComanda);
+            dados.setVisible(true);
+            this.setVisible(false);
+        } else {
+            Mensagens.msgAviso("Selecione uma comanda para visualizar os dados.");
+        }
+    }//GEN-LAST:event_abrirActionPerformed
+
     ArrayList<ComandaDTO> relatorioComandas;
 
     public void carregaTabelaRelatorioComandas() {
@@ -233,6 +226,7 @@ public class relatorioComandas extends javax.swing.JFrame {
                 return false;
             }
         };
+        modelo.addColumn("Comanda");
         modelo.addColumn("Cliente");
         modelo.addColumn("Data");
         modelo.addColumn("Total");
@@ -252,16 +246,15 @@ public class relatorioComandas extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(175);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(175);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(168);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(70);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(130);
 
         tabela.setAutoResizeMode(0);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton abrir5;
-    private javax.swing.JButton abrir6;
-    private javax.swing.JButton abrir7;
+    private javax.swing.JButton abrir;
     private javax.swing.JTextField ate;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField de;

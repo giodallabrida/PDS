@@ -31,10 +31,23 @@ public class Comanda extends javax.swing.JFrame {
         this.comanda = comanda;
         initComponents();
         carregaCombinacoesComanda();
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
-        data.setText(formatarDate.format(date));
-        this.setLocationRelativeTo(null);
+        if (!modoInclusao) {
+            codigo.setText(String.valueOf(comanda.getCodComanda()));
+            clientes.setSelectedItem(comanda.getCliente());
+            clientes.setEnabled(false);
+            data.setText(String.valueOf(comanda.getData()));
+            total.setText(String.valueOf(comanda.getTotal()));
+            this.listaServicosComanda = comandaDAO.carregaTabelaComandaBD(comanda.getCodComanda());
+            if (listaServicosComanda != null) {
+                carregaTabelaComanda(true);
+            }
+            comandaDAO.carregaTabelaComandaBD(comanda.getCodComanda());
+        } else {
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
+            data.setText(formatarDate.format(date));
+            this.setLocationRelativeTo(null);
+        }
     }
 
     private boolean modoInclusao;
@@ -49,13 +62,14 @@ public class Comanda extends javax.swing.JFrame {
 
     ComandaDAO comandaDAO = new ComandaDAO();
     ServicoComandaDAO servicoComandaDAO = new ServicoComandaDAO();
-    
+
     int codComanda = 0;
+
     public boolean cadastraAlteraComanda() throws SQLException, FileNotFoundException {
         boolean aux = false;
         ClienteDTO cliente = (ClienteDTO) clientes.getSelectedItem();
         comanda.setCliente(cliente);
-        
+
         if (Float.valueOf(total.getText()) == 0) {
             Mensagens.msgAviso("Sua comanda está vazia, favor adicionar um serviço.");
         } else if (modoInclusao) {
@@ -71,17 +85,22 @@ public class Comanda extends javax.swing.JFrame {
             aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
             codComanda = Integer.valueOf(cod.getText());
-            
-        }
 
+        }
+        ComandaDAO comanda = new ComandaDAO();
+        int alterou = 0;
         if (codComanda != -1 || aux) {
-            comandaDAO.cadastraServicosPrestadosBD(codComanda, listaServicosComanda);
+            for (ServicoComandaDTO servicoComanda : listaServicosComanda) {
+                alterou = comanda.cadastraServicosPrestadosBD(codComanda, listaServicosComanda);
+            }
         }
         // incluir todos os servicos que estao na tabela (tela) na tabela do banco de dados..
         if (modoInclusao && (codComanda != -1)) {
             Mensagens.msgInfo("Comanda adicionada com sucesso.");
-        } else if (!modoInclusao && aux) {
+            aux = true;
+        } else if (!modoInclusao && (alterou != -1)) {
             Mensagens.msgInfo("Comanda alterada com sucesso.");
+            aux = true;
         }
         return aux;
     }
@@ -155,6 +174,8 @@ public class Comanda extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Baskerville Old Face", 1, 18)); // NOI18N
         jLabel4.setText("Total");
+
+        total.setEditable(false);
 
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("Funcionário");
@@ -345,7 +366,7 @@ public class Comanda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void funcionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcionariosActionPerformed
-        if (funcionarios.getSelectedIndex()!= 0) {
+        if (funcionarios.getSelectedIndex() != 0) {
             FuncionarioDTO funcionario = (FuncionarioDTO) funcionarios.getSelectedItem();
             DefaultComboBoxModel modeloServicos = new DefaultComboBoxModel();
             listaServicos = funcDAO.carregaComissoesBD(funcionario.getCodFuncionario());
@@ -366,7 +387,7 @@ public class Comanda extends javax.swing.JFrame {
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         try {
-            if(cadastraAlteraComanda()){
+            if (cadastraAlteraComanda()) {
                 ListaComandas listaComandas = new ListaComandas();
                 listaComandas.setVisible(true);
                 this.setVisible(false);
@@ -420,21 +441,20 @@ public class Comanda extends javax.swing.JFrame {
             if (existeServ) {
                 Mensagens.msgAviso("Este serviço já foi adicionado à comanda! \n Escolha outro serviço.");
             } else {
-                
+
                 listaServicosComanda.add(servicoComanda);
-                
+
                 carregaTabelaComanda(false);
                 float valorTotal = 0;
                 for (ServicoComandaDTO lista : listaServicosComanda) {
                     valorTotal = valorTotal + lista.getValorServico();
                 }
                 total.setText(String.valueOf(valorTotal));
-                
-                
+
                 funcionarios.setSelectedIndex(0);
                 servicos.setModel(new DefaultComboBoxModel<>());
                 valor.setText("");
-                
+
             }
         }
         /* if (!achou) {
@@ -462,13 +482,13 @@ public class Comanda extends javax.swing.JFrame {
     float totalCheque;
     float totalCartaoDebito;
     float totalCartaoCredito;
-    
+
     private void pagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagarActionPerformed
         try {
-            if(cadastraAlteraComanda()){
+            if (cadastraAlteraComanda()) {
                 comandaDAO.alteraSituacaoComandaBD(codComanda);
                 int opcao = Mensagens.msgOpcao();
-                switch (opcao){
+                switch (opcao) {
                     case 1:
                         comandaDAO.alteraFormaPagamentoComandaBD("D", codComanda);
                         totalDinheiro = totalDinheiro + Float.valueOf(total.getText());
@@ -477,11 +497,11 @@ public class Comanda extends javax.swing.JFrame {
                         comandaDAO.alteraFormaPagamentoComandaBD("C", codComanda);
                         totalCheque = totalCheque + Float.valueOf(total.getText());
                         break;
-                    case 3: 
+                    case 3:
                         comandaDAO.alteraFormaPagamentoComandaBD("CD", codComanda);
                         totalCartaoDebito = totalCartaoDebito + Float.valueOf(total.getText());
                         break;
-                    case 4: 
+                    case 4:
                         comandaDAO.alteraFormaPagamentoComandaBD("CC", codComanda);
                         totalCartaoCredito = totalCartaoCredito + Float.valueOf(total.getText());
                         break;
@@ -495,7 +515,7 @@ public class Comanda extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Comanda.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_pagarActionPerformed
 
     public void carregaTabelaComanda(boolean buscaBD) {

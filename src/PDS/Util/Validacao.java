@@ -1,6 +1,5 @@
 package PDS.Util;
 
-import com.mysql.fabric.xmlrpc.base.Data;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -141,5 +140,10 @@ public class Validacao {
             dv = 0;
         }
         return dv;
+    }
+    
+    public static boolean validaTelefone(String telefone) {
+        return telefone.matches(".((10)|([1-9][1-9]).)\\s9?[6-9][0-9]{3}-[0-9]{4}") ||
+                telefone.matches(".((10)|([1-9][1-9]).)\\s[2-5][0-9]{3}-[0-9]{4}");
     }
 }

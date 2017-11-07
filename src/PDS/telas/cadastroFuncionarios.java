@@ -213,6 +213,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel12.setText("CPF");
 
+        cpfFunc.setText("576.237.409-20");
         cpfFunc.setToolTipText("Informe o CPF do funcionário.");
 
         jLabel13.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N

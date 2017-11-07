@@ -2,6 +2,7 @@ package PDS.telas;
 
 import PDS.Modelo.ComandaDTO;
 import PDS.Modelo.FuncionarioDTO;
+import PDS.Modelo.RelatorioComissaoDTO;
 import PDS.Persistencia.ComandaDAO;
 import PDS.Persistencia.FuncionarioDAO;
 import PDS.Util.Mensagens;
@@ -125,7 +126,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Data", "Cliente", "Serviço", "Valor total", "Valor obtido"
+                "Data", "Cliente", "Serviço", "Valor total", "Valor comissão"
             }
         ));
         jScrollPane1.setViewportView(tabela);
@@ -253,7 +254,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
         }
     }
         
-        ArrayList<ComandaDTO> relatorioComissoes;
+        ArrayList<RelatorioComissaoDTO> relatorioComissoes;
 
     public void carregaTabelaRelatorioComissoes() {
 
@@ -270,8 +271,8 @@ public class relatorioComissoes extends javax.swing.JFrame {
         modelo.addColumn("Valor obtido");
         
 
-        for (ComandaDTO cdto : relatorioComissoes) {
-            modelo.addRow(cdto.getLinhaTabela());
+        for (RelatorioComissaoDTO rcdto : relatorioComissoes) {
+            modelo.addRow(rcdto.getLinhaTabelaComissoes());
         }
 
         tabela.setModel(modelo);

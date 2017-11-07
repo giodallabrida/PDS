@@ -177,14 +177,6 @@ public class ListaComandas extends javax.swing.JFrame {
             Comanda comanda = new Comanda(comandaDTO, false);
             comanda.setVisible(true);
             this.setVisible(false);
-//            codFunc.setText(String.valueOf(funcionario.getCodFuncionario()));
-//            nomeFunc.setText(funcionario.getNomFuncionario());
-//            cpfFunc.setText(funcionario.getCpfFuncionario());
-//            rgFunc.setText(funcionario.getRgFuncionario());
-//            datNascimento.setText(funcionario.getDatNascimento());
-//            telFunc.setText(funcionario.getTelFuncionario());
-//            endFunc.setText(funcionario.getEndFuncionario());
-//            carregaComissoes(true);
         } else {
             Mensagens.msgAviso("Selecione uma comanda a ser alterado!");
         }

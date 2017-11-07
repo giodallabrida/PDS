@@ -2,7 +2,7 @@
 package PDS.Modelo;
 
 public class ComissaoDTO {
-    private ServicoDTO servico;
+    private ServicoDTO servico = new ServicoDTO();
     private float percentual;
     private int aux;
 

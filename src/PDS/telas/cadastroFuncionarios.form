@@ -350,6 +350,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="cpfFunc">
       <Properties>
+        <Property name="text" type="java.lang.String" value="576.237.409-20"/>
         <Property name="toolTipText" type="java.lang.String" value="Informe o CPF do funcion&#xe1;rio."/>
       </Properties>
     </Component>
