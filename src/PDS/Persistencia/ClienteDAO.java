@@ -24,7 +24,7 @@ public class ClienteDAO {
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C, SITUACAO) values"
-                    + " (?, ?, ?, ?, ?, ?, 'A')";
+                    + " (?, ?, ?, ?, ?, 'A')";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);

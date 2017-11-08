@@ -34,7 +34,7 @@ public class cadastroClientes extends javax.swing.JFrame {
     public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextArea infExt) throws SQLException, FileNotFoundException, ParseException {
         boolean aux = false;
         if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli) 
-                && Validacao.validaData(datNascCli.getText())) {
+                && Validacao.validaData(datNascCli.getText()) && Validacao.validaTelefone(telCliente.getText())) {
             //&& Validacao.validaTelefone(telCli.getText())) 
             if (modoInclusao) {
                 aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), infExt.getText());
@@ -46,6 +46,8 @@ public class cadastroClientes extends javax.swing.JFrame {
             } else if (!modoInclusao && aux) {
                 Mensagens.msgInfo("Cliente alterado com sucesso.");
             }
+        }else{
+            Mensagens.msgErro("Algum campo informado incorretamente!");
         }
         return aux;
     }
