@@ -1,6 +1,7 @@
 package PDS.telas;
 
 import PDS.Persistencia.ComandaDAO;
+import PDS.Persistencia.ServicoComandaDAO;
 import PDS.Util.Mensagens;
 import PDS.Util.Validacao;
 import java.sql.Date;
@@ -393,6 +394,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
     }//GEN-LAST:event_creditoSemDescontoActionPerformed
 
     ComandaDAO comandaDAO = new ComandaDAO();
+    ServicoComandaDAO servicoComandaDAO = new ServicoComandaDAO();
 
     private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaActionPerformed
         Date date = new Date(System.currentTimeMillis());
@@ -418,8 +420,8 @@ public class relatorioCaixa extends javax.swing.JFrame {
                             comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC");
                     valorCartoes.setText(String.valueOf(Float.valueOf(creditoComDesconto.getText()) + Float.valueOf(debitoComDesconto.getText())));
                     valorDinheiro.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "D")));
-                    // valorSalarios.setText(String.valueOf());
-                    //total.setText(String.valueOf((Float.valueOf(valorCheques.getText()) + Float.valueOf(valorCartoes.getText()) + Float.valueOf(valorDinheiro.getText())) - Float.valueOf(valorSalarios.getText())));
+                    valorSalarios.setText(String.valueOf(servicoComandaDAO.carregaSalariosFuncionariosBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()))));
+                    total.setText(String.valueOf((Float.valueOf(valorCheques.getText()) + Float.valueOf(valorCartoes.getText()) + Float.valueOf(valorDinheiro.getText())) - Float.valueOf(valorSalarios.getText())));
                 } catch (ParseException ex) {
                     Logger.getLogger(relatorioCaixa.class.getName()).log(Level.SEVERE, null, ex);
                 }

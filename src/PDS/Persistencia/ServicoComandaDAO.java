@@ -4,8 +4,10 @@ package PDS.Persistencia;
 import PDS.Util.Mensagens;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ServicoComandaDAO {
@@ -32,7 +34,31 @@ public class ServicoComandaDAO {
         return aux;
     }
     
-    
+    public float carregaSalariosFuncionariosBD(Date dataInicio, Date dataTermino) {
+        String str = "jdbc:mysql://localhost:3307/pds?"
+                + "user=root&password=root";
+        Connection conn;
+        Float valor = 0f;
+        try {
+            conn = DriverManager.getConnection(str);
+            String sql = "SELECT SUM(S.VALOR_COMISSAO) FROM SERVICO_COMANDA S INNER JOIN COMANDA C "
+                    + "ON C.COD_COMANDA = S.COD_COMANDA WHERE C.DAT_PRESTACAO BETWEEN ? AND ? AND C.PAGO = 'P'";
+            PreparedStatement p = conn.prepareStatement(sql);
+            p.setDate(1, dataInicio);
+            p.setDate(2, dataTermino);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                valor = valor + rs.getFloat(1);
+            }
+            rs.close();
+            p.close();
+            conn.close();
+        } catch (Exception ex) {
+            Mensagens.msgErro("Ocorreu um erro ao carregar os valores do banco de dados.");
+        }
+        return valor;
+    }
+     
     
     
 }

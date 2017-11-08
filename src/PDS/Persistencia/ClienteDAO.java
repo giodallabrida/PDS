@@ -17,21 +17,20 @@ import java.util.Calendar;
 
 public class ClienteDAO {
 
-    public boolean cadastraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String datAte, String infEx) throws SQLException, FileNotFoundException {
+    public boolean cadastraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String infEx) throws SQLException, FileNotFoundException {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C, SITUACAO) values"
+            String sql = "insert into cliente (NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C, SITUACAO) values"
                     + " (?, ?, ?, ?, ?, ?, 'A')";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);
             p.setDate(3, datNasc);
             p.setString(4, endCli);
-            p.setString(5, datAte);
-            p.setString(6, infEx);
+            p.setString(5, infEx);
             p.execute();
             aux = true;
         } catch (SQLException e) {
@@ -40,23 +39,22 @@ public class ClienteDAO {
         return aux;
     }
 
-    public boolean alteraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String datAte, String infEx, int codigo) {
+    public boolean alteraClienteBD(String nomeCli, String telCli, Date datNasc, String endCli, String infEx, int codigo) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "update cliente set NOM_CLIENTE = ?, TEL_CLIENTE = ?, "
-                    + "DAT_NASCIMENTO_C = ?, END_CLIENTE = ?,  DAT_ATENDIMENTO = ?, "
+                    + "DAT_NASCIMENTO_C = ?, END_CLIENTE = ?, "
                     + "INF_EXTRAS_C = ? where COD_CLIENTE = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeCli);
             p.setString(2, telCli);
             p.setDate(3, datNasc);
             p.setString(4, endCli);
-            p.setString(5, datAte);
-            p.setString(6, infEx);
-            p.setInt(7, codigo);
+            p.setString(5, infEx);
+            p.setInt(6, codigo);
             p.execute();
             p.close();
             conn.close();
@@ -124,11 +122,11 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C from Cliente where SITUACAO = 'A'";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C from Cliente where SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6), rs.getString(7));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6));
                 listaClientes.add(cc);
             }
             rs.close();
@@ -147,12 +145,12 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, DAT_ATENDIMENTO, INF_EXTRAS_C from CLIENTE where NOM_CLIENTE LIKE ? AND SITUACAO = 'A'";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C from CLIENTE where NOM_CLIENTE LIKE ? AND SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6), rs.getString(7));
+                ClienteDTO cc = new ClienteDTO(rs.getInt(1), rs.getString(2), rs.getString(3), Validacao.getDataJava(rs.getDate(4)), rs.getString(5), rs.getString(6));
                 listaClientes.add(cc);
             }
             rs.close();

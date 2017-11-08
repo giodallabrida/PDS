@@ -42,7 +42,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         if (Validacao.validaCampo(nomeFunc) && Validacao.validaCampo(cpfFunc) && Validacao.validaCPF(cpfFunc.getText()) && Validacao.validaCampo(rgFunc)) {
             int codigoFunc = 0;
             if (modoInclusao) {
-
                 codigoFunc = funcionarioDAO.cadastraFuncionarioBD(nomeFunc.getText(), cpfFunc.getText(), rgFunc.getText(), datNascFunc.getText(), telFunc.getText(), endFunc.getText());
                 if (codigoFunc != -1) {
                     funcionario.setCodFuncionario(codigoFunc);

@@ -179,7 +179,7 @@ public class FuncionarioDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where SITUACAO = 'A'";
+            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, RG_FUNCIONARIO, CPF_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
@@ -238,7 +238,7 @@ public class FuncionarioDAO {
         }
         return aux;
     }
-    
+
     public boolean removeComissoes(int codigo) {
         boolean aux = false;
         try {
@@ -283,7 +283,7 @@ public class FuncionarioDAO {
         try {
             conn = DriverManager.getConnection(str);
             String sql = "select C.COMISSAO, C.COD_SERVICO from COMISSAO C, SERVICO S "
-                    + "where C.SITUACAO = 'A' AND S.SITUACAO = 'A' AND COD_FUNC = ?";
+                    + "where C.COD_SERVICO = S.COD_SERVICO AND C.SITUACAO = 'A' AND S.SITUACAO = 'A' AND COD_FUNC = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codFunc);
             ResultSet rs = p.executeQuery();

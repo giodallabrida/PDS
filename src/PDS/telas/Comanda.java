@@ -34,12 +34,10 @@ public class Comanda extends javax.swing.JFrame {
         if (!modoInclusao) {
             cod.setText(String.valueOf(comanda.getCodComanda()));
             for (ClienteDTO cliente : listaClientes) {
-               if (cliente.getCodCliente() == comanda.getCliente().getCodCliente()){
-                   clientes.setSelectedItem(cliente);
-               }
+                if (cliente.getCodCliente() == comanda.getCliente().getCodCliente()) {
+                    clientes.setSelectedItem(cliente);
+                }
             }
-            //clientes.setSelectedItem(comanda.getCliente());
-            clientes.setEnabled(false);
             data.setText(String.valueOf(comanda.getData()));
             total.setText(String.valueOf(comanda.getTotal()));
             this.listaServicosComanda = comandaDAO.carregaTabelaComandaBD(comanda.getCodComanda());
@@ -106,7 +104,7 @@ public class Comanda extends javax.swing.JFrame {
         } else if (!modoInclusao && (alterou != -1)) {
             Mensagens.msgInfo("Comanda alterada com sucesso.");
             aux = true;
-        }else{
+        } else {
             Mensagens.msgErro("Ocorreu um erro com as comandas.");
         }
         return aux;
@@ -406,6 +404,7 @@ public class Comanda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salvarActionPerformed
 
+     float valorTotal = 0;
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
         /*
@@ -452,7 +451,7 @@ public class Comanda extends javax.swing.JFrame {
                 listaServicosComanda.add(servicoComanda);
 
                 carregaTabelaComanda(false);
-                float valorTotal = 0;
+               
                 for (ServicoComandaDTO lista : listaServicosComanda) {
                     valorTotal = valorTotal + lista.getValorServico();
                 }
@@ -480,6 +479,10 @@ public class Comanda extends javax.swing.JFrame {
         if (linhaSelecionada > -1) {
             listaServicosComanda.remove(linhaSelecionada);
             carregaTabelaComanda(false);
+            for (ServicoComandaDTO lista : listaServicosComanda) {
+                valorTotal = valorTotal + lista.getValorServico();
+            }
+            total.setText(String.valueOf(valorTotal));
         } else {
             Mensagens.msgAviso("Selecione uma linha a ser removido!");
         }

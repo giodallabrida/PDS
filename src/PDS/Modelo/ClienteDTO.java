@@ -8,7 +8,6 @@ public class ClienteDTO {
     private String telCliente;
     private LocalDate datNascimento;
     private String endCliente;
-    private String datAtendimento;
     private String infExtras;
     
     public ClienteDTO() {
@@ -18,7 +17,6 @@ public class ClienteDTO {
         this.datNascimento = null;
         this.endCliente = "";
         this.infExtras = "";
-        this.datAtendimento = "";
 }
 
     public ClienteDTO(String nome, String telefone) {
@@ -26,23 +24,21 @@ public class ClienteDTO {
         this.telCliente = telefone;
     }
 
-    public ClienteDTO(int codigo, String nome, String telefone, LocalDate datNasc, String endereco, String datAte, String infEx) {
+    public ClienteDTO(int codigo, String nome, String telefone, LocalDate datNasc, String endereco, String infEx) {
         this.codCliente = codigo;
         this.nomCliente = nome;
         this.telCliente = telefone;
         this.datNascimento = datNasc;
         this.endCliente = endereco;
         this.infExtras = infEx;
-        this.datAtendimento = datAte;
     }
 
-    public ClienteDTO(String nome, String telefone, LocalDate datNasc, String endereco, String datAte, String infEx) {
+    public ClienteDTO(String nome, String telefone, LocalDate datNasc, String endereco, String infEx) {
         this.nomCliente = nome;
         this.telCliente = telefone;
         this.datNascimento = datNasc;
         this.endCliente = endereco;
         this.infExtras = infEx;
-        this.datAtendimento = datAte;
     }
 
     public int getCodCliente() {
@@ -85,14 +81,6 @@ public class ClienteDTO {
         this.endCliente = endCliente;
     }
 
-    public String getDatAtendimento() {
-        return datAtendimento;
-    }
-
-    public void setDatAtendimento(String datAtendimento) {
-        this.datAtendimento = datAtendimento;
-    }
-
     public String getInfExtras() {
         return infExtras;
     }
@@ -115,13 +103,12 @@ public class ClienteDTO {
         return this.nomCliente;
     }
 
-    public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, LocalDate datNascimento, String endCliente, String datAtendimento, String infExtras) {
+    public ClienteDTO(int codCliente, String nomCliente, boolean adm, String telCliente, LocalDate datNascimento, String endCliente, String infExtras) {
         this.codCliente = codCliente;
         this.nomCliente = nomCliente;
         this.telCliente = telCliente;
         this.datNascimento = datNascimento;
         this.endCliente = endCliente;
-        this.datAtendimento = datAtendimento;
         this.infExtras = infExtras;
     }
 }

@@ -56,7 +56,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
         funcionarios = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
-        jTextField13 = new javax.swing.JTextField();
+        total = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
 
         jLabel18.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
@@ -122,7 +122,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabela);
 
-        jTextField13.setEditable(false);
+        total.setEditable(false);
 
         jLabel21.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/money.png"))); // NOI18N
@@ -172,7 +172,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(180, 180, 180))
         );
         layout.setVerticalGroup(
@@ -202,7 +202,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
-                    .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -236,6 +236,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
                 }
                 if (relatorioComissoes != null) {
                     carregaTabelaRelatorioComissoes();
+                    total.setText(String.valueOf(totalComissoes));
                 }
             } else {
                 Mensagens.msgAviso("As datas informadas não são válidas.");
@@ -246,7 +247,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
     }
         
         ArrayList<RelatorioComissaoDTO> relatorioComissoes;
-
+        float totalComissoes;
     public void carregaTabelaRelatorioComissoes() {
 
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -264,6 +265,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
 
         for (RelatorioComissaoDTO rcdto : relatorioComissoes) {
             modelo.addRow(rcdto.getLinhaTabelaComissoes());
+            totalComissoes = totalComissoes + rcdto.getValorComissao();
         }
 
         tabela.setModel(modelo);
@@ -306,8 +308,8 @@ public class relatorioComissoes extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
     private javax.swing.JButton pesquisa;
     private javax.swing.JTable tabela;
+    private javax.swing.JTextField total;
     // End of variables declaration//GEN-END:variables
 }

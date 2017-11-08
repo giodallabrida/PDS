@@ -259,15 +259,9 @@ public class ComandaDAO {
             conn = DriverManager.getConnection(str);
             String sql = "SELECT SC.COD_COMANDA, S.DES_SERVICO, SC.VALOR_PRESTADO, SC.VALOR_COMISSAO, "
                     + "CL.NOM_CLIENTE, C.DAT_PRESTACAO FROM SERVICO_COMANDA SC, SERVICO S, COMANDA C, CLIENTE CL "
-                    + "WHERE SC.COD_SERVICO = S.COD_SERVICO AND C.COD_CLIENTE = CL.COD_CLIENTE "
+                    + "WHERE SC.COD_COMANDA = C.COD_COMANDA AND SC.COD_SERVICO = S.COD_SERVICO AND C.COD_CLIENTE = CL.COD_CLIENTE "
                     + "AND C.DAT_PRESTACAO BETWEEN ? AND ? AND PAGO = 'P' AND SC.COD_FUNCIONARIO = ? "
                     + "ORDER BY DAT_PRESTACAO, NOM_CLIENTE";
-                    
-//                    "SELECT CO.*, CL.NOM_CLIENTE FROM COMANDA CO INNER JOIN CLIENTE CL "
-//                    + "ON CO.COD_CLIENTE = CL.COD_CLIENTE INNER JOIN SERVICO_COMANDA S "
-//                    + "ON CO.COD_COMANDA = S.COD_COMANDA WHERE CO.PAGO = 'P' "
-//                    + "AND CO.DAT_PRESTACAO BETWEEN ? AND ? AND S.COD_FUNCIONARIO = ? "
-//                    + "ORDER BY DAT_PRESTACAO, NOM_CLIENTE";
 
             PreparedStatement p = conn.prepareStatement(sql);
             p.setDate(1, dataInicio);

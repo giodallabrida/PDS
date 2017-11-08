@@ -31,15 +31,15 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextField datAtendCli, JTextArea infExt) throws SQLException, FileNotFoundException, ParseException {
+    public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextArea infExt) throws SQLException, FileNotFoundException, ParseException {
         boolean aux = false;
         if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaCampo(datNascCli) 
                 && Validacao.validaData(datNascCli.getText())) {
             //&& Validacao.validaTelefone(telCli.getText())) 
             if (modoInclusao) {
-                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText());
+                aux = clienteDAO.cadastraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), infExt.getText());
             } else {
-                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), datAtendCli.getText(), infExt.getText(), codigo.getCodCliente());
+                aux = clienteDAO.alteraClienteBD(nomeCli.getText(), telCli.getText(), Validacao.converteStringData(datNascCli.getText()), endCli.getText(), infExt.getText(), codigo.getCodCliente());
             }
             if (modoInclusao && aux) {
                 Mensagens.msgInfo("Cliente adicionado com sucesso.");
@@ -65,7 +65,6 @@ public class cadastroClientes extends javax.swing.JFrame {
         datNascimento = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        datAtendimento = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
@@ -114,8 +113,6 @@ public class cadastroClientes extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel6.setText("Endereço");
-
-        datAtendimento.setToolTipText("Digite a data da atualização de informações.");
 
         jLabel7.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel7.setText("Informações Extras");
@@ -233,15 +230,11 @@ public class cadastroClientes extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel6)
-                                                .addComponent(datAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGap(18, 18, 18)
-                                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel7)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -258,7 +251,8 @@ public class cadastroClientes extends javax.swing.JFrame {
                                         .addGap(23, 23, 23)
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(datNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(datNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addGap(18, 18, 18)
                                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -311,9 +305,7 @@ public class cadastroClientes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel7)
                                 .addGap(11, 11, 11)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(datAtendimento, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
@@ -347,7 +339,6 @@ public class cadastroClientes extends javax.swing.JFrame {
             endCliente.setText("");
             datNascimento.setText("");
             infExtras.setText("");
-            datAtendimento.setText("");
             infExtras.setText("");
             Mensagens.msgInfo("O cliente foi removido com sucesso!");
             this.listaClientes = clienteDAO.carregaClientesBD();
@@ -365,7 +356,7 @@ public class cadastroClientes extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
-            if (cadastraAlteraCliente(nomeCliente, telCliente, datNascimento, endCliente, datAtendimento, infExtras)) {
+            if (cadastraAlteraCliente(nomeCliente, telCliente, datNascimento, endCliente, infExtras)) {
                 Menu menu = new Menu();
                 menu.setVisible(true);
                 this.setVisible(false);
@@ -402,9 +393,10 @@ public class cadastroClientes extends javax.swing.JFrame {
             nomeCliente.setText(codigo.getNomCliente());
             telCliente.setText(codigo.getTelCliente());
             endCliente.setText(codigo.getEndCliente());
-            datNascimento.setText(String.valueOf(Validacao.getDataMySQL(codigo.getDatNascimento())));
-            infExtras.setText(codigo.getEndCliente());
-            datAtendimento.setText(codigo.getDatAtendimento());
+            String data = String.valueOf(Validacao.getDataMySQL(codigo.getDatNascimento()));
+            String dataA = data.substring(8, 10) + data.substring(4, 8) + data.substring(0, 4);
+            dataA = dataA.replace("-", "/");
+            datNascimento.setText(dataA);
             infExtras.setText(codigo.getInfExtras());
         } else {
             Mensagens.msgAviso("Selecione um cliente a ser alterado!");
@@ -460,7 +452,6 @@ public class cadastroClientes extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JTextField codCliente;
-    private javax.swing.JTextField datAtendimento;
     private javax.swing.JTextField datNascimento;
     private javax.swing.JTextArea endCliente;
     private javax.swing.JTextArea infExtras;
