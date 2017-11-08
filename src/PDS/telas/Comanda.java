@@ -67,6 +67,7 @@ public class Comanda extends javax.swing.JFrame {
     ServicoComandaDAO servicoComandaDAO = new ServicoComandaDAO();
 
     int codComanda = 0;
+    int alterou = 0;
 
     public boolean cadastraAlteraComanda() throws SQLException, FileNotFoundException {
         boolean aux = false;
@@ -75,6 +76,7 @@ public class Comanda extends javax.swing.JFrame {
 
         if (Float.valueOf(total.getText()) == 0) {
             Mensagens.msgAviso("Sua comanda está vazia, favor adicionar um serviço.");
+            alterou = -1;
         } else if (modoInclusao) {
             String dataA = data.getText();
             dataA = dataA.substring(6, 10) + dataA.substring(2, 6) + dataA.substring(0, 2);
@@ -91,7 +93,7 @@ public class Comanda extends javax.swing.JFrame {
 
         }
         ComandaDAO comanda = new ComandaDAO();
-        int alterou = 0;
+
         if (codComanda != -1 || aux) {
             for (ServicoComandaDTO servicoComanda : listaServicosComanda) {
                 alterou = comanda.cadastraServicosPrestadosBD(codComanda, listaServicosComanda);
@@ -104,8 +106,6 @@ public class Comanda extends javax.swing.JFrame {
         } else if (!modoInclusao && (alterou != -1)) {
             Mensagens.msgInfo("Comanda alterada com sucesso.");
             aux = true;
-        } else {
-            Mensagens.msgErro("Ocorreu um erro com as comandas.");
         }
         return aux;
     }
@@ -404,7 +404,7 @@ public class Comanda extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salvarActionPerformed
 
-     float valorTotal = 0;
+    float valorTotal = 0;
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
         /*
@@ -438,11 +438,11 @@ public class Comanda extends javax.swing.JFrame {
             float valorComissao = servicoComanda.getValorServico() * servicoComanda.getComissao().getPercentual() / 100;
             servicoComanda.setValorComissao(valorComissao);
             for (ServicoComandaDTO servicoLista : listaServicosComanda) {
-                if (servicoLista.getFuncionario().getCodFuncionario() == servicoComanda.getFuncionario().getCodFuncionario()
-                        && servicoLista.getComissao().getServico().getCodServico() == servicoComanda.getComissao().getServico().getCodServico()) {
+                if (servicoLista.getComissao().getServico().getCodServico() == servicoComanda.getComissao().getServico().getCodServico()) {
                     existeServ = true;
                 }
             }
+//servicoLista.getFuncionario().getCodFuncionario() == servicoComanda.getFuncionario().getCodFuncionario()
 
             if (existeServ) {
                 Mensagens.msgAviso("Este serviço já foi adicionado à comanda! \n Escolha outro serviço.");
@@ -451,7 +451,7 @@ public class Comanda extends javax.swing.JFrame {
                 listaServicosComanda.add(servicoComanda);
 
                 carregaTabelaComanda(false);
-               
+
                 for (ServicoComandaDTO lista : listaServicosComanda) {
                     valorTotal = valorTotal + lista.getValorServico();
                 }
@@ -462,6 +462,8 @@ public class Comanda extends javax.swing.JFrame {
                 valor.setText("");
 
             }
+        } else {
+            Mensagens.msgAviso("Preencha os campos para adicionar um serviço na comanda.");
         }
         /* if (!achou) {
                 ComissaoDTO comissaoDTO = new ComissaoDTO();
