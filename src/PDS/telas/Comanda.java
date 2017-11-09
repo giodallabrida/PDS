@@ -397,40 +397,44 @@ public class Comanda extends javax.swing.JFrame {
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
         boolean existeServ = false;
-        if ((funcionarios.getSelectedIndex() > 0) && (servicos.getSelectedIndex() > 0) && (Validacao.validaCampo(valor)) && (Validacao.validaFloat(valor, 1, 5000))) {
-            ServicoComandaDTO servicoComanda = new ServicoComandaDTO();
-            servicoComanda.setFuncionario((FuncionarioDTO) funcionarios.getSelectedItem());
-            servicoComanda.setComissao((ComissaoDTO) servicos.getSelectedItem());
-            servicoComanda.setValorServico(Integer.valueOf(valor.getText()));
-            float valorComissao = servicoComanda.getValorServico() * servicoComanda.getComissao().getPercentual() / 100;
-            servicoComanda.setValorComissao(valorComissao);
-            for (ServicoComandaDTO servicoLista : listaServicosComanda) {
-                if (servicoLista.getComissao().getServico().getCodServico() == servicoComanda.getComissao().getServico().getCodServico()) {
-                    existeServ = true;
-                }
-            }
+        if ((funcionarios.getSelectedIndex() > 0) && (servicos.getSelectedIndex() > 0)) {
+            if (Validacao.validaCampo(valor)) {
+                if (Validacao.validaFloat(valor, 1, 2000)) {
+                    ServicoComandaDTO servicoComanda = new ServicoComandaDTO();
+                    servicoComanda.setFuncionario((FuncionarioDTO) funcionarios.getSelectedItem());
+                    servicoComanda.setComissao((ComissaoDTO) servicos.getSelectedItem());
+                    servicoComanda.setValorServico(Integer.valueOf(valor.getText()));
+                    float valorComissao = servicoComanda.getValorServico() * servicoComanda.getComissao().getPercentual() / 100;
+                    servicoComanda.setValorComissao(valorComissao);
+                    for (ServicoComandaDTO servicoLista : listaServicosComanda) {
+                        if (servicoLista.getComissao().getServico().getCodServico() == servicoComanda.getComissao().getServico().getCodServico()) {
+                            existeServ = true;
+                        }
+                    }
 //servicoLista.getFuncionario().getCodFuncionario() == servicoComanda.getFuncionario().getCodFuncionario()
 
-            if (existeServ) {
-                Mensagens.msgAviso("Este serviço já foi adicionado à comanda! \n Escolha outro serviço.");
-            } else {
+                    if (existeServ) {
+                        Mensagens.msgAviso("Este serviço já foi adicionado à comanda! \n Escolha outro serviço.");
+                    } else {
 
-                listaServicosComanda.add(servicoComanda);
+                        listaServicosComanda.add(servicoComanda);
 
-                carregaTabelaComanda(false);
+                        carregaTabelaComanda(false);
 
-                for (ServicoComandaDTO lista : listaServicosComanda) {
-                    valorTotal = valorTotal + lista.getValorServico();
+                        for (ServicoComandaDTO lista : listaServicosComanda) {
+                            valorTotal = valorTotal + lista.getValorServico();
+                        }
+                        total.setText(String.valueOf(valorTotal));
+
+                        funcionarios.setSelectedIndex(0);
+                        servicos.setModel(new DefaultComboBoxModel<>());
+                        valor.setText("");
+                        valorTotal = 0;
+                    }
                 }
-                total.setText(String.valueOf(valorTotal));
-
-                funcionarios.setSelectedIndex(0);
-                servicos.setModel(new DefaultComboBoxModel<>());
-                valor.setText("");
-                valorTotal = 0;
             }
         } else {
-            Mensagens.msgAviso("Preencha os campos para adicionar um serviço na comanda.");
+            Mensagens.msgErro("Preencha todos os campos para adicionar um serviço na comanda.");
         }
         /* if (!achou) {
                 ComissaoDTO comissaoDTO = new ComissaoDTO();
