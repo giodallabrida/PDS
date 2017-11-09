@@ -244,8 +244,8 @@ public class relatorioComandas extends javax.swing.JFrame {
 
         tabela.getColumnModel().getColumn(0).setPreferredWidth(70);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(130);
-        tabela.getColumnModel().getColumn(3).setPreferredWidth(130);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(124);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(124);
 
         tabela.setAutoResizeMode(0);
     }

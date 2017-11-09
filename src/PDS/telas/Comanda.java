@@ -129,11 +129,6 @@ public class Comanda extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jPopupMenu2 = new javax.swing.JPopupMenu();
-        jPopupMenu3 = new javax.swing.JPopupMenu();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jMenu1 = new javax.swing.JMenu();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -158,11 +153,6 @@ public class Comanda extends javax.swing.JFrame {
         pagar = new javax.swing.JButton();
         codigo = new javax.swing.JLabel();
         cod = new javax.swing.JTextField();
-
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
-
-        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,6 +187,8 @@ public class Comanda extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel7.setText("Valor");
 
+        valor.setToolTipText("Digite um valor para o serviço prestado (entre R$1,00 e R$2000,00)");
+
         adicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/add.png"))); // NOI18N
         adicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -206,10 +198,7 @@ public class Comanda extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Funcionário", "Serviço", "Preço"
@@ -407,28 +396,6 @@ public class Comanda extends javax.swing.JFrame {
     float valorTotal = 0;
 
     private void adicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adicionarActionPerformed
-        /*
-         boolean achou = false;
-        if (Validacao.validaCampo(porcentagem)) {
-            ServicoDTO servico2;
-            servico = (ServicoDTO) servicos.getSelectedItem();
-            for (ComissaoDTO comissao : comissoes) {
-                if (comissao.getServico().getCodServico() == servico.getCodServico()) {
-                    Mensagens.msgAviso("Esse serviço já está cadastrado para esse funcionário. \n Escolha outro serviço!");
-                    achou = true;
-                }
-            }
-            if (!achou) {
-                ComissaoDTO comissaoDTO = new ComissaoDTO();
-                comissaoDTO.setServico(servico);
-                comissaoDTO.setPercentual(Float.valueOf(porcentagem.getText()));
-                comissoes.add(comissaoDTO);
-                porcentagem.setText("");
-                carregaComissoes(false);
-            }
-        }
-    }                                         
-         */
         boolean existeServ = false;
         if ((funcionarios.getSelectedIndex() > 0) && (servicos.getSelectedIndex() > 0) && (Validacao.validaCampo(valor)) && (Validacao.validaFloat(valor, 1, 5000))) {
             ServicoComandaDTO servicoComanda = new ServicoComandaDTO();
@@ -460,7 +427,7 @@ public class Comanda extends javax.swing.JFrame {
                 funcionarios.setSelectedIndex(0);
                 servicos.setModel(new DefaultComboBoxModel<>());
                 valor.setText("");
-
+                valorTotal = 0;
             }
         } else {
             Mensagens.msgAviso("Preencha os campos para adicionar um serviço na comanda.");
@@ -560,7 +527,7 @@ public class Comanda extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(190);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(194);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(190);
         tabela.getColumnModel().getColumn(2).setPreferredWidth(190);
 
@@ -582,11 +549,6 @@ public class Comanda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JPopupMenu jPopupMenu1;
-    private javax.swing.JPopupMenu jPopupMenu2;
-    private javax.swing.JPopupMenu jPopupMenu3;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

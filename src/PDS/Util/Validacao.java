@@ -83,6 +83,9 @@ public class Validacao {
         } catch (ParseException ex) {
 
         }
+        if(!aux){
+            Mensagens.msgErro("Data informada inválida.");
+        }
         return aux;
     }
 
@@ -109,7 +112,7 @@ public class Validacao {
                 || cpf.equals("44444444444") || cpf.equals("55555555555")
                 || cpf.equals("66666666666") || cpf.equals("77777777777")
                 || cpf.equals("88888888888") || cpf.equals("99999999999") || !cpf.matches("\\d{11}")) {
-            Mensagens.msgErro("ERRO: CPF inválido (digite apenas 11 números).");
+            Mensagens.msgErro("CPF inválido (digite apenas 11 números).");
             return false;
         } else {
             int dv1 = calculaDVCpf(cpf, 8, 10);
@@ -121,7 +124,7 @@ public class Validacao {
             if (subs1.equals(Dig1) && subs2.equals(Dig2)) {
                 return true;
             } else {
-                Mensagens.msgErro("ERRO: CPF inválido.");
+                Mensagens.msgErro("CPF informado inválido.");
                 return false;
             }
         }
@@ -143,6 +146,10 @@ public class Validacao {
     }
     
     public static boolean validaTelefone(String telefone) {
-        return telefone.matches("((10)|([1-9][1-9])) [2-9][0-9]{3}-[0-9]{4}");
+        boolean aux = telefone.matches("((10)|([1-9][1-9])) [2-9][0-9]{3}-[0-9]{4}");
+        if(!aux){
+            Mensagens.msgErro("Telefone informado inválido.");
+        }
+        return aux;
     }
 }

@@ -36,13 +36,6 @@ public class relatorioComissoes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel18 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        data = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
-        data1 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jLabel16 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnVoltar = new javax.swing.JButton();
@@ -58,21 +51,6 @@ public class relatorioComissoes extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
         total = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-
-        jLabel18.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        jLabel18.setText("Período do relatório:");
-
-        jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        jLabel5.setText("De:");
-
-        jLabel17.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
-        jLabel17.setText("Até:");
-
-        jTextField12.setEditable(false);
-
-        jLabel16.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/money.png"))); // NOI18N
-        jLabel16.setText("TOTAL");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(571, 444));
@@ -279,11 +257,11 @@ public class relatorioComissoes extends javax.swing.JFrame {
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
 
-        tabela.getColumnModel().getColumn(0).setPreferredWidth(110);
-        tabela.getColumnModel().getColumn(1).setPreferredWidth(110);
-        tabela.getColumnModel().getColumn(2).setPreferredWidth(110);
-        tabela.getColumnModel().getColumn(3).setPreferredWidth(110);
-        tabela.getColumnModel().getColumn(4).setPreferredWidth(110);
+        tabela.getColumnModel().getColumn(0).setPreferredWidth(124);
+        tabela.getColumnModel().getColumn(1).setPreferredWidth(124);
+        tabela.getColumnModel().getColumn(2).setPreferredWidth(124);
+        tabela.getColumnModel().getColumn(3).setPreferredWidth(124);
+        tabela.getColumnModel().getColumn(4).setPreferredWidth(124);
 
         tabela.setAutoResizeMode(0);
     }//GEN-LAST:event_pesquisaActionPerformed
@@ -291,23 +269,16 @@ public class relatorioComissoes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ate;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.JTextField data;
-    private javax.swing.JTextField data1;
     private javax.swing.JTextField de;
     private javax.swing.JComboBox<String> funcionarios;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField12;
     private javax.swing.JButton pesquisa;
     private javax.swing.JTable tabela;
     private javax.swing.JTextField total;

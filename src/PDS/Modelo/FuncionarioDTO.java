@@ -4,9 +4,7 @@ package PDS.Modelo;
 public class FuncionarioDTO {
     private int codFuncionario;
     private String nomFuncionario;
-    private String rgFuncionario;
     private String cpfFuncionario;
-    private String datNascimento;
     private String telFuncionario;
     private String endFuncionario;
     private boolean verificaAdm;
@@ -15,30 +13,24 @@ public class FuncionarioDTO {
     public FuncionarioDTO(){
         this.codFuncionario = 0;
         this.nomFuncionario = "";
-        this.rgFuncionario = "";
         this.cpfFuncionario = "";
-        this.datNascimento = "";
         this.telFuncionario = "";
         this.endFuncionario = "";
         this.verificaAdm = false;
         this.senhaAdm = "";
     }
 
-    public FuncionarioDTO(int codFuncionario, String nomFuncionario, String rgFuncionario, String cpfFuncionario, String datNascimento, String telFuncionario, String endFuncionario) {
+    public FuncionarioDTO(int codFuncionario, String nomFuncionario, String cpfFuncionario, String telFuncionario, String endFuncionario) {
         this.codFuncionario = codFuncionario;
         this.nomFuncionario = nomFuncionario;
-        this.rgFuncionario = rgFuncionario;
         this.cpfFuncionario = cpfFuncionario;
-        this.datNascimento = datNascimento;
         this.telFuncionario = telFuncionario;
         this.endFuncionario = endFuncionario;
     }
 
-    public FuncionarioDTO(String nomFuncionario, String rgFuncionario, String cpfFuncionario, String datNascimento, String telFuncionario, String endFuncionario, boolean verificaAdm, String senhaAdm) {
+    public FuncionarioDTO(String nomFuncionario, String cpfFuncionario, String telFuncionario, String endFuncionario, boolean verificaAdm, String senhaAdm) {
         this.nomFuncionario = nomFuncionario;
-        this.rgFuncionario = rgFuncionario;
         this.cpfFuncionario = cpfFuncionario;
-        this.datNascimento = datNascimento;
         this.telFuncionario = telFuncionario;
         this.endFuncionario = endFuncionario;
         this.verificaAdm = verificaAdm;
@@ -74,28 +66,12 @@ public class FuncionarioDTO {
         this.nomFuncionario = nomFuncionario;
     }
 
-    public String getRgFuncionario() {
-        return rgFuncionario;
-    }
-
-    public void setRgFuncionario(String rgFuncionario) {
-        this.rgFuncionario = rgFuncionario;
-    }
-
     public String getCpfFuncionario() {
         return cpfFuncionario;
     }
 
     public void setCpfFuncionario(String cpfFuncionario) {
         this.cpfFuncionario = cpfFuncionario;
-    }
-
-    public String getDatNascimento() {
-        return datNascimento;
-    }
-
-    public void setDatNascimento(String datNascimento) {
-        this.datNascimento = datNascimento;
     }
 
     public String getTelFuncionario() {

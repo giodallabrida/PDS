@@ -14,21 +14,19 @@ import javax.swing.JTextField;
 
 public class FuncionarioDAO {
 
-    public int cadastraFuncionarioBD(String nomeFunc, String cpfFunc, String rgFunc, String datNasc, String telFunc, String endFunc) throws SQLException, FileNotFoundException {
+    public int cadastraFuncionarioBD(String nomeFunc, String cpfFunc, String telFunc, String endFunc) throws SQLException, FileNotFoundException {
         int aux = 0;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
-            String sql = "insert into FUNCIONARIO (NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO, SITUACAO) values"
-                    + " (?, ?, ?, ?, ?, ?, 'A')";
+            String sql = "insert into FUNCIONARIO (NOM_FUNCIONARIO, CPF_FUNCIONARIO, TEL_FUNCIONARIO, END_FUNCIONARIO, SITUACAO) values"
+                    + " (?, ?, ?, ?, 'A')";
             PreparedStatement p = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             p.setString(1, nomeFunc);
             p.setString(2, cpfFunc);
-            p.setString(3, rgFunc);
-            p.setString(4, datNasc);
-            p.setString(5, telFunc);
-            p.setString(6, endFunc);
+            p.setString(3, telFunc);
+            p.setString(4, endFunc);
             p.execute();
             ResultSet rs = p.getGeneratedKeys();
             if (rs.next()) {
@@ -89,24 +87,22 @@ public class FuncionarioDAO {
         return verifica;
     }
 
-    public boolean alteraFuncionarioBD(String nomeFunc, String cpfFunc, String rgFunc, String datNascimento, String telFunc, String endFunc, int codFunc) {
+    public boolean alteraFuncionarioBD(String nomeFunc, String cpfFunc, String telFunc, String endFunc, int codFunc) {
         boolean aux = false;
         try {
             String str = "jdbc:mysql://localhost:3307/pds?"
                     + "user=root&password=root";
             Connection conn = DriverManager.getConnection(str);
             String sql = "update funcionario set NOM_FUNCIONARIO = ?, "
-                    + "CPF_FUNCIONARIO = ?, RG_FUNCIONARIO = ?, DAT_NASCIMENTO_F = ?, "
+                    + "CPF_FUNCIONARIO = ?,  "
                     + "TEL_FUNCIONARIO = ?, END_FUNCIONARIO = ? "
                     + "where COD_FUNCIONARIO = ?";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nomeFunc);
             p.setString(2, cpfFunc);
-            p.setString(3, rgFunc);
-            p.setString(4, datNascimento);
-            p.setString(5, telFunc);
-            p.setString(6, endFunc);
-            p.setInt(7, codFunc);
+            p.setString(3, telFunc);
+            p.setString(4, endFunc);
+            p.setInt(5, codFunc);
             p.execute();
             p.close();
             conn.close();
@@ -179,11 +175,11 @@ public class FuncionarioDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, RG_FUNCIONARIO, CPF_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where SITUACAO = 'A'";
+            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                 listaFuncionario.add(ff);
             }
             rs.close();
@@ -202,12 +198,12 @@ public class FuncionarioDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, RG_FUNCIONARIO, DAT_NASCIMENTO_F, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where NOM_FUNCIONARIO LIKE ? and SITUACAO = 'A'";
+            String sql = "select COD_FUNCIONARIO, NOM_FUNCIONARIO, CPF_FUNCIONARIO, TEL_FUNCIONARIO, END_FUNCIONARIO from FUNCIONARIO where NOM_FUNCIONARIO LIKE ? and SITUACAO = 'A'";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
-                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+                FuncionarioDTO ff = new FuncionarioDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
                 listaFuncionarios.add(ff);
             }
             rs.close();
