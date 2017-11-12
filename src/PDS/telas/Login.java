@@ -8,23 +8,24 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Login extends javax.swing.JDialog {
-    
+
     public Login(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Login");
     }
-    
+
     boolean autenticado = false;
-    
+
     public static boolean criaLogin() {
         Login login = new Login(null, true);
         login.setVisible(true);
         return login.autenticado;
     }
-    
+
     FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-    
+
     public boolean fazLogin(JTextField user, JPasswordField senha) {
         boolean aux = false;
         try {
@@ -40,7 +41,7 @@ public class Login extends javax.swing.JDialog {
         }
         return aux;
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,6 +60,8 @@ public class Login extends javax.swing.JDialog {
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel2.setMaximumSize(new java.awt.Dimension(364, 183));
+        jPanel2.setMinimumSize(new java.awt.Dimension(364, 183));
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/user.png"))); // NOI18N
@@ -143,8 +146,6 @@ public class Login extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 

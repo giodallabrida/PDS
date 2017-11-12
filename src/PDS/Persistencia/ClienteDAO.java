@@ -34,7 +34,7 @@ public class ClienteDAO {
             p.execute();
             aux = true;
         } catch (SQLException e) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o cliente." + e.getMessage());
+            Mensagens.msgErro("Ocorreu um erro no banco de \n dados ao cadastrar o cliente.");
         }
         return aux;
     }
@@ -60,7 +60,7 @@ public class ClienteDAO {
             conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do cliente.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao alterar os dados do cliente.");
         }
         return aux;
     }
@@ -77,7 +77,7 @@ public class ClienteDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao inativar um serviço do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar \n um cliente do banco de dados.");
         }
         return aux;
     }
@@ -108,7 +108,7 @@ public class ClienteDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os produtos do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n aniversariantes do banco de dados.");
         }
         return listaAniversariantes;
     }
@@ -133,7 +133,7 @@ public class ClienteDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n clientes do banco de dados.");
         }
         return listaClientes;
     }
@@ -157,7 +157,7 @@ public class ClienteDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes pesquisados do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os clientes \n pesquisados do banco de dados.");
         }
         return listaClientes;
     }

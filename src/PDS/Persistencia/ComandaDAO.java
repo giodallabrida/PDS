@@ -37,7 +37,7 @@ public class ComandaDAO {
                 aux = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir a comanda.");
+            Mensagens.msgErro("Ocorreu um erro no banco de \n dados ao inserir a comanda.");
             aux = -1;
         }
         return aux;
@@ -61,7 +61,7 @@ public class ComandaDAO {
             conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados da comanda.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao alterar os dados da comanda.");
         }
         return aux;
     }
@@ -80,7 +80,7 @@ public class ComandaDAO {
             conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao alterar os dados da comanda no banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao alterar os dados \n da comanda no banco de dados.");
         }
         return aux;
     }
@@ -100,7 +100,7 @@ public class ComandaDAO {
             conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao alterar os dados da comanda no banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao alterar os dados \n da comanda no banco de dados.");
         }
         return aux;
     }
@@ -131,7 +131,7 @@ public class ComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar as comanda do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar \n as comanda do banco de dados.");
         }
         return listaComandas;
     }
@@ -148,7 +148,7 @@ public class ComandaDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao atualizar os serviços da comanda do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao atualizar os serviços \n da comanda do banco de dados.");
         }
         return aux;
     }
@@ -186,7 +186,7 @@ public class ComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços \n da comanda do banco de dados.");
             ex.printStackTrace();
         }
         return listaComanda;
@@ -210,7 +210,7 @@ public class ComandaDAO {
                 p.execute();
             }
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir a comanda.");
+            Mensagens.msgErro("Ocorreu um erro no banco de \n dados ao inserir a comanda.");
             aux = -1;
         }
         return aux;
@@ -245,7 +245,7 @@ public class ComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar as comanda do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar as \n comanda do banco de dados.");
         }
         return listaComandas;
     }
@@ -288,7 +288,7 @@ public class ComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar as comissões do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar as \n comissões do banco de dados.");
         }
         return listaComissoes;
     }
@@ -314,7 +314,7 @@ public class ComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os valores do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n valores do banco de dados.");
         }
         return valor;
     }

@@ -33,7 +33,7 @@ public class FuncionarioDAO {
                 aux = rs.getInt(1);
             }
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir o funcionário." + ex.getMessage());
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao cadastrar o funcionário." + ex.getMessage());
             aux = -1;
         }
         return aux;
@@ -108,7 +108,7 @@ public class FuncionarioDAO {
             conn.close();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do cliente.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao alterar os dados do funcionário.");
         }
         return aux;
     }
@@ -125,7 +125,7 @@ public class FuncionarioDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao inativar um funcionário do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar um \n funcionário do banco de dados.");
         }
         return aux;
     }
@@ -148,7 +148,7 @@ public class FuncionarioDAO {
             p.close();
             conexao.close();
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao verificar se é a primeira execução do programa.");
+            Mensagens.msgErro("Ocorreu um erro ao verificar se \n é a primeira execução do programa.");
         }
     }
 
@@ -164,7 +164,7 @@ public class FuncionarioDAO {
             p.close();
             conexao.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro em uma alteração do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro em uma \n alteração do banco de dados.");
         }
     }
 
@@ -186,7 +186,7 @@ public class FuncionarioDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n funcionários do banco de dados.");
         }
         return listaFuncionario;
     }
@@ -210,7 +210,7 @@ public class FuncionarioDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários pesquisados do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os funcionários \n pesquisados do banco de dados.");
         }
         return listaFuncionarios;
     }
@@ -230,7 +230,7 @@ public class FuncionarioDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir a comissão." + ex.getMessage());
+            Mensagens.msgErro("Ocorreu um erro no banco de \n dados ao inserir a comissão.");
         }
         return aux;
     }
@@ -247,7 +247,7 @@ public class FuncionarioDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao atualizar as comissões do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao atualizar as \n comissões do banco de dados.");
         }
         return aux;
     }
@@ -264,7 +264,7 @@ public class FuncionarioDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao inativar uma comissão do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar \n uma comissão do banco de dados.");
         }
         return aux;
     }
@@ -292,7 +292,7 @@ public class FuncionarioDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar as comissões do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar as \n comissões do banco de dados.");
         }
         return listaComissao;
     }

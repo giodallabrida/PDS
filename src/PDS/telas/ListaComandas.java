@@ -20,6 +20,7 @@ public class ListaComandas extends javax.swing.JFrame {
             carregaComandas();
         }
         this.setLocationRelativeTo(null);
+        this.setTitle("Lista de Comandas");
     }
 
     @SuppressWarnings("unchecked")
@@ -36,6 +37,9 @@ public class ListaComandas extends javax.swing.JFrame {
         abrir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(656, 439));
+        jPanel1.setMinimumSize(new java.awt.Dimension(656, 439));
 
         btnVoltar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/return option.png"))); // NOI18N

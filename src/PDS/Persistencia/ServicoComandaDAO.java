@@ -29,7 +29,7 @@ public class ServicoComandaDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao inserir os serviços prestados." + ex.getMessage());
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao cadastrar os serviços prestados.");
         }
         return aux;
     }
@@ -54,7 +54,7 @@ public class ServicoComandaDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os valores do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n valores do banco de dados.");
         }
         return valor;
     }

@@ -12,6 +12,7 @@ public class AlteraLogin extends javax.swing.JFrame {
     public AlteraLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Alteração de Login");
     }
 
     public boolean alteraLogin(JTextField user, JPasswordField senha) {
@@ -40,6 +41,8 @@ public class AlteraLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMaximumSize(new java.awt.Dimension(400, 234));
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 234));
 
         btnSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/save.png"))); // NOI18N

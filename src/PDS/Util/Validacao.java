@@ -38,7 +38,7 @@ public class Validacao {
 
     public static boolean validaFloat(JTextField campo, int min, int max) {
         try {
-            float valor = Float.valueOf(campo.getText());
+            float valor = Float.valueOf(campo.getText().replace(".", ","));
             if (valor <= min || valor >= max) {
                 Mensagens.msgErro(campo.getToolTipText());
                 return false;

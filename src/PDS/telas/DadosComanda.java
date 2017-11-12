@@ -17,6 +17,7 @@ public class DadosComanda extends javax.swing.JFrame {
             carregaTabelaDadosComandas();
         }
         this.setLocationRelativeTo(null);
+        this.setTitle("Dados da Comanda");
     }
 
     @SuppressWarnings("unchecked")
@@ -30,6 +31,8 @@ public class DadosComanda extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(420, 217));
+        setMinimumSize(new java.awt.Dimension(420, 217));
 
         btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/return option.png"))); // NOI18N
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {

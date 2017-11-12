@@ -27,6 +27,7 @@ public class cadastroClientes extends javax.swing.JFrame {
         }
         this.setLocationRelativeTo(null);
         btnInativar.setEnabled(false);
+        this.setTitle("Cadastro de Clientes");
     }
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
@@ -86,8 +87,8 @@ public class cadastroClientes extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(597, 457));
-        setMinimumSize(new java.awt.Dimension(597, 457));
+        setMaximumSize(new java.awt.Dimension(859, 492));
+        setMinimumSize(new java.awt.Dimension(859, 492));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N

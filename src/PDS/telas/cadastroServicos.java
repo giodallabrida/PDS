@@ -24,6 +24,7 @@ public class cadastroServicos extends javax.swing.JFrame {
         }
         this.setLocationRelativeTo(null);
         btnInativar.setEnabled(false);
+        this.setTitle("Cadastro de Serviços");
     }
 
     private final ServicoDAO servicoDAO = new ServicoDAO();
@@ -71,8 +72,8 @@ public class cadastroServicos extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(562, 372));
-        setMinimumSize(new java.awt.Dimension(562, 372));
+        setMaximumSize(new java.awt.Dimension(708, 400));
+        setMinimumSize(new java.awt.Dimension(708, 400));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
@@ -322,7 +323,7 @@ public class cadastroServicos extends javax.swing.JFrame {
             codServico.setText("");
             nomeServico.setText("");
             infExtras.setText("");
-            Mensagens.msgInfo("O produto foi removido com sucesso!");
+            Mensagens.msgInfo("O serviço foi removido com sucesso!");
             this.listaServicos = servicoDAO.carregaServicosBD();
             if (listaServicos != null) {
                 carregaServicos();

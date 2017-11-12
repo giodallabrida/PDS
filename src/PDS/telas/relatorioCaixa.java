@@ -15,6 +15,7 @@ public class relatorioCaixa extends javax.swing.JFrame {
     public relatorioCaixa() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("Relatório de Caixa");
     }
 
     @SuppressWarnings("unchecked")
@@ -58,8 +59,8 @@ public class relatorioCaixa extends javax.swing.JFrame {
         pesquisa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(679, 489));
-        setMinimumSize(new java.awt.Dimension(679, 489));
+        setMaximumSize(new java.awt.Dimension(719, 503));
+        setMinimumSize(new java.awt.Dimension(719, 503));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N

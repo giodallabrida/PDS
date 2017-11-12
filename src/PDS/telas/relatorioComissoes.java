@@ -27,6 +27,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
         }
         funcionarios.setModel(modeloFuncionarios);
         this.setLocationRelativeTo(null);
+        this.setTitle("Relatório de Comissões");
     }
 
     FuncionarioDAO funcDAO = new FuncionarioDAO();
@@ -53,8 +54,8 @@ public class relatorioComissoes extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(571, 444));
-        setMinimumSize(new java.awt.Dimension(571, 444));
+        setMaximumSize(new java.awt.Dimension(679, 410));
+        setMinimumSize(new java.awt.Dimension(679, 410));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
@@ -245,6 +246,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
             modelo.addRow(rcdto.getLinhaTabelaComissoes());
             totalComissoes = totalComissoes + rcdto.getValorComissao();
         }
+        total.setText(String.valueOf(totalComissoes));
 
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);

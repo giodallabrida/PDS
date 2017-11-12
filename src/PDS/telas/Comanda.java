@@ -38,7 +38,10 @@ public class Comanda extends javax.swing.JFrame {
                     clientes.setSelectedItem(cliente);
                 }
             }
-            data.setText(String.valueOf(comanda.getData()));
+            String dataC = String.valueOf(Validacao.getDataMySQL(comanda.getData()));
+            String dataA = dataC.substring(8, 10) + dataC.substring(4, 8) + dataC.substring(0, 4);
+            dataA = dataA.replace("-", "/");
+            data.setText(dataA);
             total.setText(String.valueOf(comanda.getTotal()));
             this.listaServicosComanda = comandaDAO.carregaTabelaComandaBD(comanda.getCodComanda());
             if (listaServicosComanda != null) {
@@ -49,8 +52,9 @@ public class Comanda extends javax.swing.JFrame {
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
             data.setText(formatarDate.format(date));
-            this.setLocationRelativeTo(null);
         }
+        this.setLocationRelativeTo(null);
+        this.setTitle("Comanda");
     }
 
     private boolean modoInclusao;
@@ -87,7 +91,11 @@ public class Comanda extends javax.swing.JFrame {
                 aux = true;
             }
         } else {
-            aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(data.getText()), Float.valueOf(total.getText()), Integer.valueOf(cod.getText()));
+            String dataA = data.getText();
+            dataA = dataA.substring(6, 10) + dataA.substring(2, 6) + dataA.substring(0, 2);
+            dataA = dataA.replace("/", "-");
+            System.out.println(dataA);
+            aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(dataA), Float.valueOf(total.getText()), Integer.valueOf(cod.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
             codComanda = Integer.valueOf(cod.getText());
 
@@ -95,9 +103,8 @@ public class Comanda extends javax.swing.JFrame {
         ComandaDAO comanda = new ComandaDAO();
 
         if (codComanda != -1 || aux) {
-            for (ServicoComandaDTO servicoComanda : listaServicosComanda) {
-                alterou = comanda.cadastraServicosPrestadosBD(codComanda, listaServicosComanda);
-            }
+            alterou = comanda.cadastraServicosPrestadosBD(codComanda, listaServicosComanda);
+            
         }
         // incluir todos os servicos que estao na tabela (tela) na tabela do banco de dados..
         if (modoInclusao && (codComanda != -1)) {
@@ -155,6 +162,8 @@ public class Comanda extends javax.swing.JFrame {
         cod = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(688, 321));
+        setMinimumSize(new java.awt.Dimension(688, 321));
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel1.setText("Comanda");
@@ -256,9 +265,9 @@ public class Comanda extends javax.swing.JFrame {
                 .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(salvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pagar)
                 .addGap(18, 18, 18)
+                .addComponent(pagar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelar)
                 .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
@@ -399,7 +408,7 @@ public class Comanda extends javax.swing.JFrame {
         boolean existeServ = false;
         if ((funcionarios.getSelectedIndex() > 0) && (servicos.getSelectedIndex() > 0)) {
             if (Validacao.validaCampo(valor)) {
-                if (Validacao.validaFloat(valor, 1, 2000)) {
+                if (Validacao.validaFloat(valor, 0, 2001)) {
                     ServicoComandaDTO servicoComanda = new ServicoComandaDTO();
                     servicoComanda.setFuncionario((FuncionarioDTO) funcionarios.getSelectedItem());
                     servicoComanda.setComissao((ComissaoDTO) servicos.getSelectedItem());

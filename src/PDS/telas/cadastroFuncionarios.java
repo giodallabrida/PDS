@@ -29,6 +29,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             carregaFuncionarios();
         }
         this.setLocationRelativeTo(null);
+        this.setTitle("Cadastro de Funcionários");
         btnInativar.setEnabled(false);
         carregaCombinacao();
         comissoes = new ArrayList();
@@ -85,13 +86,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             modelo.addElement(servico);
         }
         servicos.setModel(modelo);
-
-        /*  for (ServicoDTO sdto : servDAO.carregaServicosBD()) {
-            servicos.addItem(sdto.getNomServico());
-            //codSer = sdto.getCodServico();
-            listaServicos.add(sdto);
-        }
-         */
     }
 
     @SuppressWarnings("unchecked")
@@ -137,7 +131,8 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(595, 474));
+        setMaximumSize(new java.awt.Dimension(813, 542));
+        setMinimumSize(new java.awt.Dimension(813, 542));
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Baskerville Old Face", 1, 30)); // NOI18N
@@ -167,11 +162,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
         cpfFunc.setText("57623740920");
         cpfFunc.setToolTipText("Informe o CPF do funcionário.");
-        cpfFunc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cpfFuncActionPerformed(evt);
-            }
-        });
 
         comFunc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -232,12 +222,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         remover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removerActionPerformed(evt);
-            }
-        });
-
-        servicos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                servicosActionPerformed(evt);
             }
         });
 
@@ -596,24 +580,15 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_adicionarActionPerformed
 
-    private void servicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_servicosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_servicosActionPerformed
-
     private void removerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerActionPerformed
         int linhaSelecionada = comFunc.getSelectedRow();
         if (linhaSelecionada > -1) {
-            //ComissaoDTO comissao = (ComissaoDTO) comFunc.getValueAt(C, 0);
             comissoes.remove(linhaSelecionada);
             carregaComissoes(false);
         } else {
             Mensagens.msgAviso("Selecione um serviço a ser removido!");
         }
     }//GEN-LAST:event_removerActionPerformed
-
-    private void cpfFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfFuncActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cpfFuncActionPerformed
 
     public void carregaFuncionarios() {
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -683,11 +658,6 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
         comFunc.getColumnModel().getColumn(1).setPreferredWidth(227);
 
         comFunc.setAutoResizeMode(0);
-
-        // modelo.addColumn("Serviço");
-        //modelo.addColumn("Comissão");
-        //jTable1.setModel(modelo);
-        //jTable1.setAutoResizeMode(0);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

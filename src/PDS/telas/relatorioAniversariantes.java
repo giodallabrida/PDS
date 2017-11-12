@@ -19,6 +19,7 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
          if (listaClientes != null) {
             carregaAniversariantes();
         }
+         this.setTitle("Relatório de Aniversariantes");
     }
 
     @SuppressWarnings("unchecked")
@@ -36,11 +37,14 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(380, 531));
-        setMinimumSize(new java.awt.Dimension(380, 531));
+        setMaximumSize(new java.awt.Dimension(380, 517));
+        setMinimumSize(new java.awt.Dimension(380, 517));
+        setPreferredSize(new java.awt.Dimension(380, 517));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMaximumSize(new java.awt.Dimension(380, 517));
+        jPanel1.setMinimumSize(new java.awt.Dimension(380, 517));
 
         btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/return option.png"))); // NOI18N
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
@@ -67,28 +71,7 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
                 "Clientes"
@@ -155,7 +138,7 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();

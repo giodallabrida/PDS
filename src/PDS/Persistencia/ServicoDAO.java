@@ -25,7 +25,7 @@ public class ServicoDAO {
             p.execute();
             aux = true;
         } catch (SQLException e) {
-            Mensagens.msgErro("Ocorreu um erro ao cadastrar um serviço no banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao cadastrar um \n serviço no banco de dados.");
         }
         return aux;
     }
@@ -45,7 +45,7 @@ public class ServicoDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro no banco de dados ao alterar os dados do serviço.");
+            Mensagens.msgErro("Ocorreu um erro no banco de dados \n ao alterar os dados do serviço.");
         }
         return aux;
     }
@@ -62,7 +62,7 @@ public class ServicoDAO {
             p.execute();
             aux = true;
         } catch (SQLException ex) {
-            Mensagens.msgErro("Ocorreu um erro ao inativar um serviço do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao inativar \n um serviço do banco de dados.");
         }
         return aux;
     }
@@ -85,7 +85,7 @@ public class ServicoDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n serviços do banco de dados.");
         }
         return listaServicos;
     }
@@ -109,7 +109,7 @@ public class ServicoDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os \n serviços do banco de dados.");
         }
         return listaServicos;
     }
@@ -133,7 +133,7 @@ public class ServicoDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços pesquisados do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar os serviços \n pesquisados do banco de dados.");
         }
         return listaServicos;
     }
@@ -158,7 +158,7 @@ public class ServicoDAO {
             p.close();
             conn.close();
         } catch (Exception ex) {
-            Mensagens.msgErro("Ocorreu um erro ao carregar o nome do serviço do banco de dados.");
+            Mensagens.msgErro("Ocorreu um erro ao carregar o nome \n do serviço do banco de dados.");
         }
         return aux;
     }
