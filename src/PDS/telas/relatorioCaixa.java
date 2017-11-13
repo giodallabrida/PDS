@@ -284,13 +284,12 @@ public class relatorioCaixa extends javax.swing.JFrame {
             }
         });
 
-        de.setText("27/10/2017");
-        de.setToolTipText("");
+        de.setToolTipText("Digite a data de início do relatório.");
 
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("De:");
 
-        ate.setText("07/11/2017");
+        ate.setToolTipText("Digite a data do fim do relatório.");
         ate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ateActionPerformed(evt);
@@ -405,20 +404,19 @@ public class relatorioCaixa extends javax.swing.JFrame {
             if (Validacao.validaData(de.getText()) && (Validacao.validaData(ate.getText()))) //&& (Validacao.comparaDatas(de.getText(), ate.getText()) <= 0)) // && ((Validacao.comparaDatas(de.getText(), data) <= 0) 
             // && (Validacao.comparaDatas(ate.getText(), data)) <= 0)) 
             {
-                Mensagens.msgAviso("DATA CORRETA");
                 try {
                     creditoSemDesconto.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC")));
                     debitoSemDesconto.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CD")));
                     float debito = Float.valueOf(debitoSemDesconto.getText());
                     float credito = Float.valueOf(creditoSemDesconto.getText());
-                    creditoComDesconto.setText(String.valueOf(credito - (4.10/100 * credito)));
-                    debitoComDesconto.setText(String.valueOf(debito - (2.75/100 * debito)));
+                    creditoComDesconto.setText(String.valueOf(credito - (4.10 / 100 * credito)));
+                    debitoComDesconto.setText(String.valueOf(debito - (2.75 / 100 * debito)));
                     descontoCredito.setText(String.valueOf(Float.valueOf(creditoSemDesconto.getText()) - Float.valueOf(creditoComDesconto.getText())));
                     descontoDebito.setText(String.valueOf(Float.valueOf(debitoSemDesconto.getText()) - Float.valueOf(debitoComDesconto.getText())));
                     valorCheques.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "C")));
-                    
-                    float f = comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CD") +
-                            comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC");
+
+                    float f = comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CD")
+                            + comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "CC");
                     valorCartoes.setText(String.valueOf(Float.valueOf(creditoComDesconto.getText()) + Float.valueOf(debitoComDesconto.getText())));
                     valorDinheiro.setText(String.valueOf(comandaDAO.carregaRelatorioCaixaBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), "D")));
                     valorSalarios.setText(String.valueOf(servicoComandaDAO.carregaSalariosFuncionariosBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()))));
@@ -429,8 +427,6 @@ public class relatorioCaixa extends javax.swing.JFrame {
             } else {
                 Mensagens.msgAviso("As datas informadas não são válidas.");
             }
-        } else {
-            Mensagens.msgAviso("Preencha todos os campos.");
         }
     }//GEN-LAST:event_pesquisaActionPerformed
 

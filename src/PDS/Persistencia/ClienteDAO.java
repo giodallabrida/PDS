@@ -95,7 +95,8 @@ public class ClienteDAO {
         try {
             conn = DriverManager.getConnection(str);
             String sql = "select NOM_CLIENTE, tel_cliente from Cliente "
-                    + "where extract(month from dat_nascimento_c) = ? and extract(day from dat_nascimento_c) = ?;";
+                    + "where extract(month from dat_nascimento_c) = ? and extract(day from dat_nascimento_c) = ? "
+                    + "ORDER BY NOM_CLIENTE";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, c.get(Calendar.MONTH)+1);
             p.setInt(2, c.get(Calendar.DAY_OF_MONTH));
@@ -122,7 +123,8 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C from Cliente where SITUACAO = 'A'";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C "
+                    + "from Cliente where SITUACAO = 'A' ORDER BY NOM_CLIENTE";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
@@ -145,7 +147,8 @@ public class ClienteDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C from CLIENTE where NOM_CLIENTE LIKE ? AND SITUACAO = 'A'";
+            String sql = "select COD_CLIENTE, NOM_CLIENTE, TEL_CLIENTE, DAT_NASCIMENTO_C, END_CLIENTE, INF_EXTRAS_C "
+                    + "from CLIENTE where NOM_CLIENTE LIKE ? AND SITUACAO = 'A' ORDER BY NOM_CLIENTE";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();

@@ -32,7 +32,7 @@ public class relatorioComissoes extends javax.swing.JFrame {
 
     FuncionarioDAO funcDAO = new FuncionarioDAO();
     ArrayList<FuncionarioDTO> listaFuncionarios = funcDAO.carregaFuncionariosBD();
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -74,12 +74,12 @@ public class relatorioComissoes extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel6.setText("De:");
 
-        de.setText("27/10/2017");
+        de.setToolTipText("Digite a data de início do relatório.");
 
         jLabel20.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel20.setText("Até:");
 
-        ate.setText("07/11/2017");
+        ate.setToolTipText("Digite a data do fim do relatório.");
 
         pesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/search menor.png"))); // NOI18N
         pesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -194,20 +194,18 @@ public class relatorioComissoes extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnVoltarActionPerformed
 
-    
     ComandaDAO comandaDAO = new ComandaDAO();
     private void pesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaActionPerformed
+        totalComissoes = 0;
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
         String data = formatarDate.format(date);
         if (Validacao.validaCampo(de) && Validacao.validaCampo(ate)) {
-            if (Validacao.validaData(de.getText()) && (Validacao.validaData(ate.getText()))) 
-            //&& (Validacao.comparaDatas(de.getText(), ate.getText()) <= 0)) // && ((Validacao.comparaDatas(de.getText(), data) <= 0) 
+            if (Validacao.validaData(de.getText()) && (Validacao.validaData(ate.getText()))) //&& (Validacao.comparaDatas(de.getText(), ate.getText()) <= 0)) // && ((Validacao.comparaDatas(de.getText(), data) <= 0) 
             // && (Validacao.comparaDatas(ate.getText(), data)) <= 0)) 
             {
                 FuncionarioDTO funcionario = (FuncionarioDTO) funcionarios.getSelectedItem();
                 int codFunc = funcionario.getCodFuncionario();
-                Mensagens.msgAviso("DATA CORRETA");
                 try {
                     this.relatorioComissoes = comandaDAO.carregaRelatorioComissoesBD(Validacao.converteStringData(de.getText()), Validacao.converteStringData(ate.getText()), codFunc);
                 } catch (ParseException ex) {
@@ -220,13 +218,12 @@ public class relatorioComissoes extends javax.swing.JFrame {
             } else {
                 Mensagens.msgAviso("As datas informadas não são válidas.");
             }
-        } else {
-            Mensagens.msgAviso("Preencha todos os campos.");
         }
     }
-        
-        ArrayList<RelatorioComissaoDTO> relatorioComissoes;
-        float totalComissoes;
+
+    ArrayList<RelatorioComissaoDTO> relatorioComissoes;
+    float totalComissoes;
+
     public void carregaTabelaRelatorioComissoes() {
 
         DefaultTableModel modelo = new DefaultTableModel() {
@@ -240,7 +237,6 @@ public class relatorioComissoes extends javax.swing.JFrame {
         modelo.addColumn("Serviço");
         modelo.addColumn("Valor Total");
         modelo.addColumn("Valor obtido");
-        
 
         for (RelatorioComissaoDTO rcdto : relatorioComissoes) {
             modelo.addRow(rcdto.getLinhaTabelaComissoes());
@@ -257,7 +253,9 @@ public class relatorioComissoes extends javax.swing.JFrame {
         alinhamentoDireita.setHorizontalAlignment(SwingConstants.CENTER);
         tabela.getColumnModel().getColumn(0).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
-        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
+        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(3).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(4).setCellRenderer(alinhamentoCentro);
 
         tabela.getColumnModel().getColumn(0).setPreferredWidth(124);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(124);

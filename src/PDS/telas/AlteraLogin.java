@@ -62,6 +62,8 @@ public class AlteraLogin extends javax.swing.JFrame {
             }
         });
 
+        novaSenha.setToolTipText("Digite a senha do usuário.");
+
         jLabel2.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/key.png"))); // NOI18N
         jLabel2.setText("Senha");
@@ -70,7 +72,7 @@ public class AlteraLogin extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/user.png"))); // NOI18N
         jLabel1.setText("Usuário");
 
-        novoUsuario.setToolTipText("");
+        novoUsuario.setToolTipText("Digite o nome de usuário.");
 
         jLabel3.setFont(new java.awt.Font("Baskerville Old Face", 1, 24)); // NOI18N
         jLabel3.setText("Altera Login");

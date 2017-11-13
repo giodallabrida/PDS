@@ -28,13 +28,14 @@ public class cadastroClientes extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         btnInativar.setEnabled(false);
         this.setTitle("Cadastro de Clientes");
+        btnInativar.setEnabled(false);
     }
 
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
     public boolean cadastraAlteraCliente(JTextField nomeCli, JTextField telCli, JTextField datNascCli, JTextArea endCli, JTextArea infExt) throws SQLException, FileNotFoundException, ParseException {
         boolean aux = false;
-        if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaTelefone(telCliente.getText()) 
+        if (Validacao.validaCampo(nomeCli) && Validacao.validaCampo(telCli) && Validacao.validaTelefone(telCliente.getText())
                 && Validacao.validaCampo(datNascCli) && Validacao.validaData(datNascCli.getText())) {
             //&& Validacao.validaTelefone(telCli.getText())) 
             if (modoInclusao) {
@@ -168,33 +169,7 @@ public class cadastroClientes extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
                 "Clientes"

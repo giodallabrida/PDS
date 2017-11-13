@@ -30,7 +30,7 @@ public class Login extends javax.swing.JDialog {
         boolean aux = false;
         try {
             if (Validacao.validaCampo(user) && Validacao.validaSenha(senha)) {
-                if (funcionarioDAO.validaAdmin(cpfAdmin.getText(), String.valueOf(senha.getPassword()))) {
+                if (funcionarioDAO.validaAdmin(user.getText(), String.valueOf(senha.getPassword()))) {
                     aux = true;
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos", "Erro de Autenticação", JOptionPane.INFORMATION_MESSAGE);
@@ -48,7 +48,7 @@ public class Login extends javax.swing.JDialog {
 
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cpfAdmin = new javax.swing.JTextField();
+        user = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         senhaAdmin = new javax.swing.JPasswordField();
         btnSalvar = new javax.swing.JButton();
@@ -67,11 +67,13 @@ public class Login extends javax.swing.JDialog {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/user.png"))); // NOI18N
         jLabel1.setText("Usuário");
 
-        cpfAdmin.setToolTipText("");
+        user.setToolTipText("Digite o nome de usuário.");
 
         jLabel2.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/key.png"))); // NOI18N
         jLabel2.setText("Senha");
+
+        senhaAdmin.setToolTipText("Digite a senha do usuário.");
 
         btnSalvar.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/save.png"))); // NOI18N
@@ -109,7 +111,7 @@ public class Login extends javax.swing.JDialog {
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cpfAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(senhaAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 35, Short.MAX_VALUE))
         );
@@ -119,7 +121,7 @@ public class Login extends javax.swing.JDialog {
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cpfAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -150,11 +152,11 @@ public class Login extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        autenticado = fazLogin(cpfAdmin, senhaAdmin);
+        autenticado = fazLogin(user, senhaAdmin);
         if (autenticado) {
             this.dispose();
         } else {
-            cpfAdmin.setText("");
+            user.setText("");
             senhaAdmin.setText("");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
@@ -162,10 +164,10 @@ public class Login extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JTextField cpfAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField senhaAdmin;
+    private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }

@@ -165,10 +165,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
         comFunc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Serviço", "Comissão"
@@ -249,33 +246,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
                 "Funcionários"
@@ -489,6 +460,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
             cpfFunc.setText("");
             telFunc.setText("");
             endFunc.setText("");
+            comFunc.setModel(modelo);
             Mensagens.msgInfo("O funcionário foi removido com sucesso!");
             this.listaFuncionarios = funcionarioDAO.carregaFuncionariosBD();
             if (listaFuncionarios != null) {
@@ -542,7 +514,7 @@ public class cadastroFuncionarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        int linhaSelecionada = tabela.getSelectedRow();
+       int linhaSelecionada = tabela.getSelectedRow();
         if (linhaSelecionada > -1) {
             btnInativar.setEnabled(true);
             funcionario = (FuncionarioDTO) tabela.getValueAt(linhaSelecionada, 0);

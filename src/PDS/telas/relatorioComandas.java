@@ -61,12 +61,12 @@ public class relatorioComandas extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel5.setText("De:");
 
-        de.setText("27/10/2017");
+        de.setToolTipText("Digite a data de início do relatório.");
 
         jLabel17.setFont(new java.awt.Font("Baskerville Old Face", 0, 18)); // NOI18N
         jLabel17.setText("Até:");
 
-        ate.setText("07/11/2017");
+        ate.setToolTipText("Digite a data do fim do relatório.");
 
         pesquisa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Ícones/search menor.png"))); // NOI18N
         pesquisa.addActionListener(new java.awt.event.ActionListener() {
@@ -194,8 +194,6 @@ public class relatorioComandas extends javax.swing.JFrame {
             } else {
                 Mensagens.msgAviso("As datas informadas não são válidas.");
             }
-        } else {
-            Mensagens.msgAviso("Preencha todos os campos.");
         }
     }//GEN-LAST:event_pesquisaActionPerformed
 
@@ -241,7 +239,8 @@ public class relatorioComandas extends javax.swing.JFrame {
         alinhamentoDireita.setHorizontalAlignment(SwingConstants.CENTER);
         tabela.getColumnModel().getColumn(0).setCellRenderer(alinhamentoCentro);
         tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
-        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoDireita);
+        tabela.getColumnModel().getColumn(2).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(3).setCellRenderer(alinhamentoCentro);
 
         tabela.getColumnModel().getColumn(0).setPreferredWidth(70);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(200);

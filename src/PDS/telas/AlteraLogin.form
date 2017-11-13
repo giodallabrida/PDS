@@ -140,6 +140,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JPasswordField" name="novaSenha">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Digite a senha do usu&#xe1;rio."/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -165,7 +168,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="novoUsuario">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="toolTipText" type="java.lang.String" value="Digite o nome de usu&#xe1;rio."/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

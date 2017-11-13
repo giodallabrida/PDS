@@ -113,7 +113,7 @@ public class ComandaDAO {
         try {
             conn = DriverManager.getConnection(str);
             String sql = "select CO.*, CL.NOM_CLIENTE from COMANDA CO join CLIENTE CL on (CO.COD_CLIENTE = CL.COD_CLIENTE) "
-                    + "where PAGO = 'N'";
+                    + "where PAGO = 'N' ORDER BY CO.COD_COMANDA";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
@@ -224,7 +224,7 @@ public class ComandaDAO {
         try {
             conn = DriverManager.getConnection(str);
             String sql = "select CO.*, CL.NOM_CLIENTE from COMANDA CO join CLIENTE CL on (CO.COD_CLIENTE = CL.COD_CLIENTE) "
-                    + "where PAGO = 'P' AND DAT_PRESTACAO BETWEEN ? AND ? ORDER BY DAT_PRESTACAO";
+                    + "where PAGO = 'P' AND DAT_PRESTACAO BETWEEN ? AND ? ORDER BY DAT_PRESTACAO, CO.COD_COMANDA";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setDate(1, dataInicio);
             p.setDate(2, dataTermino);

@@ -5,6 +5,8 @@ import PDS.Persistencia.ClienteDAO;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class relatorioAniversariantes extends javax.swing.JFrame {
@@ -37,9 +39,7 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
         tabela = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(380, 517));
         setMinimumSize(new java.awt.Dimension(380, 517));
-        setPreferredSize(new java.awt.Dimension(380, 517));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -126,8 +126,8 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
                     .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(207, 207, 207))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -138,7 +138,7 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 497, Short.MAX_VALUE)
         );
 
         pack();
@@ -173,6 +173,13 @@ public class relatorioAniversariantes extends javax.swing.JFrame {
 
         tabela.setModel(modelo);
         tabela.setAutoResizeMode(0);
+        
+        DefaultTableCellRenderer alinhamentoCentro = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer alinhamentoDireita = new DefaultTableCellRenderer();
+        alinhamentoCentro.setHorizontalAlignment(SwingConstants.CENTER);
+        alinhamentoDireita.setHorizontalAlignment(SwingConstants.CENTER);
+        tabela.getColumnModel().getColumn(0).setCellRenderer(alinhamentoCentro);
+        tabela.getColumnModel().getColumn(1).setCellRenderer(alinhamentoCentro);
 
         tabela.getColumnModel().getColumn(0).setPreferredWidth(154);
         tabela.getColumnModel().getColumn(1).setPreferredWidth(150);

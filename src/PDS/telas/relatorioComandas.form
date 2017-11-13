@@ -160,7 +160,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="de">
       <Properties>
-        <Property name="text" type="java.lang.String" value="27/10/2017"/>
+        <Property name="toolTipText" type="java.lang.String" value="Digite a data de in&#xed;cio do relat&#xf3;rio."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel17">
@@ -173,7 +173,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="ate">
       <Properties>
-        <Property name="text" type="java.lang.String" value="07/11/2017"/>
+        <Property name="toolTipText" type="java.lang.String" value="Digite a data do fim do relat&#xf3;rio."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="pesquisa">

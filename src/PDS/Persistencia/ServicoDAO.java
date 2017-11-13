@@ -74,7 +74,8 @@ public class ServicoDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_SERVICO, DES_SERVICO, INF_EXTRAS_S from SERVICO where SITUACAO = 'A'";
+            String sql = "select COD_SERVICO, DES_SERVICO, INF_EXTRAS_S from SERVICO where SITUACAO = 'A' "
+                    + "ORDER BY DES_SERVICO";
             PreparedStatement p = conn.prepareStatement(sql);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
@@ -97,7 +98,8 @@ public class ServicoDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ?";
+            String sql = "select COD_SERVICO from COMISSAO where SITUACAO = 'A' AND COD_FUNC = ? "
+                    + "ORDER BY DES_SERVICO";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codigo);
             ResultSet rs = p.executeQuery();
@@ -121,7 +123,8 @@ public class ServicoDAO {
         Connection conn;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_SERVICO, DES_SERVICO, INF_EXTRAS_S from SERVICO where DES_SERVICO LIKE ? AND SITUACAO = 'A'";
+            String sql = "select COD_SERVICO, DES_SERVICO, INF_EXTRAS_S from SERVICO where DES_SERVICO LIKE ? "
+                    + "AND SITUACAO = 'A' ORDER BY DES_SERVICO";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setString(1, nome);
             ResultSet rs = p.executeQuery();
@@ -145,7 +148,8 @@ public class ServicoDAO {
         ServicoDTO aux = null;
         try {
             conn = DriverManager.getConnection(str);
-            String sql = "select COD_SERVICO, DES_SERVICO from SERVICO where COD_SERVICO = ? AND SITUACAO = 'A'";
+            String sql = "select COD_SERVICO, DES_SERVICO from SERVICO where COD_SERVICO = ? AND SITUACAO = 'A' "
+                    + "ORDER BY DES_SERVICO";
             PreparedStatement p = conn.prepareStatement(sql);
             p.setInt(1, codServico);
             ResultSet rs = p.executeQuery();

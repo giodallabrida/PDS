@@ -38,7 +38,7 @@ public class Validacao {
 
     public static boolean validaFloat(JTextField campo, int min, int max) {
         try {
-            float valor = Float.valueOf(campo.getText().replace(".", ","));
+            float valor = Float.valueOf(campo.getText().trim().replace(".", ","));
             if (valor <= min || valor >= max) {
                 Mensagens.msgErro(campo.getToolTipText());
                 return false;
@@ -107,12 +107,13 @@ public class Validacao {
     }
 
     public static boolean validaCPF(String cpf) {
+        cpf = cpf.trim();
         if (cpf.equals("00000000000") || cpf.equals("11111111111")
                 || cpf.equals("22222222222") || cpf.equals("33333333333")
                 || cpf.equals("44444444444") || cpf.equals("55555555555")
                 || cpf.equals("66666666666") || cpf.equals("77777777777")
                 || cpf.equals("88888888888") || cpf.equals("99999999999") || !cpf.matches("\\d{11}")) {
-            Mensagens.msgErro("CPF inválido (digite apenas 11 números).");
+            Mensagens.msgErro("CPF informado inválido.");
             return false;
         } else {
             int dv1 = calculaDVCpf(cpf, 8, 10);
@@ -146,10 +147,13 @@ public class Validacao {
     }
     
     public static boolean validaTelefone(String telefone) {
-        boolean aux = telefone.matches("((10)|([1-9][1-9])) [2-9][0-9]{3}-[0-9]{4}");
-        if(!aux){
+        boolean aux = telefone.trim().matches("((10)|([1-9][1-9])) [2-9][0-9]{3}-[0-9]{4}");
+        boolean aux2 = telefone.trim().matches("((10)|([1-9][1-9])) [9][2-9][0-9]{3}-[0-9]{4}");
+        boolean valido = true;
+        if(!aux && !aux2){
             Mensagens.msgErro("Telefone informado inválido.");
+            valido = false;
         }
-        return aux;
+        return valido;
     }
 }

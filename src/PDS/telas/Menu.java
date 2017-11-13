@@ -294,7 +294,7 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAniversarios, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(306, 306, 306))
+                .addGap(312, 312, 312))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,7 +399,6 @@ public class Menu extends javax.swing.JFrame {
 
     Login login = new Login(this, true);
     private void alteraLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alteraLoginActionPerformed
-        alteraLogin.setEnabled(false);
         if (login.criaLogin()) {
             AlteraLogin alt = new AlteraLogin();
             alt.setVisible(true);

@@ -52,6 +52,7 @@ public class Comanda extends javax.swing.JFrame {
             Date date = new Date(System.currentTimeMillis());
             SimpleDateFormat formatarDate = new SimpleDateFormat("dd-MM-yyyy");
             data.setText(formatarDate.format(date));
+            total.setText(String.valueOf(0.0));
         }
         this.setLocationRelativeTo(null);
         this.setTitle("Comanda");
@@ -80,6 +81,7 @@ public class Comanda extends javax.swing.JFrame {
 
         if (Float.valueOf(total.getText()) == 0) {
             Mensagens.msgAviso("Sua comanda está vazia, favor adicionar um serviço.");
+            codComanda = -1;
             alterou = -1;
         } else if (modoInclusao) {
             String dataA = data.getText();
@@ -94,7 +96,6 @@ public class Comanda extends javax.swing.JFrame {
             String dataA = data.getText();
             dataA = dataA.substring(6, 10) + dataA.substring(2, 6) + dataA.substring(0, 2);
             dataA = dataA.replace("/", "-");
-            System.out.println(dataA);
             aux = comandaDAO.alteraComandaBD(cliente.getCodCliente(), Date.valueOf(dataA), Float.valueOf(total.getText()), Integer.valueOf(cod.getText()));
             comandaDAO.removeServicos(Integer.valueOf(cod.getText()));
             codComanda = Integer.valueOf(cod.getText());
